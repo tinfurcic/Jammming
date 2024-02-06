@@ -1,25 +1,32 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState } from 'react';
+import SearchBar from './components/SearchBar';
+import Playlist from './components/Playlist';
 
 function App() {
-  return (
+
+    const [list, setList] = useState([]); // list will be an array of objects (= a list of songs)
+
+
+  // SearchResults needs to be able to add tracks to the playlist (hence passing setList to SearchBar).
+  // Playlist needs to be able to delete tracks from the playlist,
+  // and to display the playlist (hence passing list and setList to Playlist).
+  return ( 
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <SearchBar setList={setList}/>
+      <Playlist list={list} setList={setList}/>
     </div>
   );
 }
 
 export default App;
+
+
+/*
+Component tree
+                                      App
+                                    /     \
+                            SearchBar     Playlist
+                            /
+                      SearchResults
+*/
