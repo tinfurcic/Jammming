@@ -3,24 +3,26 @@ import React from 'react';
 // This component represents a single track.
 // It will appear in the SearchResults and in the Playlist.
 
-function Track ({parent}) {
+// A Track card should display the track name, the album the track appears on,
+    // and its artists (only most notable, if there were many artists)
 
-    const song = {
-        name: '',
-        artist: '',
-        album: '',
-        id: 10
-    } // I guess this is where the API kicks in
+// Currently, adding/removing Tracks to/from the Playlist isn't a feature of the Track component itself.
+    // Should I pass the addToPlaylist and removeFromPlaylist functions as props instead?
 
-    // the button solution is probably too wild, here just as a reminder
+function Track ({trackInfo}) {
+    // console.log('trackInfo:', trackInfo); // debugging
+
+// [DESIGN]
+    // there might be too many artists to display, so limiting their number to 3 would probably be wise
+        // there should also be an upper limit to the length of that string
     return (
-        <>
             <div>
-                <h1>{song.name}</h1>
-                <h2>{song.artist}|{song.album}</h2>
-                {parent === "SearchResults" ? <button className='addBtn'> + </button> : <button className='removeBtn'> - </button>}
+                <p>{trackInfo.name}</p>
+                <span>{trackInfo.artists.map((artist, i) => {
+                    if (i !== trackInfo.artists.length - 1) return artist.name + ', ';
+                    else return artist.name;
+                })} | {trackInfo.album.name}</span>
             </div>
-        </>
     );
 }
 

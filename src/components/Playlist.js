@@ -1,21 +1,16 @@
 import React, { useState } from 'react';
+import Track from './Track';
 
-// An instance of this component is initially an empty list,
-    // but the user can add Tracks to that list.
+// [DESIGN]
+    // There will probably be an "addToPlaylist" button in the SearchResults component,
+        // and a "removeFromPlaylist" button in the the Playlist component,
+            // which will add/remove tracks from the playlist.
 
-// There will probably be an "addToPlaylist" button in the SearchResults component,
-    // and a "removeFromPlaylist" button in the the Playlist component,
-        // which will add/remove tracks from the playlist.
+function Playlist ({playlist, setPlaylist}) {
 
-
-function Playlist ({list, setList}) {
-    // The Playlist should keep track of Tracks as they are added to/removed from it, and immediately display changes.
-
-
-    // this function will remove a track from a playlist. Might need adjustments in the future.
-    const removeFromPlaylist = (trackId) => {
-        const newList = list.filter((track) => track.id !== trackId);
-        setList(newList);
+    const removeFromPlaylist = (trackURI) => {
+        const newPlaylist = playlist.filter((track) => track.uri !== trackURI);
+        setPlaylist(newPlaylist);
     }
 
     const [playlistName, setPlaylistName] = useState('New Playlist');
@@ -26,15 +21,17 @@ function Playlist ({list, setList}) {
 
     //warning: some code below might be for test purposes only
     return (
-        <>
             <div>
                 <input id="playlistName" type="text" value={playlistName} onChange={handleChange}/>
                 <ol>
-                    {list.map((track, index) => <li key={index} onClick={() => removeFromPlaylist(track.id)}>{track.name}</li>)}
+                    {playlist.map((track, index) =>
+                    <li key={index} >
+                        <Track trackInfo={track} />
+                        <button className='addBtn' onClick={() => removeFromPlaylist(track.uri)} > - </button>
+                    </li>)}
                 </ol>
                 <button>Save to Spotify</button>
             </div>
-        </>
     );
 }
 
