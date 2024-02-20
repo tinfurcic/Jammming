@@ -1,19 +1,10 @@
 import React, { useState } from 'react';
 import Track from './Track';
-
-// [DESIGN]
-    // There will probably be an "addToPlaylist" button in the SearchResults component,
-        // and a "removeFromPlaylist" button in the the Playlist component,
-            // which will add/remove tracks from the playlist.
+import styles from './Playlist.module.css';
 
 function Playlist ({playlist, setPlaylist}) {
 
-    const removeFromPlaylist = (trackURI) => {
-        const newPlaylist = playlist.filter((track) => track.uri !== trackURI);
-        setPlaylist(newPlaylist);
-    }
-
-    const [playlistName, setPlaylistName] = useState('New Playlist');
+    const [playlistName, setPlaylistName] = useState('');
 
     const handleChange = (event) => {
         setPlaylistName(event.target.value);
@@ -21,16 +12,19 @@ function Playlist ({playlist, setPlaylist}) {
 
     //warning: some code below might be for test purposes only
     return (
-            <div>
-                <input id="playlistName" type="text" value={playlistName} onChange={handleChange}/>
-                <ol>
+            <div className={styles.playlistContainer }>
+                {playlist.length === 0 ?
+                null :
+                <div className={styles.nameAndSave}>
+                    <input id="playlistName" type="text" value={playlistName} onChange={handleChange} placeholder='New Playlist'/>
+                    <button>Save to Spotify</button>
+                </div>}
+                <ul>
                     {playlist.map((track, index) =>
                     <li key={index} >
-                        <Track trackInfo={track} />
-                        <button className='addBtn' onClick={() => removeFromPlaylist(track.uri)} > - </button>
+                        <Track trackInfo={track} setPlaylist={setPlaylist} playlist={playlist} parent="Playlist"/>
                     </li>)}
-                </ol>
-                <button>Save to Spotify</button>
+                </ul>
             </div>
     );
 }

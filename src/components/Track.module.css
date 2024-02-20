@@ -1,0 +1,45 @@
+.trackContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 1px solid gray;
+}
+
+.trackInfo {
+    flex-grow: 1;
+    min-width: 0; /* without this, text-overflow: elipsis; doesn't work */
+    border-right: 1px solid gray;
+}
+
+.button { /* this isn't actually styling a button, just the area it lies in (but it might end up spanning the whole area, idk) */
+    flex-basis: 53px; /* here I'm just manually trying to get a square area */
+    flex-shrink: 0;
+
+    display: flex;
+    justify-content: center;
+}
+
+
+.addBtn, .removeBtn {
+    height: 30px;
+    width: 30px;
+}
+
+.trackInfo h3, p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.trackInfo h3 {
+    font-size: 18px;
+    font-weight: normal;
+    margin: 4px 4px 0 4px;
+
+}
+
+.trackInfo p {
+  font-size: 16px;
+  margin: 0 4px 4px 4px;
+}
+

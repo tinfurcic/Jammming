@@ -1,7 +1,8 @@
-import './App.css';
+import styles from './App.module.css';
 import React, { useEffect, useState } from 'react';
 import SearchBar from './components/SearchBar';
-import Playlist from './components/Playlist';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 function App() {
 
@@ -31,13 +32,19 @@ function App() {
 
   const [playlist, setPlaylist] = useState([]); // playlist will be an array of objects (= a list of songs)
 
-  // SearchResults needs to be able to add tracks to the playlist (hence passing setPlaylist to SearchBar).
-  // Playlist needs to be able to delete tracks from the playlist,
-    // and to display the playlist (hence passing playlist and setPlaylist to Playlist).
   return ( 
-    <div className="App">
-      <SearchBar setPlaylist={setPlaylist} accessToken={accessToken}/>
-      <Playlist playlist={playlist} setPlaylist={setPlaylist}/>
+    <div className={styles.App}>
+      <div className={styles.header}>
+        <Header />
+      </div>
+      
+      <div className={styles.searchBar}>
+        <SearchBar playlist={playlist} setPlaylist={setPlaylist} accessToken={accessToken}/>
+      </div> 
+
+      <div className={styles.footer}>
+        <Footer />
+      </div>      
     </div>
   );
 }
@@ -46,11 +53,11 @@ export default App;
 
 /*
 Component tree
-                                      App
-                                    /     \
-                            SearchBar     Playlist ___
-                            /               /    |    \
-                      SearchResults     Track   ...   Track
-                    /       |       \
-                Track      ...      Track
+                               App
+                                |
+                            SearchBar   
+                          /           \
+              SearchResults             Playlist
+            /     |       \            /    |    \
+        Track    ...     Track     Track   ...   Track
 */

@@ -1,0 +1,19 @@
+.searchResultsContainer {
+    width: 35%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.searchResultsContainer ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+}
+
+.tableHeading{
+    min-height: 70px; /* for some reason, this doesn't look perfectly aligned with the input in the second column*/
+}

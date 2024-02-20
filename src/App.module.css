@@ -1,0 +1,25 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.App { /* This is essentially a container filled with components */
+  display: flex; /* so here we declare it's a flex container */
+  flex-direction: column; /* and that its items are going to be arranged vertically */
+  height: 100vh; /* The height of the outermost container is exactly 100% of the viewport (browser window)*/
+  background-color: #191414;
+}
+
+.header {
+  color: #1DB954;
+}
+
+.searchBar {
+  flex-grow: 1;
+  overflow-y: auto;
+  color: white;
+}
+
+.footer {
+  color: white;
+}
