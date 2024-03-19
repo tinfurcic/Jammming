@@ -6,9 +6,10 @@ import Playlist from './Playlist';
 
 // Possible additions:
     // Allow the user to search for artists and albums (and something else?), not only songs
-function SearchBar ({playlist, setPlaylist, accessToken}) {
+function SearchBar ({accessToken}) {
     const [searchText, setSearchText] = useState('');
     const [results, setResults] = useState([]);
+    const [playlist, setPlaylist] = useState([]);
 
     const handleChange = (event) => {
         const value = event.target.value
@@ -23,7 +24,6 @@ function SearchBar ({playlist, setPlaylist, accessToken}) {
             // this should also be solved using encodeURIComponent()
 
     async function search (searchString) {
-        // A request becomes bad (400) if the search string is an empty string, so this block avoids that case
         if (searchString.trim() === '') {
             setResults([]);
             return; 
@@ -45,8 +45,9 @@ function SearchBar ({playlist, setPlaylist, accessToken}) {
         await fetch(fetchLink, searchParameters)
             .then(response => response.json()) 
             .then(data => {
-                console.log(data.tracks.items); // debugging
-                setResults(data.tracks.items)
+                // console.log(data.tracks.items); // debugging
+                // console.log(accessToken); // debugging
+                setResults(data.tracks.items);
                 }
             )
             .catch(error => console.error('There was a problem with the fetch operation:', error));
