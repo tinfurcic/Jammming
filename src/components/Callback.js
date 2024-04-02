@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 import querystring from 'query-string';
+import findCurrentUserId from '../helper functions/findCurrentUserId';
+import createPlaylist from '../helper functions/createPlaylist';
 
 const client_id = '828454fbd2c14ce993f835d9a85ddc23';
 const client_secret = '703c6976fc9f48e8a54fd3d988423c5f'; // CHANGE LATER
@@ -9,21 +11,24 @@ const redirect_uri = 'http://localhost:3000/callback';
 function Callback() {
     const location = useLocation();
     const navigate = useNavigate(); 
-    const [accessTokenNew, setAccessTokenNew] = useState('');
+    const [accessTokenNew, setAccessTokenNew] = useOutletContext();
 
-    useEffect(() => { // 
+//// IMPORTANT
+    // Ask user for access when the app starts!
+
+    useEffect(() => { // Obtaining access token
         const handleCallback = async () => {
             const params = querystring.parse(location.search); 
             const { code, state } = params;
 
             if (code) {
-                // Compare the received state with the expected state
+          /*      // Compare the received state with the expected state
                 const expectedState = localStorage.getItem('state');
                 if (state !== expectedState) {
                     console.error('State mismatch');
                     navigate('/error');
                     return;
-                }
+                }  */
 
                 const tokenParameters = { 
                     code: code,
@@ -43,47 +48,43 @@ function Callback() {
 
                 if (tokenResponse.ok) {
                     const tokenData = await tokenResponse.json();
-                    console.log('Access Token: ' + tokenData.access_token); // debugging
+                    console.log("Weee! Successfully obtained the ACCESS TOKEN after redirecting! Here it comes:");
+                    console.log(tokenData.access_token); // debugging
+                    console.log("Note: you can get the refresh token here as well!");
                     // console.log("token_type: " + tokenData.token_type)
                     // console.log("scope: " + tokenData.scope)
                     // console.log("expires_in: " + tokenData.expires_in)
                     // console.log("refresh_token: " + tokenData.refresh_token)
                     setAccessTokenNew(tokenData.access_token);
-                    //////////// Here something like isAuthorized(true);
-             //       navigate("/");    // Do I need this?
                 } else {
                     console.error('Failed to exchange authorization code for access token');         
                 }
             } else {
                 console.error('Missing code parameter');
-                // here, I don't want to navigate to an error page.
             }
         };
 
         handleCallback();
-    }, [location.search, navigate]);
+    }, [location.search]);
 
-    useEffect(() => {
-        const findCurrentUserId = async () => {
-            const currentUserIdResponse = await fetch('https://api.spotify.com/v1/me', {
-                method: 'GET',
-                headers: {  
-                    'Authorization': 'Bearer ' + accessTokenNew
-                }
-            });
-            if (currentUserIdResponse.ok) {
-                const currentUserIdData = await currentUserIdResponse.json();
-                console.log('Current user ID: ' + currentUserIdData.id); // debugging
-            } else {
-                console.error('Failed to get current user id.');
-            }
-        }
+    const [currentUserId, setCurrentUserId] = useState('');
 
+    useEffect(() => { // Getting user ID
         if (accessTokenNew !== '') {
-            // console.log("Now that access token is obtained, we try to make API calls..."); // debugging
-            findCurrentUserId();
+            const getUserId = async () => {
+                const userId = await findCurrentUserId(accessTokenNew);
+                setCurrentUserId(userId);
+            }
+            getUserId();
         }
     }, [accessTokenNew]);
+
+    useEffect(() => { // this just prints the current user ID
+        if (currentUserId !== '') {
+            console.log("Weee! Successfully obtained the CURRENT USER ID after redirecting! Here it comes:")
+            console.log(currentUserId);
+        }
+    }, [currentUserId])
 
     return null; // No UI
 }

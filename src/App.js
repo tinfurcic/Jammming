@@ -4,12 +4,11 @@ import SearchBar from './components/SearchBar';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import getToken from './helper functions/getToken';
-import AppRouter from './components/AppRouter';
-
-// [API endpoints] I need Create Playlist and Add Items to Playlist
+import { Outlet } from 'react-router-dom';
 
 function App() {
     const [accessToken, setAccessToken] = useState('');
+    const [accessTokenNew, setAccessTokenNew] = useState('');
 
     useEffect(() => {
         const getAccessToken = async () => {
@@ -19,6 +18,12 @@ function App() {
         getAccessToken();
     }, []);
 
+    useEffect(() => {
+        if (accessTokenNew !== '') {
+            console.log("Access token in App: " + accessTokenNew);
+        }
+    }, [accessTokenNew])
+
     return ( 
         <div className={styles.App}>
             <div className={styles.header}>
@@ -26,15 +31,14 @@ function App() {
             </div>
       
             <div className={styles.searchBar}>
-                <SearchBar accessToken={accessToken} />
+                <SearchBar accessToken={accessToken} accessTokenNew={accessTokenNew} />
             </div> 
 
             <div className={styles.footer}>
                 <Footer />
             </div>
-            <div>
-                <AppRouter />
-            </div>
+            {<Outlet context={[accessTokenNew, setAccessTokenNew]} />}
+            {/* This will render <Callback /> when the path is "/callback" */}
         </div>
     );
 
