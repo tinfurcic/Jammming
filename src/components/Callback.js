@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
+import { useLocation, useOutletContext } from 'react-router-dom';
 import querystring from 'query-string';
 import findCurrentUserId from '../helper functions/findCurrentUserId';
-import createPlaylist from '../helper functions/createPlaylist';
+import getAccessToken from '../helper functions/getAccessToken';
 
 const client_id = '828454fbd2c14ce993f835d9a85ddc23';
 const client_secret = '703c6976fc9f48e8a54fd3d988423c5f'; // CHANGE LATER
@@ -10,25 +10,27 @@ const redirect_uri = 'http://localhost:3000/callback';
 
 function Callback() {
     const location = useLocation();
-    const navigate = useNavigate(); 
     const [accessTokenNew, setAccessTokenNew] = useOutletContext();
 
-//// IMPORTANT
-    // Ask user for access when the app starts!
+
+    const params = querystring.parse(location.search); // NEW
 
     useEffect(() => { // Obtaining access token
         const handleCallback = async () => {
+            await getAccessToken(setAccessTokenNew, params)
+
+/* // OLD, WORKING CODE
             const params = querystring.parse(location.search); 
             const { code, state } = params;
 
             if (code) {
-          /*      // Compare the received state with the expected state
+                // Compare the received state with the expected state
                 const expectedState = localStorage.getItem('state');
                 if (state !== expectedState) {
                     console.error('State mismatch');
-                    navigate('/error');
+                    // navigate('/error');
                     return;
-                }  */
+                } 
 
                 const tokenParameters = { 
                     code: code,
@@ -62,6 +64,7 @@ function Callback() {
             } else {
                 console.error('Missing code parameter');
             }
+*/
         };
 
         handleCallback();
