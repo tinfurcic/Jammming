@@ -1,0 +1,33 @@
+.searchBarContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;   /*  this container encapsulates the whole SearchBar component, 
+    but it is actually contained in a <div> in the App component, and that div has a set height (100px or so).
+    Here we're just saying that this container, which we will work with, should span the whole height
+    of the outer container.*/    
+}
+
+.bar {
+    /* I might change this later, I'm not yet sure how I want it to behave */
+    flex-shrink: 0;
+    flex-basis: 100px; 
+
+    /* This is just a way of centering the search bar */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.lists {
+    flex-grow: 1;
+
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    overflow-y: auto;
+    gap: 50px;
+
+    margin-bottom: 30px; /* not sure I need this */
+}
+
+

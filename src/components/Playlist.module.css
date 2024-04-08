@@ -1,0 +1,29 @@
+.playlistContainer {
+    width: 35%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.playlistContainer ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+}
+
+.nameAndSave {
+    min-height: 70px; /* this doesn't seem very elegant */
+
+    display: flex;
+    flex-direction: row;
+}
+
+.nameAndSave input {
+    font-size: 24px;  /* the same size as <h2>Results:</h2> */
+    flex-grow: 1;
+    min-width: 0; /* without this, the input won't shrink */
+
+}
