@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import Track from './Track';
 import styles from './Playlist.module.css';
+import Save from './Save';
 
-function Playlist ({playlist, setPlaylist}) {
+function Playlist ({playlist, setPlaylist, accessTokenNew}) {
 
     const [playlistName, setPlaylistName] = useState('');
 
@@ -17,7 +18,7 @@ function Playlist ({playlist, setPlaylist}) {
                 null :
                 <div className={styles.nameAndSave}>
                     <input id="playlistName" type="text" value={playlistName} onChange={handleChange} placeholder='New Playlist'/>
-                    <button>Save to Spotify</button>
+                    <Save accessTokenNew={accessTokenNew} playlist={playlist} playlistName={playlistName} />
                 </div>}
                 <ul>
                     {playlist.map((track, index) =>
