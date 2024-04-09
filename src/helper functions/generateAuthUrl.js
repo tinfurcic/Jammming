@@ -10,7 +10,7 @@ export function generateAuthUrl () {
 
     // URLSearchParams takes in a string (a query string is expected) or (in this case) an object
         // (equivalent to a query string), and makes it easy to work with that query string.
-            // Below, we only used the .toString() method to get created the query string, but 
+            // Below, we only used the .toString() method to get created the query string
     const queryParams = new URLSearchParams({ 
         response_type: 'code',
         client_id: client_id,

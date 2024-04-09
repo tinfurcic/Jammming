@@ -6,12 +6,11 @@ import addTracksToPlaylist from '../helper functions/addTracksToPlaylist';
 
 function Save({ accessTokenNew, playlist, playlistName }) {
 
-    const authUrl = generateAuthUrl();
-
     const handleSave = async () => {
-        // this (the if) part will become obsolete once I start asking for access to user's data before loading the app
         if (accessTokenNew === '') {
-            window.location.href = authUrl;
+            // later, you have to change this condition to: "if access token is invalid (expired or nonexistent)"
+                // alternatively, you can ensure elsewhere that the access token is up to date, but checking here seems better.
+            //window.location.href = generateAuthUrl();
         } else {
             console.log("Saving the playlist to the account...");
             try {

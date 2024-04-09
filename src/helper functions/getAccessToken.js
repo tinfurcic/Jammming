@@ -6,7 +6,7 @@ const client_secret = '703c6976fc9f48e8a54fd3d988423c5f'; // CHANGE LATER
 const redirect_uri = 'http://localhost:3000/callback';
 
 async function getAccessToken (setAccessToken, params) {
-
+    console.log("we got to getAccessToken")
     const { code, state } = params;
 
     if (code) {
@@ -44,12 +44,11 @@ async function getAccessToken (setAccessToken, params) {
             localStorage.setItem("refreshToken", tokenData.refresh_token);
 
             console.log("After calling getAccessToken, we have:")
-            console.log("accessToken: " + tokenData.access_token)
-            console.log("accessTokenExpirationTime: " + (parseInt(Date.now() / 1000) + tokenData.expires_in))
-            console.log("refreshToken: " + tokenData.refresh_token)
+            console.log("accessToken: " + localStorage.getItem("accessToken"))
+            console.log("accessTokenExpirationTime: " + localStorage.getItem("accessTokenExpirationTime"))
+            console.log("refreshToken: " + localStorage.getItem("refreshToken"))
 
             setAccessToken(tokenData.access_token);
-
         } else {
             console.error('Failed to exchange authorization code for access token');         
         }
