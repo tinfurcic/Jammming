@@ -34,10 +34,10 @@ async function refreshAccessToken () {
         console.log("Token data received in refreshAccessToken:")
         console.log(tokenData);
 
-        localStorage.setItem("accessToken", tokenData.access_token);
         localStorage.setItem("accessTokenExpirationTime", parseInt(Date.now() / 1000) + tokenData.expires_in);
         localStorage.setItem("refreshToken", tokenData.refresh_token);
-        // localStorage.setItem("tokenData", tokenData); // you can't do this. Only strings can be saved.
+        localStorage.setItem("accessToken", tokenData.access_token);
+
 
         // setTheAccessToken(tokenData.access_token); // this... probably also isn't necessary
 

@@ -1,19 +1,20 @@
 import { generateAuthUrl } from "./generateAuthUrl";
 import refreshAccessToken from "./refreshAccessToken";
 
-async function manageTokens (setTheAccessToken) {
+async function manageTokens () {
     console.log("Starting manageTokens...")
 
     const accTok = localStorage.getItem('accessToken');
     const expirationTime = localStorage.getItem('accessTokenExpirationTime');
-    const refreshToken = localStorage.getItem('refreshToken');
+    let refTok = localStorage.getItem("refreshToken");
+    console.log("MF refreshToken from localStorage: " + localStorage.getItem("refreshToken"));
 
-    if (accTok && expirationTime && refreshToken) { // checking if we have everything
+    if (accTok && expirationTime && refTok) { // checking if we have everything
         console.log("We have a token package saved in localStorage.")
         console.log("Here are accTok, expirationTime and refreshToken, respectively, grabbed from localStorage:");
         console.log(accTok);
         console.log(expirationTime);
-        console.log(refreshToken);
+        console.log(refTok);
         // console.log("The currently saved access token is: " + accTok)
         const currentTime = Date.now() / 1000; // Convert milliseconds to seconds
     
@@ -29,7 +30,7 @@ async function manageTokens (setTheAccessToken) {
         console.log("[In manageTokens] Some token data is missing...")
         console.log("accTok: " + accTok) //DEBUGGING
         console.log("expirationTime: " + expirationTime) //DEBUGGING
-        console.log("refreshToken:" + refreshToken)
+        console.log("refreshToken:" + refTok)
         console.log("That's why we have to redirect...")
         console.log("... but the code for that isn't currently written.");
 

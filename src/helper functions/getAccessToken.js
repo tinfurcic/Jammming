@@ -39,9 +39,9 @@ async function getAccessToken (setAccessToken, params) {
             // console.log("token_type: " + tokenData.token_type)
             // console.log("scope: " + tokenData.scope)
 
-            localStorage.setItem("accessToken", tokenData.access_token);
             localStorage.setItem("accessTokenExpirationTime", parseInt(Date.now() / 1000) + tokenData.expires_in);
             localStorage.setItem("refreshToken", tokenData.refresh_token);
+            localStorage.setItem("accessToken", tokenData.access_token);
 
             console.log("After calling getAccessToken, we have:")
             console.log("accessToken: " + localStorage.getItem("accessToken"))

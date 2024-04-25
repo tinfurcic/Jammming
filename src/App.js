@@ -20,7 +20,7 @@ function App() {
     //localStorage.clear(); // this causes state mismatch, among other things.
 
     const [accessToken, setAccessToken] = useState();
-    const [accessTokenNew, setAccessTokenNew] = useState(localStorage.getItem('accessToken'));
+    const [accessTokenNew, setAccessTokenNew] = useState(localStorage.getItem("accessToken"));
     const navigate = useNavigate();
 
     const isAuthenticated = () => {
@@ -37,18 +37,13 @@ function App() {
         const checkAuthentication = () => {
             console.log("Checking authentication...")
             const isAuth = isAuthenticated();
-            /* // old, working code
-            if (!isAuth && !returningFromCallback) {
-                // navigate('/login');
-                window.location.href = generateAuthUrl();
-            }
-            */
+
             if (isAuth) {
                 // check whether the token needs to be refreshed
                 const doTheThing = async () => {
                     await manageTokens();
                     // not sure if this will work as intended
-                    setAccessTokenNew(localStorage.getItem('accessToken'));
+                    setAccessTokenNew(localStorage.getItem("accessToken"));
                 }
                 doTheThing();
             } else {
