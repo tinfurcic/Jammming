@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { generateAuthUrl } from '../helper functions/generateAuthUrl';
+import React from 'react';
 import findCurrentUserId from '../helper functions/findCurrentUserId';
 import createPlaylist from '../helper functions/createPlaylist';
 import addTracksToPlaylist from '../helper functions/addTracksToPlaylist';
@@ -8,7 +7,9 @@ import refreshAccessToken from '../helper functions/refreshAccessToken';
 function Save({ accessTokenNew, playlist, playlistName }) {
 
     const handleSave = async () => {
-        const isExpired = Date.now() / 1000 >= localStorage.getItem('accessTokenExpirationTime');
+        const tokenData = JSON.parse(localStorage.getItem("tokenData"));
+        const expirationTime = tokenData.expires_in;
+        const isExpired = Date.now() / 1000 >= expirationTime;
         if (isExpired) {
             console.log("Refreshing upon saving...")
             await refreshAccessToken();
@@ -29,9 +30,7 @@ function Save({ accessTokenNew, playlist, playlistName }) {
             } else {
                 console.log("Saving NOT completed. Something went wrong.")
                 console.log("Here's what we have: ")
-                console.log("accessToken: " + localStorage.getItem("accessToken"))
-                console.log("accessTokenExpirationTime: " + localStorage.getItem("accessTokenExpirationTime"))
-                console.log("refreshToken: " + localStorage.getItem("refreshToken"))
+                console.log(JSON.parse(localStorage.getItem("tokenData")));
                 // once again, refreshToken is undefined here for some reason, after successfully refreshing
             }
             // [DESIGN]

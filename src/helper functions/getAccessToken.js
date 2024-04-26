@@ -5,7 +5,7 @@ const client_id = '828454fbd2c14ce993f835d9a85ddc23';
 const client_secret = '703c6976fc9f48e8a54fd3d988423c5f'; // CHANGE LATER
 const redirect_uri = 'http://localhost:3000/callback';
 
-async function getAccessToken (setAccessToken, params) {
+async function getAccessToken (setAccessTokenData, params) {
     console.log("we got to getAccessToken")
     const { code, state } = params;
 
@@ -14,7 +14,6 @@ async function getAccessToken (setAccessToken, params) {
         const expectedState = localStorage.getItem('state');
         if (state !== expectedState) {
             console.error('State mismatch');
-            //navigate('/error');
             return;
         }  
 
@@ -36,19 +35,17 @@ async function getAccessToken (setAccessToken, params) {
 
         if (tokenResponse.ok) {
             const tokenData = await tokenResponse.json();
-            // console.log("token_type: " + tokenData.token_type)
-            // console.log("scope: " + tokenData.scope)
+            console.log("OBTAINING BRAND NEW TOKEN PACKAGE")
+            tokenData.expires_in = tokenData.expires_in + Date.now() / 1000;
+            // now the expiration time can be read directly from the package
 
-            localStorage.setItem("accessTokenExpirationTime", parseInt(Date.now() / 1000) + tokenData.expires_in);
-            localStorage.setItem("refreshToken", tokenData.refresh_token);
-            localStorage.setItem("accessToken", tokenData.access_token);
+            localStorage.setItem("tokenData", JSON.stringify(tokenData));
+            console.log("[getAccessToken] Now logging what is saved in localStorage:")
+            console.log(localStorage.getItem("tokenData"));
+            console.log("... and then what was *meant* to be saved:")
+            console.log(JSON.stringify(tokenData))
 
-            console.log("After calling getAccessToken, we have:")
-            console.log("accessToken: " + localStorage.getItem("accessToken"))
-            console.log("accessTokenExpirationTime: " + localStorage.getItem("accessTokenExpirationTime"))
-            console.log("refreshToken: " + localStorage.getItem("refreshToken"))
-
-            setAccessToken(tokenData.access_token);
+            setAccessTokenData(tokenData);
         } else {
             console.error('Failed to exchange authorization code for access token');         
         }

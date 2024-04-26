@@ -6,7 +6,6 @@ import Footer from './components/Footer';
 import { Outlet } from 'react-router-dom';
 import manageTokens from './helper functions/manageTokens';
 import getToken from './helper functions/getToken';
-import { useNavigate } from 'react-router-dom';
 import { generateAuthUrl } from './helper functions/generateAuthUrl';
 
     // new bug?: removing access to user data doesn't prevent the app from creating new playlists
@@ -16,45 +15,43 @@ import { generateAuthUrl } from './helper functions/generateAuthUrl';
             // It looks like I can't do anything but to let the token expire.
 
 function App() {
+    //localStorage.clear();
 
-    //localStorage.clear(); // this causes state mismatch, among other things.
+    const [accessToken, setAccessToken] = useState(); // I need this for search to work because the expired token doesn't immediately refresh.
+    // const tokenData = JSON.parse(localStorage.getItem("tokenData")); // I can't do this here
+  
+    const [accessTokenData, setAccessTokenData] = useState(JSON.parse(localStorage.getItem("tokenData"))); // this is an object!
 
-    const [accessToken, setAccessToken] = useState();
-    const [accessTokenNew, setAccessTokenNew] = useState(localStorage.getItem("accessToken"));
-    const navigate = useNavigate();
+    const [accessTokenNew, setAccessTokenNew] = useState("");
 
-    const isAuthenticated = () => {
-        // Check if the user is authenticated (e.g., by checking if there's an access token in localStorage)
-        return accessTokenNew !== null;
-    };
 
-    // Check if there is nothing written in accessTokenNew (meaning that the user isn't authenticated)
-        // AND make sure we're not already at /callback (where the whole token obtaining thing is going on)
-            // Then, and only then, redirect
     // goal for later: as a fallback, make sure that refreshing the page properly reconfigures everything
     useEffect(() => {
         const returningFromCallback = window.location.pathname === '/callback';
         const checkAuthentication = () => {
             console.log("Checking authentication...")
-            const isAuth = isAuthenticated();
+            const isAuth = accessTokenData !== null;
+            // returns true if there is any kind of token package saved, which happens the first time a user is authenticated
 
+            // moram osigurati da se if() dio pokrene nakon što se tokenData update-a
+                // to se valjda postiže sa accessTokenData dependencyjem
             if (isAuth) {
                 // check whether the token needs to be refreshed
                 const doTheThing = async () => {
                     await manageTokens();
                     // not sure if this will work as intended
-                    setAccessTokenNew(localStorage.getItem("accessToken"));
+                    setAccessTokenData(JSON.parse(localStorage.getItem("tokenData")));
+                    setAccessTokenNew(accessTokenData.access_token);
                 }
                 doTheThing();
             } else {
                 if (!returningFromCallback) {
-                    // navigate('/login');
                     window.location.href = generateAuthUrl();
                 }
             }
         };
         checkAuthentication();
-    }, [navigate]); // 
+    }, []); // 
 
 
     useEffect(() => { // this will become obsolete
@@ -80,7 +77,7 @@ function App() {
             <div className={styles.footer}>
                 <Footer />
             </div>
-            {<Outlet context={[accessTokenNew, setAccessTokenNew]} />}
+            {<Outlet context={[accessTokenData, setAccessTokenData]} />}
             {/* This will render <Callback /> when the path is "/callback" */}
         </div>
     );

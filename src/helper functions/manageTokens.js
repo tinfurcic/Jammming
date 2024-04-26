@@ -1,21 +1,17 @@
-import { generateAuthUrl } from "./generateAuthUrl";
 import refreshAccessToken from "./refreshAccessToken";
 
 async function manageTokens () {
     console.log("Starting manageTokens...")
 
-    const accTok = localStorage.getItem('accessToken');
-    const expirationTime = localStorage.getItem('accessTokenExpirationTime');
-    let refTok = localStorage.getItem("refreshToken");
-    console.log("MF refreshToken from localStorage: " + localStorage.getItem("refreshToken"));
+    const tokenData = JSON.parse(localStorage.getItem("tokenData"));
+    console.log("ATTENTION! tokenData in manageTokens:")
+    console.log(tokenData);
+    const accTok = tokenData.access_token;
+    const expirationTime = tokenData.expires_in;
+    const refTok = tokenData.refresh_token;
 
     if (accTok && expirationTime && refTok) { // checking if we have everything
         console.log("We have a token package saved in localStorage.")
-        console.log("Here are accTok, expirationTime and refreshToken, respectively, grabbed from localStorage:");
-        console.log(accTok);
-        console.log(expirationTime);
-        console.log(refTok);
-        // console.log("The currently saved access token is: " + accTok)
         const currentTime = Date.now() / 1000; // Convert milliseconds to seconds
     
         if (currentTime >= expirationTime) { // here we want to try refreshing it
