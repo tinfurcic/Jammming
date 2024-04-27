@@ -20,8 +20,10 @@ function App() {
     const [accessToken, setAccessToken] = useState(); // I need this for search to work because the expired token doesn't immediately refresh.
     // const tokenData = JSON.parse(localStorage.getItem("tokenData")); // I can't do this here
   
+    // I don't really need to keep this in a state
     const [accessTokenData, setAccessTokenData] = useState(JSON.parse(localStorage.getItem("tokenData"))); // this is an object!
 
+    // I only need the access token
     const [accessTokenNew, setAccessTokenNew] = useState("");
 
 
@@ -38,10 +40,10 @@ function App() {
             if (isAuth) {
                 // check whether the token needs to be refreshed
                 const doTheThing = async () => {
-                    await manageTokens();
+                    await manageTokens(setAccessTokenData);
                     // not sure if this will work as intended
-                    setAccessTokenData(JSON.parse(localStorage.getItem("tokenData")));
-                    setAccessTokenNew(accessTokenData.access_token);
+                    // setAccessTokenData(JSON.parse(localStorage.getItem("tokenData")));
+                    // setAccessTokenNew(accessTokenData.access_token);
                 }
                 doTheThing();
             } else {
@@ -52,6 +54,10 @@ function App() {
         };
         checkAuthentication();
     }, []); // 
+
+    useEffect(() => { // whenever a token package is updated, update the access token as well.
+        setAccessTokenNew(accessTokenData.access_token);
+    }, [accessTokenData])
 
 
     useEffect(() => { // this will become obsolete
@@ -71,7 +77,7 @@ function App() {
             </div>
       
             <div className={styles.searchBar}>
-                <SearchBar accessToken={accessToken} accessTokenNew={accessTokenNew} />
+                <SearchBar accessToken={accessToken} accessTokenNew={accessTokenNew} setAccessTokenData={setAccessTokenData}/>
             </div> 
 
             <div className={styles.footer}>

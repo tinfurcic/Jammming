@@ -1,7 +1,7 @@
 const client_id = '828454fbd2c14ce993f835d9a85ddc23';
 const client_secret = '703c6976fc9f48e8a54fd3d988423c5f'; // CHANGE LATER
 
-async function refreshAccessToken () {
+async function refreshAccessToken (setAccessTokenData) {
     const tokenData = JSON.parse(localStorage.getItem("tokenData"));
     const refreshToken = tokenData.refresh_token;
     const authHeader = `Basic ${btoa(`${client_id}:${client_secret}`)}`;
@@ -42,6 +42,8 @@ async function refreshAccessToken () {
 
         // setTheAccessToken(tokenData.access_token); // this... probably also isn't necessary
             // this won't work, I think. You can try returning it, maybe.
+
+        setAccessTokenData(newTokenData);
 
         console.log("Token is successfully refreshed.")
     } else {

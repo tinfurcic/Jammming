@@ -4,7 +4,7 @@ import createPlaylist from '../helper functions/createPlaylist';
 import addTracksToPlaylist from '../helper functions/addTracksToPlaylist';
 import refreshAccessToken from '../helper functions/refreshAccessToken';
 
-function Save({ accessTokenNew, playlist, playlistName }) {
+function Save({ accessTokenNew, setAccessTokenData, playlist, playlistName }) {
 
     const handleSave = async () => {
         const tokenData = JSON.parse(localStorage.getItem("tokenData"));
@@ -12,7 +12,7 @@ function Save({ accessTokenNew, playlist, playlistName }) {
         const isExpired = Date.now() / 1000 >= expirationTime;
         if (isExpired) {
             console.log("Refreshing upon saving...")
-            await refreshAccessToken();
+            await refreshAccessToken(setAccessTokenData);
             // here setAccessTokenNew(...) would probably do it
         }
 
