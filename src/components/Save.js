@@ -13,6 +13,7 @@ function Save({ accessTokenNew, playlist, playlistName }) {
         if (isExpired) {
             console.log("Refreshing upon saving...")
             await refreshAccessToken();
+            // here setAccessTokenNew(...) would probably do it
         }
 
         console.log("Saving the playlist to the account...");

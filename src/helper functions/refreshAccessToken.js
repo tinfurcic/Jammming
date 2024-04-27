@@ -25,6 +25,15 @@ async function refreshAccessToken () {
         newTokenData.expires_in = newTokenData.expires_in + Date.now() / 1000;
         // now the expiration time can be read directly from the package
 
+        console.log("old package: ")
+        console.log(localStorage.getItem("tokenData"));
+
+
+        // There may or may not be a new refresh token in this package. If there isn't one, the old one should be used.
+        if (!newTokenData.refresh_token) {
+            newTokenData.refresh_token = JSON.parse(localStorage.getItem("tokenData")).refresh_token;
+        }
+
         localStorage.setItem("tokenData", JSON.stringify(newTokenData));
         console.log("[refreshAccessToken] Now logging what is saved in localStorage:")
         console.log(localStorage.getItem("tokenData"));
