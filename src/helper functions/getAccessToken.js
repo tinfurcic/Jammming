@@ -39,11 +39,11 @@ async function getAccessToken (setAccessTokenData, params) {
             tokenData.expires_in = tokenData.expires_in + Date.now() / 1000;
             // now the expiration time can be read directly from the package
 
-            localStorage.setItem("tokenData", JSON.stringify(tokenData));
-            console.log("[getAccessToken] Now logging what is saved in localStorage:")
+            console.log("Old package:")
             console.log(localStorage.getItem("tokenData"));
-            console.log("... and then what was *meant* to be saved:")
-            console.log(JSON.stringify(tokenData))
+            localStorage.setItem("tokenData", JSON.stringify(tokenData));
+            console.log("New package:")
+            console.log(localStorage.getItem("tokenData"));
 
             setAccessTokenData(tokenData);
         } else {

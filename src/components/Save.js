@@ -10,29 +10,23 @@ function Save({ accessTokenNew, setAccessTokenData, playlist, playlistName }) {
         const tokenData = JSON.parse(localStorage.getItem("tokenData"));
         const expirationTime = tokenData.expires_in;
         const isExpired = Date.now() / 1000 >= expirationTime;
-        if (isExpired) {
-            console.log("Refreshing upon saving...")
-            await refreshAccessToken(setAccessTokenData);
-            // here setAccessTokenNew(...) would probably do it
-        }
-
         console.log("Saving the playlist to the account...");
+        if (isExpired) {
+            await refreshAccessToken(setAccessTokenData);
+        }
+        
         try {
             const currentUserId = await findCurrentUserId(accessTokenNew);
             console.log("The current user ID is " + currentUserId); // debugging
 
             const playlistId = await createPlaylist(accessTokenNew, currentUserId, playlistName);
             console.log("The ID of the created playlist is: " + playlistId); // debugging
-            // console.log(playlist); // debugging
 
             const isCompleted = await addTracksToPlaylist(accessTokenNew, playlist, playlistId);
             if (isCompleted) {
                 console.log("Saving completed!")
             } else {
                 console.log("Saving NOT completed. Something went wrong.")
-                console.log("Here's what we have: ")
-                console.log(JSON.parse(localStorage.getItem("tokenData")));
-                // once again, refreshToken is undefined here for some reason, after successfully refreshing
             }
             // [DESIGN]
                 // Indicate that the app is working.

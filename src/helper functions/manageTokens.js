@@ -1,11 +1,9 @@
 import refreshAccessToken from "./refreshAccessToken";
 
-async function manageTokens (setAccessTokenData, setAccessTokenNew) {
+async function manageTokens (setAccessTokenData) {
     console.log("Starting manageTokens...")
 
     const tokenData = JSON.parse(localStorage.getItem("tokenData"));
-    console.log("ATTENTION! tokenData in manageTokens:")
-    console.log(tokenData);
     const accTok = tokenData.access_token;
     const expirationTime = tokenData.expires_in;
     const refTok = tokenData.refresh_token;
@@ -24,13 +22,8 @@ async function manageTokens (setAccessTokenData, setAccessTokenNew) {
         }
     } else { // this shouldn't ever actually execute because missing data should be handled with checkAuthentication() in App.js
         console.log("[In manageTokens] Some token data is missing...")
-        console.log("accTok: " + accTok) //DEBUGGING
-        console.log("expirationTime: " + expirationTime) //DEBUGGING
-        console.log("refreshToken:" + refTok)
-        console.log("That's why we have to redirect...")
-        console.log("... but the code for that isn't currently written.");
-
-        // window.location.href = generateAuthUrl(); // careful with this, it should execute only if we're not already redirecting
+        console.log("Here's what we have:")
+        console.log(JSON.parse(localStorage.getItem("tokenData")));
     }
 }
 

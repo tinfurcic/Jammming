@@ -26,7 +26,6 @@ function App() {
     // I only need the access token
     const [accessTokenNew, setAccessTokenNew] = useState("");
 
-
     // goal for later: as a fallback, make sure that refreshing the page properly reconfigures everything
     useEffect(() => {
         const returningFromCallback = window.location.pathname === '/callback';
@@ -35,15 +34,10 @@ function App() {
             const isAuth = accessTokenData !== null;
             // returns true if there is any kind of token package saved, which happens the first time a user is authenticated
 
-            // moram osigurati da se if() dio pokrene nakon što se tokenData update-a
-                // to se valjda postiže sa accessTokenData dependencyjem
             if (isAuth) {
                 // check whether the token needs to be refreshed
                 const doTheThing = async () => {
                     await manageTokens(setAccessTokenData);
-                    // not sure if this will work as intended
-                    // setAccessTokenData(JSON.parse(localStorage.getItem("tokenData")));
-                    // setAccessTokenNew(accessTokenData.access_token);
                 }
                 doTheThing();
             } else {
@@ -56,7 +50,9 @@ function App() {
     }, []); // 
 
     useEffect(() => { // whenever a token package is updated, update the access token as well.
-        setAccessTokenNew(accessTokenData.access_token);
+        if(accessTokenData) {
+            setAccessTokenNew(accessTokenData.access_token);
+        }
     }, [accessTokenData])
 
 

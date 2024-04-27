@@ -15,7 +15,7 @@ async function createPlaylist(accessTokenNew, userId, playlistName) {
         const theFolder = await createPlaylistResponse.json();
         return theFolder.id;
     } else {
-        console.error('Something is wrong.');
+        console.error('Failed to create a playlist.');
     }
     
 }
