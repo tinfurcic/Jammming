@@ -1,6 +1,6 @@
 import refreshAccessToken from "./refreshAccessToken";
 
-async function manageTokens (setAccessTokenData) {
+async function manageTokens (setAccessTokenNew, setAccessTokenData) {
     console.log("Starting manageTokens...")
 
     const tokenData = JSON.parse(localStorage.getItem("tokenData"));
@@ -14,7 +14,7 @@ async function manageTokens (setAccessTokenData) {
     
         if (currentTime >= expirationTime) { // here we want to try refreshing it
             console.log("[In manageTokens] The token is expired.");
-            await refreshAccessToken(setAccessTokenData);
+            await refreshAccessToken(setAccessTokenNew, setAccessTokenData);
         } else { // otherwise, API calls should work. If it doesn't, there is probably a problem with saving or loading token data.
             console.log("[In manageTokens] The token should still be valid because the currentTime is");
             console.log(currentTime + ", which is less than expirationTime, which equals")

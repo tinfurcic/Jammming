@@ -37,7 +37,7 @@ function App() {
             if (isAuth) {
                 // check whether the token needs to be refreshed
                 const doTheThing = async () => {
-                    await manageTokens(setAccessTokenData);
+                    await manageTokens(setAccessTokenNew, setAccessTokenData);
                 }
                 doTheThing();
             } else {
@@ -49,6 +49,7 @@ function App() {
         checkAuthentication();
     }, []); // 
 
+    // this is probably unnecessary now
     useEffect(() => { // whenever a token package is updated, update the access token as well.
         if(accessTokenData) {
             setAccessTokenNew(accessTokenData.access_token);
@@ -73,7 +74,7 @@ function App() {
             </div>
       
             <div className={styles.searchBar}>
-                <SearchBar accessToken={accessToken} accessTokenNew={accessTokenNew} setAccessTokenData={setAccessTokenData}/>
+                <SearchBar accessToken={accessToken} accessTokenNew={accessTokenNew} setAccessTokenNew={setAccessTokenNew} setAccessTokenData={setAccessTokenData}/>
             </div> 
 
             <div className={styles.footer}>

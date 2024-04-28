@@ -1,7 +1,7 @@
 const client_id = '828454fbd2c14ce993f835d9a85ddc23';
 const client_secret = '703c6976fc9f48e8a54fd3d988423c5f'; // CHANGE LATER
 
-async function refreshAccessToken (setAccessTokenData) {
+async function refreshAccessToken (setAccessTokenNew, setAccessTokenData) {
     const refreshToken = JSON.parse(localStorage.getItem("tokenData")).refresh_token;
     console.log("Refresh token provided to refreshAccessToken: " + refreshToken);
     const authHeader = `Basic ${btoa(`${client_id}:${client_secret}`)}`;
@@ -32,7 +32,9 @@ async function refreshAccessToken (setAccessTokenData) {
 
         localStorage.setItem("tokenData", JSON.stringify(newTokenData));
         setAccessTokenData(newTokenData);
+        setAccessTokenNew(newTokenData.access_token)
         console.log("Token is successfully refreshed.")
+        // THIS HAPPENS ONCE, AND THEN EVERYTHING BREAKS
     } else {
         console.error("An error occurred while trying to refresh the access token.");
         console.log("This is what we have:")

@@ -4,7 +4,7 @@ import createPlaylist from '../helper functions/createPlaylist';
 import addTracksToPlaylist from '../helper functions/addTracksToPlaylist';
 import refreshAccessToken from '../helper functions/refreshAccessToken';
 
-function Save({ accessTokenNew, setAccessTokenData, playlist, playlistName }) {
+function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist, playlistName }) {
 
     const handleSave = async () => {
         const tokenData = JSON.parse(localStorage.getItem("tokenData"));
@@ -12,7 +12,9 @@ function Save({ accessTokenNew, setAccessTokenData, playlist, playlistName }) {
         const isExpired = Date.now() / 1000 >= expirationTime;
         console.log("Saving the playlist to the account...");
         if (isExpired) {
-            await refreshAccessToken(setAccessTokenData);
+            await refreshAccessToken(setAccessTokenNew, setAccessTokenData);
+            // the accessTokenNew does not immediately update, causing issues in the following try block
+
         }
         
         try {
