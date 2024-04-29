@@ -5,12 +5,12 @@ const redirect_uri = 'http://localhost:3000/callback';
 
 export function generateAuthUrl () {
     const state = generateRandomString(16);
-        // localStorage.setItem('state', state);  // This is used to check the expected state in Callback
+    localStorage.setItem('state', state);  // This is used to check the expected state in Callback
     const scope = 'user-read-private user-read-email playlist-modify-public playlist-modify-private user-top-read';
 
     // URLSearchParams takes in a string (a query string is expected) or (in this case) an object
         // (equivalent to a query string), and makes it easy to work with that query string.
-            // Below, we only used the .toString() method to get created the query string, but 
+            // Below, we only used the .toString() method to get created the query string
     const queryParams = new URLSearchParams({ 
         response_type: 'code',
         client_id: client_id,

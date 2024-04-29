@@ -6,7 +6,7 @@ import Playlist from './Playlist';
 
 // Possible additions:
     // Allow the user to search for artists and albums (and something else?), not only songs
-function SearchBar ({accessToken, accessTokenNew}) {
+function SearchBar ({accessToken, accessTokenNew, setAccessTokenNew, setAccessTokenData}) {
     const [searchText, setSearchText] = useState('');
     const [results, setResults] = useState([]);
     const [playlist, setPlaylist] = useState([]);
@@ -64,7 +64,7 @@ function SearchBar ({accessToken, accessTokenNew}) {
                 </div>
                 <div className={styles.lists}>
                         <SearchResults setPlaylist={setPlaylist} results={results}/>
-                        <Playlist playlist={playlist} setPlaylist={setPlaylist} accessTokenNew={accessTokenNew} />                        
+                        <Playlist playlist={playlist} setPlaylist={setPlaylist} accessTokenNew={accessTokenNew} setAccessTokenNew={setAccessTokenNew} setAccessTokenData={setAccessTokenData} />                        
                 </div>
                 
             </div> 
