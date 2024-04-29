@@ -1,5 +1,4 @@
-import querystring from 'query-string';
-
+import stringifyQueryParams from './stringifyQueryParams';
 
 const client_id = '828454fbd2c14ce993f835d9a85ddc23';
 const client_secret = '703c6976fc9f48e8a54fd3d988423c5f'; // CHANGE LATER
@@ -30,7 +29,7 @@ async function getAccessToken (setAccessTokenData, params) {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Authorization': authHeader,
             },
-            body: querystring.stringify(tokenParameters),
+            body: stringifyQueryParams(tokenParameters),
         });
 
         if (tokenResponse.ok) {
