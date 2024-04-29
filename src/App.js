@@ -31,7 +31,7 @@ function App() {
         const returningFromCallback = window.location.pathname === '/callback';
         const checkAuthentication = () => {
             console.log("Checking authentication...")
-            const isAuth = accessTokenData !== null;
+            const isAuth = localStorage.getItem("tokenData") !== null;
             // returns true if there is any kind of token package saved, which happens the first time a user is authenticated
 
             if (isAuth) {
@@ -80,7 +80,7 @@ function App() {
             <div className={styles.footer}>
                 <Footer />
             </div>
-            {<Outlet context={[accessTokenData, setAccessTokenData]} />}
+            {<Outlet context={setAccessTokenData} />}
             {/* This will render <Callback /> when the path is "/callback" */}
         </div>
     );

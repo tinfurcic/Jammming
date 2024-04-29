@@ -5,18 +5,18 @@ import parseQueryString from '../helper functions/parseQueryString';
 
 function Callback() {
     const location = useLocation();
-    const [accessTokenData, setAccessTokenData] = useOutletContext();
+    const setAccessTokenData = useOutletContext();
 
     const params = parseQueryString(location.search);
 
     useEffect(() => { // Obtaining access token
-        console.log("location.search changed")
+        console.log("Callback rendered")
         const handleCallback = async () => {
             await getAccessToken(setAccessTokenData, params)
         };
 
         handleCallback();
-    }, [location.search]);
+    }, [setAccessTokenData, params]); // 
 
     return null; // No UI
 }
