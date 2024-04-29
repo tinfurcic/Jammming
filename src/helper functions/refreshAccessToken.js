@@ -34,7 +34,10 @@ async function refreshAccessToken (setAccessTokenNew, setAccessTokenData) {
         setAccessTokenData(newTokenData);
         setAccessTokenNew(newTokenData.access_token)
         console.log("Token is successfully refreshed.")
-        // THIS HAPPENS ONCE, AND THEN EVERYTHING BREAKS
+
+        // this is needed just in Save.js, to have the new access token immediately at ready.
+        return newTokenData.access_token;
+
     } else {
         console.error("An error occurred while trying to refresh the access token.");
         console.log("This is what we have:")

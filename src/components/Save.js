@@ -11,20 +11,22 @@ function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist,
         const expirationTime = tokenData.expires_in;
         const isExpired = Date.now() / 1000 >= expirationTime;
         console.log("Saving the playlist to the account...");
-        if (isExpired) {
-            await refreshAccessToken(setAccessTokenNew, setAccessTokenData);
-            // the accessTokenNew does not immediately update, causing issues in the following try block
 
+        let newToken;
+        if (isExpired) {
+            newToken = await refreshAccessToken(setAccessTokenNew, setAccessTokenData);
+            // the accessTokenNew does not immediately update, causing issues in the following try block
         }
-        
+        const theValidToken = newToken || accessTokenNew;
+
         try {
-            const currentUserId = await findCurrentUserId(accessTokenNew);
+            const currentUserId = await findCurrentUserId(theValidToken);
             console.log("The current user ID is " + currentUserId); // debugging
 
-            const playlistId = await createPlaylist(accessTokenNew, currentUserId, playlistName);
+            const playlistId = await createPlaylist(theValidToken, currentUserId, playlistName);
             console.log("The ID of the created playlist is: " + playlistId); // debugging
 
-            const isCompleted = await addTracksToPlaylist(accessTokenNew, playlist, playlistId);
+            const isCompleted = await addTracksToPlaylist(theValidToken, playlist, playlistId);
             if (isCompleted) {
                 console.log("Saving completed!")
             } else {
