@@ -1,14 +1,13 @@
 import { useEffect } from 'react';
 import { useLocation, useOutletContext } from 'react-router-dom';
-import querystring from 'query-string';
 import getAccessToken from '../helper functions/getAccessToken';
-
+import parseQueryString from '../helper functions/parseQueryString';
 
 function Callback() {
     const location = useLocation();
     const [accessTokenData, setAccessTokenData] = useOutletContext();
 
-    const params = querystring.parse(location.search);
+    const params = parseQueryString(location.search);
 
     useEffect(() => { // Obtaining access token
         console.log("location.search changed")
