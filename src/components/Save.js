@@ -4,7 +4,7 @@ import createPlaylist from '../helper functions/createPlaylist';
 import addTracksToPlaylist from '../helper functions/addTracksToPlaylist';
 import refreshAccessToken from '../helper functions/refreshAccessToken';
 
-function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist, playlistName }) {
+function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist, setPlaylist, playlistName, setPlaylistName }) {
 
     const handleSave = async () => {
         const tokenData = JSON.parse(localStorage.getItem("tokenData"));
@@ -15,7 +15,8 @@ function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist,
         let newToken;
         if (isExpired) {
             newToken = await refreshAccessToken(setAccessTokenNew, setAccessTokenData);
-            // the accessTokenNew does not immediately update, causing issues in the following try block
+            // This ensures that accessTokenNew updates immediately.
+            // If it didn't, the API calls triggered with this click would fail.
         }
         const theValidToken = newToken || accessTokenNew;
 
@@ -28,6 +29,8 @@ function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist,
 
             const isCompleted = await addTracksToPlaylist(theValidToken, playlist, playlistId);
             if (isCompleted) {
+                setPlaylistName('');
+                setPlaylist([]);
                 console.log("Saving completed!")
             } else {
                 console.log("Saving NOT completed. Something went wrong.")
@@ -35,7 +38,6 @@ function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist,
             // [DESIGN]
                 // Indicate that the app is working.
                 // Upon retrieving the response from addTracksToPlaylist, the work is done, so we can display a success message
-                // The current list of songs should be cleared, and the title should be reset to an empty string.
         } catch (error) {
             console.error('Error:', error);
         }

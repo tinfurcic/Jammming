@@ -1,7 +1,5 @@
 const getToken = async () => {
 
-// These are client credentials.
-    // Remember to recreate and encrypt this before pushing it to a public repository.
     const client_id = '828454fbd2c14ce993f835d9a85ddc23';
     const client_secret = '703c6976fc9f48e8a54fd3d988423c5f';
 

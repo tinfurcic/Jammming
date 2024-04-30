@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './Track.module.css';
 
 function Track ({trackInfo, setPlaylist, playlist, parent}) {
-    // console.log('trackInfo:', trackInfo); // debugging
 
     // Is there a better way to find the answer to "Is this track (which is an object) already on the playlist?"?
     const addToPlaylist = (trackToAdd) => {

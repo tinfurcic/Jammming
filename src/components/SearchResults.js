@@ -4,7 +4,6 @@ import styles from './SearchResults.module.css';
             
 function SearchResults ({setPlaylist, results}) {
     
-    //warning: some code below might be for test purposes only
     return (
         <div className={styles.searchResultsContainer} >
         {results.length === 0 ? null :

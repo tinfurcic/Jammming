@@ -23,7 +23,6 @@ async function refreshAccessToken (setAccessTokenNew, setAccessTokenData) {
         const newTokenData = await refreshResponse.json();
         console.log("REFRESHING ACCESS TOKEN")
         newTokenData.expires_in = newTokenData.expires_in + Date.now() / 1000;
-        // now the expiration time can be read directly from the package
 
         // There may or may not be a new refresh token in this package. If there isn't one, the old one should be used.
         if (!newTokenData.refresh_token) {

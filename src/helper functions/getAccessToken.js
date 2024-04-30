@@ -3,6 +3,8 @@ import stringifyQueryParams from './stringifyQueryParams';
 const client_id = '828454fbd2c14ce993f835d9a85ddc23';
 const client_secret = '703c6976fc9f48e8a54fd3d988423c5f'; // CHANGE LATER
 const redirect_uri = 'https://tfjammming.netlify.app/callback';
+//const redirect_uri = 'http://localhost:3000/callback'; 
+
 
 async function getAccessToken (setAccessTokenData, params) {
     console.log("we got to getAccessToken")
@@ -36,7 +38,6 @@ async function getAccessToken (setAccessTokenData, params) {
             const tokenData = await tokenResponse.json();
             console.log("OBTAINING BRAND NEW TOKEN PACKAGE")
             tokenData.expires_in = tokenData.expires_in + Date.now() / 1000;
-            // now the expiration time can be read directly from the package
 
             console.log("Old package:")
             console.log(localStorage.getItem("tokenData"));

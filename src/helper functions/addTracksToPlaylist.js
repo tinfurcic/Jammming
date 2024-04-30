@@ -14,9 +14,7 @@ async function addTracksToPlaylist (accessTokenNew, trackArray, playlistId) {
           })
     });
     if (addItemsToPlaylistResponse.ok) {
-        // const playlistWithTracks = await addItemsToPlaylistResponse.json();
-        // return playlistWithTracks.snapshot_id; // in case you want to do something with this instead
-        return true; // time will tell do I really need this
+        return true;
     } else {
         console.error('Failed to add items to playlist.');
     }   

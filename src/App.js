@@ -15,12 +15,11 @@ import { generateAuthUrl } from './helper functions/generateAuthUrl';
             // It looks like I can't do anything but to let the token expire.
 
 function App() {
-    //localStorage.clear();
+    //localStorage.clear(); // debugging
 
     const [accessToken, setAccessToken] = useState(); // I need this for search to work because the expired token doesn't immediately refresh.
-    // const tokenData = JSON.parse(localStorage.getItem("tokenData")); // I can't do this here
   
-    // I don't really need to keep this in a state
+    // I don't really need to keep this in a state. Do I?
     const [accessTokenData, setAccessTokenData] = useState(JSON.parse(localStorage.getItem("tokenData"))); // this is an object!
 
     // I only need the access token
@@ -57,7 +56,7 @@ function App() {
     }, [accessTokenData])
 
 
-    useEffect(() => { // this will become obsolete
+    useEffect(() => {
         const getTempToken = async () => {
             const token = await getToken();
             setAccessToken(token);

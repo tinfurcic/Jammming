@@ -37,23 +37,16 @@ function SearchBar ({accessToken, accessTokenNew, setAccessTokenNew, setAccessTo
           }
         }
     
-        // This line is used to search for `searchString` resources of the type `searchType` (currently track), and
-            // it saves the results to the `results` array.
-            // encodeURIComponent is used to avoid errors produced by including some special characters in the search string
         const fetchLink = 'https://api.spotify.com/v1/search?q=' + encodeURIComponent(searchString) + '&type=' + searchType + '&limit=10';
-
         await fetch(fetchLink, searchParameters)
             .then(response => response.json()) 
             .then(data => {
-                // console.log(data.tracks.items); // debugging
-                // console.log(accessToken); // debugging
                 setResults(data.tracks.items);
                 }
             )
             .catch(error => console.error('There was a problem with the fetch operation:', error));
-      } 
+    } 
     
-    // warning: some code below might be for test purposes only
     return (
             <div className={styles.searchBarContainer}>
                 <div className={styles.bar}>
