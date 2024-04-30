@@ -1,7 +1,7 @@
 import { generateRandomString } from "./generateRandomString";
 
 const client_id = '828454fbd2c14ce993f835d9a85ddc23'; // CHANGE LATER
-const redirect_uri = 'http://localhost:3000/callback'; 
+const redirect_uri = 'https://tfjammming.netlify.app/callback'; 
 
 export function generateAuthUrl () {
     const state = generateRandomString(16);
