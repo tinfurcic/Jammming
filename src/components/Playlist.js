@@ -3,7 +3,7 @@ import Track from './Track';
 import styles from './Playlist.module.css';
 import Save from './Save';
 
-function Playlist ({playlist, setPlaylist, accessTokenNew, setAccessTokenNew, setAccessTokenData, setIsSaving }) {
+function Playlist ({playlist, setPlaylist, accessTokenNew, setAccessTokenNew, setAccessTokenData, isSaving, setIsSaving }) {
 
     const [playlistName, setPlaylistName] = useState('');
 
@@ -17,7 +17,7 @@ function Playlist ({playlist, setPlaylist, accessTokenNew, setAccessTokenNew, se
                 null :
                 <div className={styles.nameAndSave}>
                     <input id="playlistName" type="text" value={playlistName} onChange={handleChange} placeholder='New Playlist'/>
-                    <Save accessTokenNew={accessTokenNew} setAccessTokenNew={setAccessTokenNew} setAccessTokenData={setAccessTokenData} playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} setIsSaving={setIsSaving} />
+                    <Save accessTokenNew={accessTokenNew} setAccessTokenNew={setAccessTokenNew} setAccessTokenData={setAccessTokenData} playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} isSaving={isSaving} setIsSaving={setIsSaving} />
                 </div>}
                 <ul>
                     {playlist.map((track, index) =>

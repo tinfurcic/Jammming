@@ -75,7 +75,7 @@ function App() {
             </div>
       
             <div className={styles.searchBar}>
-                <SearchBar accessToken={accessToken} accessTokenNew={accessTokenNew} setAccessTokenNew={setAccessTokenNew} setAccessTokenData={setAccessTokenData} setIsSaving={setIsSaving} />
+                <SearchBar accessToken={accessToken} accessTokenNew={accessTokenNew} setAccessTokenNew={setAccessTokenNew} setAccessTokenData={setAccessTokenData} isSaving={isSaving} setIsSaving={setIsSaving} />
             </div> 
 
             <div className={styles.footer}>

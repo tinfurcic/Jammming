@@ -5,9 +5,15 @@ import addTracksToPlaylist from '../helper functions/addTracksToPlaylist';
 import refreshAccessToken from '../helper functions/refreshAccessToken';
 import styles from './Save.module.css';
 
-function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist, setPlaylist, playlistName, setPlaylistName, setIsSaving }) {
+function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving }) {
 
     const handleSave = async () => {
+
+        if (isSaving) {
+            console.log("Saving is already in motion!")
+            return;
+        }
+
         setIsSaving(true);
         const tokenData = JSON.parse(localStorage.getItem("tokenData"));
         const expirationTime = tokenData.expires_in;
