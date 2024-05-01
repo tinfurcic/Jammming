@@ -3,7 +3,7 @@ import stringifyQueryParams from './stringifyQueryParams';
 const client_id = '828454fbd2c14ce993f835d9a85ddc23';
 const client_secret = '703c6976fc9f48e8a54fd3d988423c5f'; // CHANGE LATER
 const redirect_uri = 'https://tfjammming.netlify.app/callback';
-//const redirect_uri = 'http://localhost:3000/callback'; 
+//const redirect_uri = 'http://localhost:3000/callback';
 
 
 async function getAccessToken (setAccessTokenData, params) {

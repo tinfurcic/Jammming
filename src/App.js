@@ -17,6 +17,8 @@ import { generateAuthUrl } from './helper functions/generateAuthUrl';
 function App() {
     //localStorage.clear(); // debugging
 
+    const [isSaving, setIsSaving] = useState(false);
+
     const [accessToken, setAccessToken] = useState(); // I need this for search to work because the expired token doesn't immediately refresh.
   
     // I don't really need to keep this in a state. Do I?
@@ -67,13 +69,13 @@ function App() {
 
 
     return ( 
-        <div className={styles.App}>
+        <div className={`${styles.App} ${isSaving ? styles.saving : ''}`}>
             <div className={styles.header}>
                 <Header />
             </div>
       
             <div className={styles.searchBar}>
-                <SearchBar accessToken={accessToken} accessTokenNew={accessTokenNew} setAccessTokenNew={setAccessTokenNew} setAccessTokenData={setAccessTokenData}/>
+                <SearchBar accessToken={accessToken} accessTokenNew={accessTokenNew} setAccessTokenNew={setAccessTokenNew} setAccessTokenData={setAccessTokenData} setIsSaving={setIsSaving} />
             </div> 
 
             <div className={styles.footer}>

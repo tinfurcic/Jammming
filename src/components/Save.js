@@ -3,10 +3,12 @@ import findCurrentUserId from '../helper functions/findCurrentUserId';
 import createPlaylist from '../helper functions/createPlaylist';
 import addTracksToPlaylist from '../helper functions/addTracksToPlaylist';
 import refreshAccessToken from '../helper functions/refreshAccessToken';
+import styles from './Save.module.css';
 
-function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist, setPlaylist, playlistName, setPlaylistName }) {
+function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist, setPlaylist, playlistName, setPlaylistName, setIsSaving }) {
 
     const handleSave = async () => {
+        setIsSaving(true);
         const tokenData = JSON.parse(localStorage.getItem("tokenData"));
         const expirationTime = tokenData.expires_in;
         const isExpired = Date.now() / 1000 >= expirationTime;
@@ -35,6 +37,7 @@ function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist,
             } else {
                 console.log("Saving NOT completed. Something went wrong.")
             }
+            setIsSaving(false); 
             // [DESIGN]
                 // Indicate that the app is working.
                 // Upon retrieving the response from addTracksToPlaylist, the work is done, so we can display a success message
@@ -45,7 +48,10 @@ function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist,
 
     return (
         <div>
-            <button onClick={handleSave}>Save to Spotify</button>
+            <button className={styles.saveButton} onClick={handleSave}>
+                Save to Spotify
+                {/* {isSaving ? "Saving..." : "Save to Spotify"} */}
+            </button>
         </div>
     );
 }
