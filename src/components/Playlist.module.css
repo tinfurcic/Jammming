@@ -27,3 +27,8 @@
     min-width: 0; /* without this, the input won't shrink */
 
 }
+
+.message {
+    font-size: 24px;
+    padding-top: 19px;
+}

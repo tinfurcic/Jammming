@@ -5,7 +5,7 @@ import addTracksToPlaylist from '../helper functions/addTracksToPlaylist';
 import refreshAccessToken from '../helper functions/refreshAccessToken';
 import styles from './Save.module.css';
 
-function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving }) {
+function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving, setMessage, setShowMessage }) {
 
     const handleSave = async () => {
 
@@ -40,8 +40,12 @@ function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist,
                 setPlaylistName('');
                 setPlaylist([]);
                 console.log("Saving completed!")
+                setMessage("Saving completed!")
+                setShowMessage(true);
             } else {
                 console.log("Saving NOT completed. Something went wrong.")
+                setMessage("An error occurred. Playlist is not saved.")
+                setShowMessage(true);
             }
             setIsSaving(false); 
             // [DESIGN]
@@ -55,8 +59,7 @@ function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist,
     return (
         <div>
             <button className={styles.saveButton} onClick={handleSave}>
-                Save to Spotify
-                {/* {isSaving ? "Saving..." : "Save to Spotify"} */}
+                {isSaving ? "Saving..." : "Save to Spotify"}
             </button>
         </div>
     );
