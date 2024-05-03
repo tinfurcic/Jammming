@@ -26,7 +26,9 @@ function Playlist ({playlist, setPlaylist, accessTokenNew, setAccessTokenNew, se
                     showMessage ? <div className={styles.message}>{message}</div> : null) :
                         <div className={styles.nameAndSave}>
                             <input id="playlistName" type="text" value={playlistName} onChange={handleChange} placeholder='New Playlist'/>
-                            <Save accessTokenNew={accessTokenNew} setAccessTokenNew={setAccessTokenNew} setAccessTokenData={setAccessTokenData} playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} isSaving={isSaving} setIsSaving={setIsSaving} setMessage={setMessage} setShowMessage={setShowMessage} />
+                            <div className={styles.saveButtonContainer}>
+                                <Save accessTokenNew={accessTokenNew} setAccessTokenNew={setAccessTokenNew} setAccessTokenData={setAccessTokenData} playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} isSaving={isSaving} setIsSaving={setIsSaving} setMessage={setMessage} setShowMessage={setShowMessage} />
+                            </div>
                         </div>
                 }
                 <ul>

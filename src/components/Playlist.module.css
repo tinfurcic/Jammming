@@ -25,10 +25,15 @@
     font-size: 24px;  /* the same size as <h2>Results:</h2> */
     flex-grow: 1;
     min-width: 0; /* without this, the input won't shrink */
-
+    width: 0;
 }
 
 .message {
     font-size: 24px;
     padding-top: 19px;
+}
+
+.saveButtonContainer {
+    display: flex;
+    width: auto;
 }

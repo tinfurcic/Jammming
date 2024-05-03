@@ -46,6 +46,8 @@ function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist,
                 console.log("Saving NOT completed. Something went wrong.")
                 setMessage("An error occurred. Playlist is not saved.")
                 setShowMessage(true);
+                // THIS WILL (almost) NEVER BE SHOWN because the playlist isn't reset
+                // I also need another pop-up or something to make the user actually name their playlist.
             }
             setIsSaving(false); 
             // [DESIGN]
