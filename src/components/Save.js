@@ -5,7 +5,7 @@ import addTracksToPlaylist from '../helper functions/addTracksToPlaylist';
 import refreshAccessToken from '../helper functions/refreshAccessToken';
 import styles from './Save.module.css';
 
-function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving, setMessage, setShowMessage }) {
+function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving, setShowSuccessMessage, setShowFailMessage, setSearchText, setResults }) {
 
     const handleSave = async () => {
 
@@ -36,23 +36,21 @@ function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist,
             console.log("The ID of the created playlist is: " + playlistId); // debugging
 
             const isCompleted = await addTracksToPlaylist(theValidToken, playlist, playlistId);
+
             if (isCompleted) {
                 setPlaylistName('');
                 setPlaylist([]);
+                setShowSuccessMessage(true);
+                setShowFailMessage(false);
                 console.log("Saving completed!")
-                setMessage("Saving completed!")
-                setShowMessage(true);
             } else {
+                setSearchText('');
+                setResults([]);
+                setShowFailMessage(true);
                 console.log("Saving NOT completed. Something went wrong.")
-                setMessage("An error occurred. Playlist is not saved.")
-                setShowMessage(true);
-                // THIS WILL (almost) NEVER BE SHOWN because the playlist isn't reset
-                // I also need another pop-up or something to make the user actually name their playlist.
             }
             setIsSaving(false); 
-            // [DESIGN]
-                // Indicate that the app is working.
-                // Upon retrieving the response from addTracksToPlaylist, the work is done, so we can display a success message
+
         } catch (error) {
             console.error('Error:', error);
         }

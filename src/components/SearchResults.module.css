@@ -17,3 +17,9 @@
 .tableHeading {
     min-height: 70px;
 }
+
+.message {
+    font-size: 24px;
+    padding-top: 19px;
+    color: #1DB954;
+}

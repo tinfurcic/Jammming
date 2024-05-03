@@ -11,6 +11,10 @@ function SearchBar ({accessToken, accessTokenNew, setAccessTokenNew, setAccessTo
     const [results, setResults] = useState([]);
     const [playlist, setPlaylist] = useState([]);
 
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const [showFailMessage, setShowFailMessage] = useState(false);
+
+
     const handleChange = (event) => {
         const value = event.target.value
         setSearchText(value);
@@ -56,8 +60,8 @@ function SearchBar ({accessToken, accessTokenNew, setAccessTokenNew, setAccessTo
                     </form>
                 </div>
                 <div className={styles.lists}>
-                        <SearchResults setPlaylist={setPlaylist} results={results}/>
-                        <Playlist playlist={playlist} setPlaylist={setPlaylist} accessTokenNew={accessTokenNew} setAccessTokenNew={setAccessTokenNew} setAccessTokenData={setAccessTokenData} isSaving={isSaving} setIsSaving={setIsSaving} />                        
+                        <SearchResults setPlaylist={setPlaylist} results={results} showFailMessage={showFailMessage} />
+                        <Playlist playlist={playlist} setPlaylist={setPlaylist} accessTokenNew={accessTokenNew} setAccessTokenNew={setAccessTokenNew} setAccessTokenData={setAccessTokenData} isSaving={isSaving} setIsSaving={setIsSaving} setSearchText={setSearchText} setResults={setResults} showSuccessMessage={showSuccessMessage} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} />                        
                 </div>
                 
             </div> 

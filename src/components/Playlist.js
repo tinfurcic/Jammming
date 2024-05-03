@@ -3,18 +3,20 @@ import Track from './Track';
 import styles from './Playlist.module.css';
 import Save from './Save';
 
-function Playlist ({playlist, setPlaylist, accessTokenNew, setAccessTokenNew, setAccessTokenData, isSaving, setIsSaving }) {
+function Playlist ({playlist, setPlaylist, accessTokenNew, setAccessTokenNew, setAccessTokenData, isSaving, setIsSaving, setSearchText, setResults, showSuccessMessage, setShowSuccessMessage, setShowFailMessage }) {
 
     const [playlistName, setPlaylistName] = useState('');
 
-    const [message, setMessage] = useState('');
-    const [showMessage, setShowMessage] = useState(false);
+
+
+    const successMessage = "Saving completed!";
+
 
     useEffect (() => { // remove the message (if it didn't vanish already) if new tracks are added to the playlist
         if (playlist.length !== 0) {
-            setShowMessage(false);
+            setShowSuccessMessage(false);
         }
-    }, [playlist]);
+    }, [playlist, setShowSuccessMessage]);
 
     const handleChange = (event) => {
         setPlaylistName(event.target.value);
@@ -23,11 +25,11 @@ function Playlist ({playlist, setPlaylist, accessTokenNew, setAccessTokenNew, se
     return (
             <div className={styles.playlistContainer }>
                 {playlist.length === 0 ? (
-                    showMessage ? <div className={styles.message}>{message}</div> : null) :
+                    showSuccessMessage ? <div className={styles.message}>{successMessage}</div> : null) :
                         <div className={styles.nameAndSave}>
                             <input id="playlistName" type="text" value={playlistName} onChange={handleChange} placeholder='New Playlist'/>
                             <div className={styles.saveButtonContainer}>
-                                <Save accessTokenNew={accessTokenNew} setAccessTokenNew={setAccessTokenNew} setAccessTokenData={setAccessTokenData} playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} isSaving={isSaving} setIsSaving={setIsSaving} setMessage={setMessage} setShowMessage={setShowMessage} />
+                                <Save accessTokenNew={accessTokenNew} setAccessTokenNew={setAccessTokenNew} setAccessTokenData={setAccessTokenData} playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} isSaving={isSaving} setIsSaving={setIsSaving} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setSearchText={setSearchText} setResults={setResults} />
                             </div>
                         </div>
                 }
