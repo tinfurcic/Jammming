@@ -7,7 +7,9 @@ const redirect_uri = 'https://tfjammming.netlify.app/callback';
 
 export function generateAuthUrl () {
     const state = generateRandomString(16);
-    localStorage.setItem('state', state);  // This is used to check the expected state in Callback
+    console.log("Upon generation, the state is: " + state);
+    localStorage.setItem("state", state);  // This is used to check the expected state in Callback
+    console.log("Right after saving it to localStorage, the state is: " + localStorage.getItem("state"));
     const scope = 'user-read-private user-read-email playlist-modify-public playlist-modify-private user-top-read';
 
     const queryParams = new URLSearchParams({ 

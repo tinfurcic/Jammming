@@ -31,17 +31,18 @@ function App() {
     useEffect(() => {
         const returningFromCallback = window.location.pathname === '/callback';
         const checkAuthentication = () => {
-            console.log("Checking authentication...")
             const isAuth = localStorage.getItem("tokenData") !== null;
             // returns true if there is any kind of token package saved, which happens the first time a user is authenticated
 
             if (isAuth) {
+                console.log("Authenticated!");
                 // check whether the token needs to be refreshed
                 const doTheThing = async () => {
                     await manageTokens(setAccessTokenNew, setAccessTokenData);
                 }
                 doTheThing();
             } else {
+                console.log("NOT Authenticated!");
                 if (!returningFromCallback) {
                     window.location.href = generateAuthUrl();
                 }

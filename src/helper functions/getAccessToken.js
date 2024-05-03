@@ -12,8 +12,10 @@ async function getAccessToken (setAccessTokenData, params) {
 
     if (code) {
         // Compare the received state with the expected state
-        const expectedState = localStorage.getItem('state');
+        const expectedState = localStorage.getItem("state");
         if (state !== expectedState) {
+            console.log("Expected state (this is in localStorage) " + expectedState);
+            console.log("Actual state: " + state);
             console.error('State mismatch');
             return;
         }  

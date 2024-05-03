@@ -4,13 +4,15 @@ import getAccessToken from '../helper functions/getAccessToken';
 import parseQueryString from '../helper functions/parseQueryString';
 
 function Callback() {
+    console.log("Callback rendered")
     const location = useLocation();
     const setAccessTokenData = useOutletContext();
 
     const params = parseQueryString(location.search);
+    console.log("Parsing the query string from the URL gives us:")
+    console.log(params);
 
     useEffect(() => { // Obtaining access token
-        console.log("Callback rendered")
         const handleCallback = async () => {
             await getAccessToken(setAccessTokenData, params)
         };
