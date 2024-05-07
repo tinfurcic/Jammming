@@ -1,7 +1,11 @@
 import stringifyQueryParams from './stringifyQueryParams';
 
-const client_id = process.env.REACT_APP_CLIENT_ID;
-const client_secret = process.env.REACT_APP_CLIENT_SECRET; // CHANGE LATER
+//const client_id = process.env.REACT_APP_CLIENT_ID;
+//const client_secret = process.env.REACT_APP_CLIENT_SECRET;
+
+const client_id = '828454fbd2c14ce993f835d9a85ddc23';
+const client_secret = '808bf0952d184a5b84d8db09fe3d374a';
+
 const redirect_uri = 'https://tfjammming.netlify.app/callback';
 //const redirect_uri = 'http://localhost:3000/callback';
 
