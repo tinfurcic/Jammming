@@ -7,11 +7,8 @@ function Callback() {
     console.log("Callback rendered")
     const location = useLocation();
     const setAccessTokenData = useOutletContext();
-
     const params = parseQueryString(location.search);
-    console.log("Parsing the query string from the URL gives us:")
-    console.log(params);
-
+    
     useEffect(() => { // Obtaining access token
         const handleCallback = async () => {
             await getAccessToken(setAccessTokenData, params)
