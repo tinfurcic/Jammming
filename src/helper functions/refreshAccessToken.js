@@ -4,7 +4,7 @@
 const client_id = '828454fbd2c14ce993f835d9a85ddc23';
 const client_secret = '808bf0952d184a5b84d8db09fe3d374a';
 
-async function refreshAccessToken (setAccessTokenNew, setAccessTokenData) {
+async function refreshAccessToken (setAccessToken, setAccessTokenData) {
     const refreshToken = JSON.parse(localStorage.getItem("tokenData")).refresh_token;
     console.log("Refresh token provided to refreshAccessToken: " + refreshToken);
     const authHeader = `Basic ${btoa(`${client_id}:${client_secret}`)}`;
@@ -34,7 +34,7 @@ async function refreshAccessToken (setAccessTokenNew, setAccessTokenData) {
 
         localStorage.setItem("tokenData", JSON.stringify(newTokenData));
         setAccessTokenData(newTokenData);
-        setAccessTokenNew(newTokenData.access_token)
+        setAccessToken(newTokenData.access_token)
         console.log("Token is successfully refreshed.")
 
         // this is needed just in Save.js, to have the new access token immediately at ready.

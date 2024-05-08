@@ -1,8 +1,8 @@
-async function findCurrentUserId(accessTokenNew) {
+async function findCurrentUserId(accessToken) {
     const currentUserIdResponse = await fetch('https://api.spotify.com/v1/me', {
         method: 'GET',
         headers: {  
-            'Authorization': 'Bearer ' + accessTokenNew
+            'Authorization': 'Bearer ' + accessToken
         }
     });
     if (currentUserIdResponse.ok) {

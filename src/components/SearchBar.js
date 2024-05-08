@@ -6,7 +6,7 @@ import Playlist from './Playlist';
 
 // Possible additions:
     // Allow the user to search for artists and albums (and something else?), not only songs
-function SearchBar ({accessToken, accessTokenNew, setAccessTokenNew, setAccessTokenData, isSaving, setIsSaving}) {
+function SearchBar ({accessTokenTemp, accessToken, setAccessToken, setAccessTokenData, isSaving, setIsSaving}) {
     const [searchText, setSearchText] = useState('');
     const [results, setResults] = useState([]);
     const [playlist, setPlaylist] = useState([]);
@@ -37,7 +37,7 @@ function SearchBar ({accessToken, accessTokenNew, setAccessTokenNew, setAccessTo
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + accessToken
+            'Authorization': 'Bearer ' + accessTokenTemp
           }
         }
     
@@ -61,7 +61,7 @@ function SearchBar ({accessToken, accessTokenNew, setAccessTokenNew, setAccessTo
                 </div>
                 <div className={styles.lists}>
                         <SearchResults setPlaylist={setPlaylist} results={results} showFailMessage={showFailMessage} />
-                        <Playlist playlist={playlist} setPlaylist={setPlaylist} accessTokenNew={accessTokenNew} setAccessTokenNew={setAccessTokenNew} setAccessTokenData={setAccessTokenData} isSaving={isSaving} setIsSaving={setIsSaving} setSearchText={setSearchText} setResults={setResults} showSuccessMessage={showSuccessMessage} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} />                        
+                        <Playlist playlist={playlist} setPlaylist={setPlaylist} accessToken={accessToken} setAccessToken={setAccessToken} setAccessTokenData={setAccessTokenData} isSaving={isSaving} setIsSaving={setIsSaving} setSearchText={setSearchText} setResults={setResults} showSuccessMessage={showSuccessMessage} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} />                        
                 </div>
                 
             </div> 

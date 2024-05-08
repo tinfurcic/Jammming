@@ -19,15 +19,14 @@ function App() {
 
     const [isSaving, setIsSaving] = useState(false);
 
-    const [accessToken, setAccessToken] = useState(); // I need this for search to work because the expired token doesn't immediately refresh.
+    const [accessTokenTemp, setAccessTokenTemp] = useState(); // I need this for search to work because the expired token doesn't immediately refresh.
   
     // I don't really need to keep this in a state. Do I?
     const [accessTokenData, setAccessTokenData] = useState(JSON.parse(localStorage.getItem("tokenData"))); // this is an object!
 
     // I only need the access token
-    const [accessTokenNew, setAccessTokenNew] = useState("");
+    const [accessToken, setAccessToken] = useState("");
 
-    // goal for later: as a fallback, make sure that refreshing the page properly reconfigures everything
     useEffect(() => {
         const returningFromCallback = window.location.pathname === '/callback';
         const checkAuthentication = () => {
@@ -38,7 +37,7 @@ function App() {
                 console.log("Authenticated!");
                 // check whether the token needs to be refreshed
                 const doTheThing = async () => {
-                    await manageTokens(setAccessTokenNew, setAccessTokenData);
+                    await manageTokens(setAccessToken, setAccessTokenData);
                 }
                 doTheThing();
             } else {
@@ -49,12 +48,12 @@ function App() {
             }
         };
         checkAuthentication();
-    }, []); // 
+    }, []);
 
     // this is probably unnecessary now
     useEffect(() => { // whenever a token package is updated, update the access token as well.
         if(accessTokenData) {
-            setAccessTokenNew(accessTokenData.access_token);
+            setAccessToken(accessTokenData.access_token);
         }
     }, [accessTokenData])
 
@@ -62,7 +61,7 @@ function App() {
     useEffect(() => {
         const getTempToken = async () => {
             const token = await getToken();
-            setAccessToken(token);
+            setAccessTokenTemp(token);
         }
         getTempToken();
     }, []);
@@ -76,7 +75,7 @@ function App() {
             </div>
       
             <div className={styles.searchBar}>
-                <SearchBar accessToken={accessToken} accessTokenNew={accessTokenNew} setAccessTokenNew={setAccessTokenNew} setAccessTokenData={setAccessTokenData} isSaving={isSaving} setIsSaving={setIsSaving} />
+                <SearchBar accessTokenTemp={accessTokenTemp} accessToken={accessToken} setAccessToken={setAccessToken} setAccessTokenData={setAccessTokenData} isSaving={isSaving} setIsSaving={setIsSaving} />
             </div> 
 
             <div className={styles.footer}>

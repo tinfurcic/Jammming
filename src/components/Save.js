@@ -5,7 +5,7 @@ import addTracksToPlaylist from '../helper functions/addTracksToPlaylist';
 import refreshAccessToken from '../helper functions/refreshAccessToken';
 import styles from './Save.module.css';
 
-function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving, setShowSuccessMessage, setShowFailMessage, setSearchText, setResults }) {
+function Save({ accessToken, setAccessToken, setAccessTokenData, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving, setShowSuccessMessage, setShowFailMessage, setSearchText, setResults }) {
 
     const handleSave = async () => {
 
@@ -22,11 +22,11 @@ function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist,
 
         let newToken;
         if (isExpired) {
-            newToken = await refreshAccessToken(setAccessTokenNew, setAccessTokenData);
-            // This ensures that accessTokenNew updates immediately.
+            newToken = await refreshAccessToken(setAccessToken, setAccessTokenData);
+            // This ensures that accessToken updates immediately.
             // If it didn't, the API calls triggered with this click would fail.
         }
-        const theValidToken = newToken || accessTokenNew;
+        const theValidToken = newToken || accessToken;
 
         try {
             const currentUserId = await findCurrentUserId(theValidToken);
