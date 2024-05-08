@@ -3,16 +3,13 @@ import Track from './Track';
 import styles from './Playlist.module.css';
 import Save from './Save';
 
-function Playlist ({playlist, setPlaylist, accessToken, setAccessToken, setAccessTokenData, isSaving, setIsSaving, setSearchText, setResults, showSuccessMessage, setShowSuccessMessage, setShowFailMessage }) {
+function Playlist ({playlist, setPlaylist, accessToken, setAccessToken, isSaving, setIsSaving, setSearchText, setResults, showSuccessMessage, setShowSuccessMessage, setShowFailMessage }) {
 
     const [playlistName, setPlaylistName] = useState('');
 
-
-
     const successMessage = "Saving completed!";
 
-
-    useEffect (() => { // remove the message (if it didn't vanish already) if new tracks are added to the playlist
+    useEffect (() => { // remove the message if new tracks are added to the playlist
         if (playlist.length !== 0) {
             setShowSuccessMessage(false);
         }
@@ -29,7 +26,7 @@ function Playlist ({playlist, setPlaylist, accessToken, setAccessToken, setAcces
                         <div className={styles.nameAndSave}>
                             <input id="playlistName" type="text" value={playlistName} onChange={handleChange} placeholder='New Playlist'/>
                             <div className={styles.saveButtonContainer}>
-                                <Save accessToken={accessToken} setAccessToken={setAccessToken} setAccessTokenData={setAccessTokenData} playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} isSaving={isSaving} setIsSaving={setIsSaving} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setSearchText={setSearchText} setResults={setResults} />
+                                <Save accessToken={accessToken} setAccessToken={setAccessToken} playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} isSaving={isSaving} setIsSaving={setIsSaving} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setSearchText={setSearchText} setResults={setResults} />
                             </div>
                         </div>
                 }

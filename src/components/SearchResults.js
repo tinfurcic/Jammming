@@ -23,7 +23,5 @@ function SearchResults ({setPlaylist, results, showFailMessage}) {
         </div>            
     );
 }
-// Feature suggestion: when results.length === 0, display Spotify's Recommendations, based on user's data.
-    // This can be done automatically, or after pressing the displayed "Need recommendations?" button first.
 
 export default SearchResults;

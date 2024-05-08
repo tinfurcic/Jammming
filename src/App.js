@@ -18,14 +18,17 @@ function App() {
     //localStorage.clear(); // debugging
 
     const [isSaving, setIsSaving] = useState(false);
-
-    const [accessTokenTemp, setAccessTokenTemp] = useState(); // I need this for search to work because the expired token doesn't immediately refresh.
-  
-    // I don't really need to keep this in a state. Do I?
-    const [accessTokenData, setAccessTokenData] = useState(JSON.parse(localStorage.getItem("tokenData"))); // this is an object!
-
-    // I only need the access token
     const [accessToken, setAccessToken] = useState("");
+    const [accessTokenTemp, setAccessTokenTemp] = useState();
+    // I need this for search to work because the expired token doesn't immediately refresh.
+
+    useEffect(() => {
+        const getTempToken = async () => {
+            const token = await getToken();
+            setAccessTokenTemp(token);
+        }
+        getTempToken();
+    }, []);
 
     useEffect(() => {
         const returningFromCallback = window.location.pathname === '/callback';
@@ -37,7 +40,7 @@ function App() {
                 console.log("Authenticated!");
                 // check whether the token needs to be refreshed
                 const doTheThing = async () => {
-                    await manageTokens(setAccessToken, setAccessTokenData);
+                    await manageTokens(setAccessToken);
                 }
                 doTheThing();
             } else {
@@ -50,24 +53,6 @@ function App() {
         checkAuthentication();
     }, []);
 
-    // this is probably unnecessary now
-    useEffect(() => { // whenever a token package is updated, update the access token as well.
-        if(accessTokenData) {
-            setAccessToken(accessTokenData.access_token);
-        }
-    }, [accessTokenData])
-
-
-    useEffect(() => {
-        const getTempToken = async () => {
-            const token = await getToken();
-            setAccessTokenTemp(token);
-        }
-        getTempToken();
-    }, []);
-
-
-
     return ( 
         <div className={`${styles.App} ${isSaving ? styles.saving : ''}`}>
             <div className={styles.header}>
@@ -75,13 +60,13 @@ function App() {
             </div>
       
             <div className={styles.searchBar}>
-                <SearchBar accessTokenTemp={accessTokenTemp} accessToken={accessToken} setAccessToken={setAccessToken} setAccessTokenData={setAccessTokenData} isSaving={isSaving} setIsSaving={setIsSaving} />
+                <SearchBar accessTokenTemp={accessTokenTemp} accessToken={accessToken} setAccessToken={setAccessToken} isSaving={isSaving} setIsSaving={setIsSaving} />
             </div> 
 
             <div className={styles.footer}>
                 <Footer />
             </div>
-            {<Outlet context={setAccessTokenData} />}
+            {<Outlet context={setAccessToken} />}
             {/* This will render <Callback /> when the path is "/callback" */}
         </div>
     );

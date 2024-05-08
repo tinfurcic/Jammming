@@ -10,7 +10,7 @@ const redirect_uri = 'https://tfjammming.netlify.app/callback';
 //const redirect_uri = 'http://localhost:3000/callback';
 
 
-async function getAccessToken (setAccessTokenData, params) {
+async function getAccessToken (setAccessToken, params) {
     console.log("we got to getAccessToken")
     const { code, state } = params;
 
@@ -39,6 +39,7 @@ async function getAccessToken (setAccessTokenData, params) {
 
         if (tokenResponse.ok) {
             const tokenData = await tokenResponse.json();
+            const newAccessToken = tokenData.access_token;
             console.log("OBTAINING BRAND NEW TOKEN PACKAGE")
             tokenData.expires_in = tokenData.expires_in + Date.now() / 1000;
 
@@ -48,7 +49,7 @@ async function getAccessToken (setAccessTokenData, params) {
             console.log("New package:")
             console.log(localStorage.getItem("tokenData"));
 
-            setAccessTokenData(tokenData);
+            setAccessToken(newAccessToken);
         } else {
             console.error('Failed to exchange authorization code for access token');         
         }

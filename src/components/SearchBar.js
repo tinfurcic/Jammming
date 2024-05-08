@@ -4,9 +4,7 @@ import SearchResults from './SearchResults';
 import Playlist from './Playlist';
 
 
-// Possible additions:
-    // Allow the user to search for artists and albums (and something else?), not only songs
-function SearchBar ({accessTokenTemp, accessToken, setAccessToken, setAccessTokenData, isSaving, setIsSaving}) {
+function SearchBar ({accessTokenTemp, accessToken, setAccessToken, isSaving, setIsSaving}) {
     const [searchText, setSearchText] = useState('');
     const [results, setResults] = useState([]);
     const [playlist, setPlaylist] = useState([]);
@@ -22,10 +20,7 @@ function SearchBar ({accessTokenTemp, accessToken, setAccessToken, setAccessToke
     }
 
     const searchType ='track';
-        // later, add a checkbox input which enables search by type (artist/album/playlist/track/show/episode/audiobook)
-        // do you want to save those choices in a state?
-        // leaving this blank or choosing multiple resource types complicates the fetch link format
-            // this should also be solved using encodeURIComponent()
+        // later, add advanced search options
 
     async function search (searchString) {
         if (searchString.trim() === '') {
@@ -61,7 +56,7 @@ function SearchBar ({accessTokenTemp, accessToken, setAccessToken, setAccessToke
                 </div>
                 <div className={styles.lists}>
                         <SearchResults setPlaylist={setPlaylist} results={results} showFailMessage={showFailMessage} />
-                        <Playlist playlist={playlist} setPlaylist={setPlaylist} accessToken={accessToken} setAccessToken={setAccessToken} setAccessTokenData={setAccessTokenData} isSaving={isSaving} setIsSaving={setIsSaving} setSearchText={setSearchText} setResults={setResults} showSuccessMessage={showSuccessMessage} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} />                        
+                        <Playlist playlist={playlist} setPlaylist={setPlaylist} accessToken={accessToken} setAccessToken={setAccessToken} isSaving={isSaving} setIsSaving={setIsSaving} setSearchText={setSearchText} setResults={setResults} showSuccessMessage={showSuccessMessage} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} />                        
                 </div>
                 
             </div> 
