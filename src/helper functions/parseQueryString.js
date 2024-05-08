@@ -1,6 +1,6 @@
 export default function parseQueryString(queryString) {
     const params = {};
-    const queryStringWithoutQuestionMark = queryString.substring(1); // Remove the leading '?'
+    const queryStringWithoutQuestionMark = queryString.substring(1);
     const keyValuePairs = queryStringWithoutQuestionMark.split('&');
     keyValuePairs.forEach(keyValue => {
         const [key, value] = keyValue.split('=');

@@ -1,20 +1,25 @@
 import stringifyQueryParams from './stringifyQueryParams';
 
-const client_id = '828454fbd2c14ce993f835d9a85ddc23';
-const client_secret = '703c6976fc9f48e8a54fd3d988423c5f'; // CHANGE LATER
-const redirect_uri = 'https://tfjammming.netlify.app/callback';
+//const client_id = process.env.REACT_APP_CLIENT_ID;
+//const client_secret = process.env.REACT_APP_CLIENT_SECRET;
 
-async function getAccessToken (setAccessTokenData, params) {
+const client_id = '828454fbd2c14ce993f835d9a85ddc23';
+const client_secret = '808bf0952d184a5b84d8db09fe3d374a';
+
+const redirect_uri = 'https://tfjammming.netlify.app/callback';
+//const redirect_uri = 'http://localhost:3000/callback';
+
+
+async function getAccessToken (setAccessToken, params) {
     console.log("we got to getAccessToken")
     const { code, state } = params;
 
     if (code) {
-        // Compare the received state with the expected state
-        const expectedState = localStorage.getItem('state');
+        const expectedState = localStorage.getItem("state");
         if (state !== expectedState) {
             console.error('State mismatch');
             return;
-        }  
+        }
 
         const tokenParameters = { 
             code: code,
@@ -34,9 +39,9 @@ async function getAccessToken (setAccessTokenData, params) {
 
         if (tokenResponse.ok) {
             const tokenData = await tokenResponse.json();
+            const newAccessToken = tokenData.access_token;
             console.log("OBTAINING BRAND NEW TOKEN PACKAGE")
             tokenData.expires_in = tokenData.expires_in + Date.now() / 1000;
-            // now the expiration time can be read directly from the package
 
             console.log("Old package:")
             console.log(localStorage.getItem("tokenData"));
@@ -44,7 +49,7 @@ async function getAccessToken (setAccessTokenData, params) {
             console.log("New package:")
             console.log(localStorage.getItem("tokenData"));
 
-            setAccessTokenData(tokenData);
+            setAccessToken(newAccessToken);
         } else {
             console.error('Failed to exchange authorization code for access token');         
         }

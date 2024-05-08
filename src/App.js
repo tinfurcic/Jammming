@@ -15,72 +15,58 @@ import { generateAuthUrl } from './helper functions/generateAuthUrl';
             // It looks like I can't do anything but to let the token expire.
 
 function App() {
-    //localStorage.clear();
+    //localStorage.clear(); // debugging
 
-    const [accessToken, setAccessToken] = useState(); // I need this for search to work because the expired token doesn't immediately refresh.
-    // const tokenData = JSON.parse(localStorage.getItem("tokenData")); // I can't do this here
-  
-    // I don't really need to keep this in a state
-    const [accessTokenData, setAccessTokenData] = useState(JSON.parse(localStorage.getItem("tokenData"))); // this is an object!
+    const [isSaving, setIsSaving] = useState(false);
+    const [accessToken, setAccessToken] = useState("");
+    const [accessTokenTemp, setAccessTokenTemp] = useState();
+    // I need this for search to work because the expired token doesn't immediately refresh.
 
-    // I only need the access token
-    const [accessTokenNew, setAccessTokenNew] = useState("");
+    useEffect(() => {
+        const getTempToken = async () => {
+            const token = await getToken();
+            setAccessTokenTemp(token);
+        }
+        getTempToken();
+    }, []);
 
-    // goal for later: as a fallback, make sure that refreshing the page properly reconfigures everything
     useEffect(() => {
         const returningFromCallback = window.location.pathname === '/callback';
         const checkAuthentication = () => {
-            console.log("Checking authentication...")
             const isAuth = localStorage.getItem("tokenData") !== null;
             // returns true if there is any kind of token package saved, which happens the first time a user is authenticated
 
             if (isAuth) {
+                console.log("Authenticated!");
                 // check whether the token needs to be refreshed
                 const doTheThing = async () => {
-                    await manageTokens(setAccessTokenNew, setAccessTokenData);
+                    await manageTokens(setAccessToken);
                 }
                 doTheThing();
             } else {
+                console.log("NOT Authenticated!");
                 if (!returningFromCallback) {
                     window.location.href = generateAuthUrl();
                 }
             }
         };
         checkAuthentication();
-    }, []); // 
-
-    // this is probably unnecessary now
-    useEffect(() => { // whenever a token package is updated, update the access token as well.
-        if(accessTokenData) {
-            setAccessTokenNew(accessTokenData.access_token);
-        }
-    }, [accessTokenData])
-
-
-    useEffect(() => { // this will become obsolete
-        const getTempToken = async () => {
-            const token = await getToken();
-            setAccessToken(token);
-        }
-        getTempToken();
     }, []);
 
-
-
     return ( 
-        <div className={styles.App}>
+        <div className={`${styles.App} ${isSaving ? styles.saving : ''}`}>
             <div className={styles.header}>
                 <Header />
             </div>
       
             <div className={styles.searchBar}>
-                <SearchBar accessToken={accessToken} accessTokenNew={accessTokenNew} setAccessTokenNew={setAccessTokenNew} setAccessTokenData={setAccessTokenData}/>
+                <SearchBar accessTokenTemp={accessTokenTemp} accessToken={accessToken} setAccessToken={setAccessToken} isSaving={isSaving} setIsSaving={setIsSaving} />
             </div> 
 
             <div className={styles.footer}>
                 <Footer />
             </div>
-            {<Outlet context={setAccessTokenData} />}
+            {<Outlet context={setAccessToken} />}
             {/* This will render <Callback /> when the path is "/callback" */}
         </div>
     );

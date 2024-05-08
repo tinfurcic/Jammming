@@ -3,10 +3,18 @@ import findCurrentUserId from '../helper functions/findCurrentUserId';
 import createPlaylist from '../helper functions/createPlaylist';
 import addTracksToPlaylist from '../helper functions/addTracksToPlaylist';
 import refreshAccessToken from '../helper functions/refreshAccessToken';
+import styles from './Save.module.css';
 
-function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist, playlistName }) {
+function Save({ accessToken, setAccessToken, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving, setShowSuccessMessage, setShowFailMessage, setSearchText, setResults }) {
 
     const handleSave = async () => {
+
+        if (isSaving) {
+            console.log("Saving is already in motion!")
+            return;
+        }
+
+        setIsSaving(true);
         const tokenData = JSON.parse(localStorage.getItem("tokenData"));
         const expirationTime = tokenData.expires_in;
         const isExpired = Date.now() / 1000 >= expirationTime;
@@ -14,10 +22,10 @@ function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist,
 
         let newToken;
         if (isExpired) {
-            newToken = await refreshAccessToken(setAccessTokenNew, setAccessTokenData);
-            // the accessTokenNew does not immediately update, causing issues in the following try block
+            newToken = await refreshAccessToken(setAccessToken);
+            // This ensures that accessToken updates immediately.
         }
-        const theValidToken = newToken || accessTokenNew;
+        const theValidToken = newToken || accessToken;
 
         try {
             const currentUserId = await findCurrentUserId(theValidToken);
@@ -27,15 +35,21 @@ function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist,
             console.log("The ID of the created playlist is: " + playlistId); // debugging
 
             const isCompleted = await addTracksToPlaylist(theValidToken, playlist, playlistId);
+
             if (isCompleted) {
+                setPlaylistName('');
+                setPlaylist([]);
+                setShowSuccessMessage(true);
+                setShowFailMessage(false);
                 console.log("Saving completed!")
             } else {
+                setSearchText('');
+                setResults([]);
+                setShowFailMessage(true);
                 console.log("Saving NOT completed. Something went wrong.")
             }
-            // [DESIGN]
-                // Indicate that the app is working.
-                // Upon retrieving the response from addTracksToPlaylist, the work is done, so we can display a success message
-                // The current list of songs should be cleared, and the title should be reset to an empty string.
+            setIsSaving(false); 
+
         } catch (error) {
             console.error('Error:', error);
         }
@@ -43,7 +57,9 @@ function Save({ accessTokenNew, setAccessTokenNew, setAccessTokenData, playlist,
 
     return (
         <div>
-            <button onClick={handleSave}>Save to Spotify</button>
+            <button className={styles.saveButton} onClick={handleSave}>
+                {isSaving ? "Saving..." : "Save to Spotify"}
+            </button>
         </div>
     );
 }

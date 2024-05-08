@@ -3,6 +3,10 @@ body {
   padding: 0;
 }
 
+.saving {
+    cursor: progress;
+}
+
 .App { /* This is essentially a container filled with components */
   display: flex; /* so here we declare it's a flex container */
   flex-direction: column; /* and that its items are going to be arranged vertically */

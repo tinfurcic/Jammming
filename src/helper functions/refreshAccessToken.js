@@ -1,7 +1,10 @@
-const client_id = '828454fbd2c14ce993f835d9a85ddc23';
-const client_secret = '703c6976fc9f48e8a54fd3d988423c5f'; // CHANGE LATER
+//const client_id = process.env.REACT_APP_CLIENT_ID;
+//const client_secret = process.env.REACT_APP_CLIENT_SECRET;
 
-async function refreshAccessToken (setAccessTokenNew, setAccessTokenData) {
+const client_id = '828454fbd2c14ce993f835d9a85ddc23';
+const client_secret = '808bf0952d184a5b84d8db09fe3d374a';
+
+async function refreshAccessToken (setAccessToken) {
     const refreshToken = JSON.parse(localStorage.getItem("tokenData")).refresh_token;
     console.log("Refresh token provided to refreshAccessToken: " + refreshToken);
     const authHeader = `Basic ${btoa(`${client_id}:${client_secret}`)}`;
@@ -23,7 +26,6 @@ async function refreshAccessToken (setAccessTokenNew, setAccessTokenData) {
         const newTokenData = await refreshResponse.json();
         console.log("REFRESHING ACCESS TOKEN")
         newTokenData.expires_in = newTokenData.expires_in + Date.now() / 1000;
-        // now the expiration time can be read directly from the package
 
         // There may or may not be a new refresh token in this package. If there isn't one, the old one should be used.
         if (!newTokenData.refresh_token) {
@@ -31,8 +33,7 @@ async function refreshAccessToken (setAccessTokenNew, setAccessTokenData) {
         }
 
         localStorage.setItem("tokenData", JSON.stringify(newTokenData));
-        setAccessTokenData(newTokenData);
-        setAccessTokenNew(newTokenData.access_token)
+        setAccessToken(newTokenData.access_token)
         console.log("Token is successfully refreshed.")
 
         // this is needed just in Save.js, to have the new access token immediately at ready.

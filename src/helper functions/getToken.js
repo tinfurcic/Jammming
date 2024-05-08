@@ -1,9 +1,10 @@
 const getToken = async () => {
 
-// These are client credentials.
-    // Remember to recreate and encrypt this before pushing it to a public repository.
+    //const client_id = process.env.REACT_APP_CLIENT_ID;
+    //const client_secret = process.env.REACT_APP_CLIENT_SECRET;
+
     const client_id = '828454fbd2c14ce993f835d9a85ddc23';
-    const client_secret = '703c6976fc9f48e8a54fd3d988423c5f';
+    const client_secret = '808bf0952d184a5b84d8db09fe3d374a';
 
     const authParameters = {
         method: 'POST',

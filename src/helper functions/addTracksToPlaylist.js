@@ -1,11 +1,11 @@
-async function addTracksToPlaylist (accessTokenNew, trackArray, playlistId) {
+async function addTracksToPlaylist (accessToken, trackArray, playlistId) {
 
     const uriArray = trackArray.map((track) => track.uri);
 
     const addItemsToPlaylistResponse = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
         method: 'POST',
         headers: {  
-            'Authorization': 'Bearer ' + accessTokenNew,
+            'Authorization': 'Bearer ' + accessToken,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
@@ -14,9 +14,7 @@ async function addTracksToPlaylist (accessTokenNew, trackArray, playlistId) {
           })
     });
     if (addItemsToPlaylistResponse.ok) {
-        // const playlistWithTracks = await addItemsToPlaylistResponse.json();
-        // return playlistWithTracks.snapshot_id; // in case you want to do something with this instead
-        return true; // time will tell do I really need this
+        return true;
     } else {
         console.error('Failed to add items to playlist.');
     }   
