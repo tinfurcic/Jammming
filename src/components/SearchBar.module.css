@@ -10,7 +10,7 @@
 .bar {
     /* I might change this later, I'm not yet sure how I want it to behave */
     flex-shrink: 0;
-    flex-basis: 100px; 
+    margin: 10px 0 30px 0;
 
     /* This is just a way of centering the search bar */
     display: flex;
@@ -27,7 +27,7 @@
     overflow-y: auto;
     gap: 50px;
 
-    margin-bottom: 30px; /* not sure I need this */
+    margin-bottom: 60px; /* squeeze this back around 30px if you add a footer */
 }
 
 
