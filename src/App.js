@@ -2,7 +2,7 @@ import styles from './App.module.css';
 import React, { useEffect, useState } from 'react';
 import SearchBar from './components/SearchBar';
 import Header from './components/Header';
-import Footer from './components/Footer';
+//import Footer from './components/Footer';
 import { Outlet } from 'react-router-dom';
 import manageTokens from './helper functions/manageTokens';
 import getToken from './helper functions/getToken';
@@ -63,9 +63,9 @@ function App() {
                 <SearchBar accessTokenTemp={accessTokenTemp} accessToken={accessToken} setAccessToken={setAccessToken} isSaving={isSaving} setIsSaving={setIsSaving} />
             </div> 
 
-            <div className={styles.footer}>
+            {/* <div className={styles.footer}>
                 <Footer />
-            </div>
+            </div> */}
             {<Outlet context={setAccessToken} />}
             {/* This will render <Callback /> when the path is "/callback" */}
         </div>
