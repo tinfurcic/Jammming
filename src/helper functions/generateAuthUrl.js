@@ -2,14 +2,14 @@ import { generateRandomString } from "./generateRandomString";
 
 const client_id = process.env.REACT_APP_CLIENT_ID;
 
-const redirect_uri = 'https://tfjammming.netlify.app/callback';
-//const redirect_uri = 'http://localhost:3000/callback'; 
+//const redirect_uri = 'https://tfjammming.netlify.app/callback';
+const redirect_uri = 'http://localhost:3000/callback'; 
 
 
 export function generateAuthUrl () {
     const state = generateRandomString(16);
     localStorage.setItem("state", state);  // This is used to check the expected state in Callback
-    const scope = 'user-read-private user-read-email playlist-modify-public playlist-modify-private user-top-read';
+    const scope = 'user-read-private user-read-email playlist-modify-public playlist-modify-private user-top-read playlist-read-private playlist-read-collaborative';
 
     const queryParams = new URLSearchParams({ 
         response_type: 'code',

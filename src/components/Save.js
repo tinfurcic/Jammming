@@ -4,6 +4,8 @@ import createPlaylist from '../helper functions/createPlaylist';
 import addTracksToPlaylist from '../helper functions/addTracksToPlaylist';
 import refreshAccessToken from '../helper functions/refreshAccessToken';
 import styles from './Save.module.css';
+import getUsersPlaylists from '../helper functions/getUsersPlaylists';
+
 
 function Save({ accessToken, setAccessToken, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving, setShowSuccessMessage, setShowFailMessage, setSearchText, setResults }) {
 
@@ -30,6 +32,11 @@ function Save({ accessToken, setAccessToken, playlist, setPlaylist, playlistName
         try {
             const currentUserId = await findCurrentUserId(theValidToken);
             console.log("The current user ID is " + currentUserId); // debugging
+
+
+            const usersPlaylists = await getUsersPlaylists(currentUserId, theValidToken); // debugging
+            console.log(usersPlaylists); // debugging
+
 
             const playlistId = await createPlaylist(theValidToken, currentUserId, playlistName);
             console.log("The ID of the created playlist is: " + playlistId); // debugging
