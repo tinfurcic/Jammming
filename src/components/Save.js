@@ -5,6 +5,7 @@ import addTracksToPlaylist from '../helper functions/addTracksToPlaylist';
 import refreshAccessToken from '../helper functions/refreshAccessToken';
 import styles from './Save.module.css';
 import getUsersPlaylists from '../helper functions/getUsersPlaylists';
+import getPlaylist from '../helper functions/getPlaylist';
 
 
 function Save({ accessToken, setAccessToken, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving, setShowSuccessMessage, setShowFailMessage, setSearchText, setResults }) {
@@ -34,12 +35,19 @@ function Save({ accessToken, setAccessToken, playlist, setPlaylist, playlistName
             console.log("The current user ID is " + currentUserId); // debugging
 
 
-            const usersPlaylists = await getUsersPlaylists(currentUserId, theValidToken); // debugging
-            console.log(usersPlaylists); // debugging
+            const usersPlaylists = await getUsersPlaylists(currentUserId, theValidToken);
+            const numOfPlaylists = usersPlaylists.length;
+            console.log("You currently have " + numOfPlaylists + " playlists (and another one is being added)."); // debugging
+
+            const fetchedPlaylist = await getPlaylist(usersPlaylists[0].id, theValidToken);
+            const firstPlaylist = await getPlaylist(usersPlaylists[numOfPlaylists - 1].id, theValidToken);
+            console.log("Your first playlist, with an id of: " + usersPlaylists[numOfPlaylists - 1].id); // debugging
+            console.log(firstPlaylist); // debugging
 
 
             const playlistId = await createPlaylist(theValidToken, currentUserId, playlistName);
-            console.log("The ID of the created playlist is: " + playlistId); // debugging
+            console.log("The newly created playlist, with an id of " + playlistId + ":"); // debugging
+            console.log(fetchedPlaylist); // debugging
 
             const isCompleted = await addTracksToPlaylist(theValidToken, playlist, playlistId);
 
