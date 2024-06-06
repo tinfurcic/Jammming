@@ -26,15 +26,14 @@ function SearchBar ({accessTokenTemp, accessToken, setAccessToken, isSaving, set
         searchTracks(searchString, setResults, accessTokenTemp);
     }
 
-    const handleClick = () => {
-        setSearchText("");
-        setShowUserPlaylists(true);
+    const toggleUsersPlaylists = () => {
+        setShowUserPlaylists(!showUserPlaylists);
     }
 
     return (
             <div className={styles.searchBarContainer}>
                 <div className={styles.browsingTools}>
-                    <button className={styles.browseButton} onClick={handleClick}> My playlists </button>
+                    <button className={styles.browseButton} onClick={toggleUsersPlaylists}> My playlists </button>
                     <input className={styles.searchField} id="searchBar" type="search" onChange={handleChange} value={searchText} placeholder="Search for tracks..." />
                 </div>
                 <div className={styles.lists}>

@@ -7,7 +7,7 @@ function Playlist ({accessToken, setAccessToken, playlistInfo, setPlaylist, setP
 
     const openPlaylist = async (playlistInfo) => {
         const theValidToken = await checkTokenValidity(accessToken, setAccessToken);
-        
+
         setIsEditing(true);
         let playlist = [];
         const getPlaylistArray = await getPlaylist(playlistInfo.id, theValidToken);
