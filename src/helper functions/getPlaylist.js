@@ -1,5 +1,3 @@
-
-
 async function getPlaylist(playlistId, accessToken) {
 
     const getPlaylistResponse = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}`, {
@@ -10,7 +8,7 @@ async function getPlaylist(playlistId, accessToken) {
     });
     if (getPlaylistResponse.ok) {
         const playlist = await getPlaylistResponse.json();
-        return playlist.tracks; // this is an array of tracks, which are objects.
+       return playlist.tracks.items;
     } else {
         console.error("Failed to get user's playlists.");
     }

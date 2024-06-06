@@ -1,20 +1,17 @@
 .searchBarContainer {
     display: flex;
     flex-direction: column;
-    height: 100%;   /*  this container encapsulates the whole SearchBar component, 
-    but it is actually contained in a <div> in the App component, and that div has a set height (100px or so).
-    Here we're just saying that this container, which we will work with, should span the whole height
-    of the outer container.*/    
+    height: 100%;   
 }
 
-.bar {
+.browsingTools {
     /* I might change this later, I'm not yet sure how I want it to behave */
     flex-shrink: 0;
-    margin: 10px 0 30px 0;
+    margin: 20px 0 30px 0;
 
     /* This is just a way of centering the search bar */
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
 }
 
@@ -30,4 +27,50 @@
     margin-bottom: 60px; /* squeeze this back around 30px if you add a footer */
 }
 
+.searchField {
+    grid-column: 2;
 
+    background-color: #191414;
+    color: white;
+    border: none;
+    box-shadow: 0 0 10px #1DB954;
+    border-radius: 10px;
+
+    padding: 15px 0 15px 0;
+
+    font-size: 16px;
+    text-align: center;
+}
+
+.searchField:focus {
+    outline: none;
+}
+
+.browseButton {
+    grid-column: 1;
+    justify-self: center;
+
+    width: 120px;
+    padding: 15px 0 15px 0;
+
+    background-color: #191414;
+    color: white;
+    box-shadow: 0 0 8px #1DB954;
+    transition: box-shadow 0.2s linear;
+    border: none;
+
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+.browseButton:active {
+    box-shadow: 0 0 15px #1DB954;
+    width: 118px;
+    padding: 14px 0 14px 0;
+    font-size: 15.733px;
+}
+
+.browseButton:hover {
+    box-shadow: 0 0 15px #1DB954;
+    cursor: pointer;
+}

@@ -1,42 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import Track from './Track';
+import React from 'react';
 import styles from './Playlist.module.css';
-import Save from './Save';
+import getPlaylist from '../helper functions/getPlaylist';
 
-function Playlist ({playlist, setPlaylist, accessToken, setAccessToken, isSaving, setIsSaving, setSearchText, setResults, showSuccessMessage, setShowSuccessMessage, setShowFailMessage }) {
+function Playlist ({accessToken, playlistInfo, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId}) {
 
-    const [playlistName, setPlaylistName] = useState('');
-
-    const successMessage = "Saving completed!";
-
-    useEffect (() => { // remove the message if new tracks are added to the playlist
-        if (playlist.length !== 0) {
-            setShowSuccessMessage(false);
+    const openPlaylist = async (playlistInfo) => {
+        setIsEditing(true);
+        let playlist = [];
+        const getPlaylistArray = await getPlaylist(playlistInfo.id, accessToken);
+        for (const element of getPlaylistArray) {
+            playlist.push(element.track);
         }
-    }, [playlist, setShowSuccessMessage]);
-
-    const handleChange = (event) => {
-        setPlaylistName(event.target.value);
+        setPlaylist(playlist);
+        setPlaylistName(playlistInfo.name)
+        setOpenedPlaylistId(playlistInfo.id);
     }
 
+    // "Delete playlist" button would be nice as well.
+
     return (
-            <div className={styles.playlistContainer }>
-                {playlist.length === 0 ? (
-                    showSuccessMessage ? <div className={styles.message}>{successMessage}</div> : null) :
-                        <div className={styles.nameAndSave}>
-                            <input id="playlistName" type="text" value={playlistName} onChange={handleChange} placeholder='New Playlist'/>
-                            <div className={styles.saveButtonContainer}>
-                                <Save accessToken={accessToken} setAccessToken={setAccessToken} playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} isSaving={isSaving} setIsSaving={setIsSaving} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setSearchText={setSearchText} setResults={setResults} />
-                            </div>
-                        </div>
-                }
-                <ul>
-                    {playlist.map((track, index) =>
-                    <li key={index} >
-                        <Track trackInfo={track} setPlaylist={setPlaylist} playlist={playlist} parent="Playlist"/>
-                    </li>)}
-                </ul>
+        <div className={styles.playlistContainer}>
+            <div className={styles.playlistImage}>
+                <img src = {playlistInfo.images ? playlistInfo.images[0].url : "../images/no-playlist-image.jpg"} width="50px" alt="Playlist cover" />
             </div>
+            <div className={styles.playlistInfo}>
+                <h3>{playlistInfo.name}</h3>
+                <p>{playlistInfo.description ? playlistInfo.description + " | " : null} {playlistInfo.tracks.total} tracks </p>
+            </div>
+            <div className={styles.buttonContainer}>
+                <button className={styles.button} onClick={() => openPlaylist(playlistInfo)} > Edit playlist </button>
+            </div>
+        </div>
     );
 }
 

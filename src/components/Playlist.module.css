@@ -1,40 +1,73 @@
 .playlistContainer {
-    width: 35%;
-
-    display: flex;
-    flex-direction: column;
-}
-
-.playlistContainer ul {
-    list-style-type: none;
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    margin: 0;
-    overflow-y: auto;
-}
-
-.nameAndSave {
-    min-height: 70px; /* this doesn't seem very elegant */
-
     display: flex;
     flex-direction: row;
+    align-items: center;
+    align-content: center;
+    border-bottom: 1px solid gray;
 }
 
-.nameAndSave input {
-    font-size: 24px;  /* the same size as <h2>Results:</h2> */
+.playlistInfo {
     flex-grow: 1;
-    min-width: 0; /* without this, the input won't shrink */
-    width: 0;
+    min-width: 0; /* without this, text-overflow: elipsis; doesn't work */
 }
 
-.message {
-    font-size: 24px;
-    padding-top: 19px;
-    color: #1DB954;
-}
-
-.saveButtonContainer {
+.buttonContainer {
+    flex-grow: 1;
+    flex-shrink: 1;
+    max-width: 120px;
+    margin-right: 20px; /* I'll need a better solution for this*/
+    
     display: flex;
-    width: auto;
+    justify-content: center;
+    align-items: center;
+
+    visibility: hidden;
 }
+
+.button {
+    background-color: #191414;
+    color: white;
+    border: 1px solid white;
+    border-radius: 5px;
+
+    padding: 5px 10px 5px 10px;
+    font-size: 14px;
+}
+
+.button:hover {
+    background-color: #1DB954;
+    color: black;
+    cursor: pointer;
+    border: none;
+}
+
+.button:active {
+    padding: 4.5px 10px 4.5px 10px;
+    font-size: 13.333px;
+}
+
+.playlistContainer:hover > .buttonContainer {
+    visibility: visible;
+}
+
+.playlistInfo h3, p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.playlistInfo h3 {
+    font-size: 18px;
+    font-weight: normal;
+    margin: 4px 4px 0 4px;
+}
+
+.playlistInfo p {
+  font-size: 16px;
+  margin: 4px 4px 4px 4px;
+}
+
+.playlistImage {
+    margin-top: 4px;
+}
+
