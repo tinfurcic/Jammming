@@ -17,6 +17,7 @@ async function addTracksToPlaylist (accessToken, trackArray, playlistId) {
         return true;
     } else {
         console.error('Failed to add items to playlist.');
+        return false;
     }   
 }
 

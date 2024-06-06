@@ -1,0 +1,25 @@
+.userPlaylistsContainer {
+    width: 35%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.userPlaylistsContainer ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+}
+
+.tableHeading {
+    min-height: 70px;
+}
+
+.message {
+    font-size: 24px;
+    padding-top: 19px;
+    color: #1DB954;
+}

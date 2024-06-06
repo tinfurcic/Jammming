@@ -6,7 +6,7 @@ function Track ({trackInfo, setPlaylist, playlist, parent}) {
     // Is there a better way to find the answer to "Is this track (which is an object) already on the playlist?"?
     const addToPlaylist = (trackToAdd) => {
         setPlaylist((prevPlaylist) => {
-            if (JSON.stringify(prevPlaylist).includes(JSON.stringify(trackToAdd)) === false) {
+            if (JSON.stringify(prevPlaylist).includes(JSON.stringify(trackToAdd.uri)) === false) {
                 return [...prevPlaylist, trackToAdd];
             }
             else {

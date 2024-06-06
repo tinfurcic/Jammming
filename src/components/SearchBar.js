@@ -1,62 +1,48 @@
 import React, { useState } from 'react';
 import styles from './SearchBar.module.css'
 import SearchResults from './SearchResults';
-import Playlist from './Playlist';
+import PlaylistUnderConstruction from './PlaylistUnderConstruction';
+import searchTracks from '../helper functions/searchTracks';
+import UsersPlaylists from './UsersPlaylists';
 
 
 function SearchBar ({accessTokenTemp, accessToken, setAccessToken, isSaving, setIsSaving}) {
     const [searchText, setSearchText] = useState('');
     const [results, setResults] = useState([]);
     const [playlist, setPlaylist] = useState([]);
+    const [playlistName, setPlaylistName] = useState('');
+    const [showUserPlaylists, setShowUserPlaylists] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [openedPlaylistId, setOpenedPlaylistId] = useState('');
+    const [usersPlaylists, setUsersPlaylists] = useState([]);
 
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const [showFailMessage, setShowFailMessage] = useState(false);
 
-
     const handleChange = (event) => {
-        const value = event.target.value
-        setSearchText(value);
-        search(value);
+        const searchString = event.target.value
+        setSearchText(searchString);
+        setShowUserPlaylists(false);
+        searchTracks(searchString, setResults, accessTokenTemp);
     }
 
-    const searchType ='track';
-        // later, add advanced search options
+    const handleClick = () => {
+        setSearchText("");
+        setShowUserPlaylists(true);
+    }
 
-    async function search (searchString) {
-        if (searchString.trim() === '') {
-            setResults([]);
-            return; 
-        }
-
-        const searchParameters = {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + accessTokenTemp
-          }
-        }
-    
-        const fetchLink = 'https://api.spotify.com/v1/search?q=' + encodeURIComponent(searchString) + '&type=' + searchType + '&limit=10';
-        await fetch(fetchLink, searchParameters)
-            .then(response => response.json()) 
-            .then(data => {
-                setResults(data.tracks.items);
-                }
-            )
-            .catch(error => console.error('There was a problem with the fetch operation:', error));
-    } 
-    
     return (
             <div className={styles.searchBarContainer}>
-                <div className={styles.bar}>
-                    <form>
-                        <label htmlFor="searchBar" >Search: </label>
-                        <input id="searchBar" type="search" onChange={handleChange} value={searchText} placeholder="Enter a song name..." />
-                    </form>
+                <div className={styles.browsingTools}>
+                    <button className={styles.browseButton} onClick={handleClick}> My playlists </button>
+                    <input className={styles.searchField} id="searchBar" type="search" onChange={handleChange} value={searchText} placeholder="Search for tracks..." />
                 </div>
                 <div className={styles.lists}>
-                        <SearchResults setPlaylist={setPlaylist} results={results} showFailMessage={showFailMessage} />
-                        <Playlist playlist={playlist} setPlaylist={setPlaylist} accessToken={accessToken} setAccessToken={setAccessToken} isSaving={isSaving} setIsSaving={setIsSaving} setSearchText={setSearchText} setResults={setResults} showSuccessMessage={showSuccessMessage} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} />                        
+                    {showUserPlaylists ?
+                        <UsersPlaylists accessToken={accessToken} setAccessToken={setAccessToken} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} usersPlaylists={usersPlaylists} setUsersPlaylists={setUsersPlaylists} showFailMessage={showFailMessage} /> :
+                            <SearchResults setPlaylist={setPlaylist} results={results} showFailMessage={showFailMessage} />
+                    }
+                    <PlaylistUnderConstruction playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} accessToken={accessToken} setAccessToken={setAccessToken} isSaving={isSaving} setIsSaving={setIsSaving} setSearchText={setSearchText} setResults={setResults} showSuccessMessage={showSuccessMessage} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setUsersPlaylists={setUsersPlaylists} />                        
                 </div>
                 
             </div> 

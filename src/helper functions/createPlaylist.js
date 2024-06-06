@@ -7,7 +7,7 @@ async function createPlaylist(accessToken, userId, playlistName) {
         },
         body: JSON.stringify({
             'name': playlistName,
-            'description': "New playlist description",
+            'description': "A Jammming playlist",
             'public': false
           })
     });

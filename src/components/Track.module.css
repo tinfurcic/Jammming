@@ -25,6 +25,10 @@
     width: 30px;
 }
 
+.addBtn:hover, .removeBtn:hover {
+    cursor: pointer;
+}
+
 .trackInfo h3, p {
     white-space: nowrap;
     overflow: hidden;
