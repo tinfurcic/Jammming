@@ -2,8 +2,8 @@ import { generateRandomString } from "./generateRandomString";
 
 const client_id = process.env.REACT_APP_CLIENT_ID;
 
-//const redirect_uri = 'https://tfjammming.netlify.app/callback';
-const redirect_uri = 'http://localhost:3000/callback'; 
+const redirect_uri = 'https://tfjammming.netlify.app/callback';
+//const redirect_uri = 'http://localhost:3000/callback'; 
 
 
 export function generateAuthUrl () {
