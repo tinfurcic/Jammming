@@ -4,7 +4,7 @@ import styles from "./UsersPlaylists.module.css";
 import findCurrentUserId from "../helper functions/findCurrentUserId";
 import getUsersPlaylists from "../helper functions/getUsersPlaylists";
 
-function UsersPlaylists ({accessToken, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId, usersPlaylists, setUsersPlaylists, showFailMessage}) {
+function UsersPlaylists ({accessToken, setAccessToken, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId, usersPlaylists, setUsersPlaylists, showFailMessage}) {
 
     const failMessage = "Oops! An error occurred. Changes are not saved."
 
@@ -29,7 +29,7 @@ function UsersPlaylists ({accessToken, setPlaylist, setPlaylistName, setIsEditin
                 {usersPlaylists ?
                     usersPlaylists.map((playlist) =>
                         <li key={playlist.id}>
-                            <Playlist accessToken={accessToken} playlistInfo={playlist} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} />
+                            <Playlist accessToken={accessToken} setAccessToken={setAccessToken} playlistInfo={playlist} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} />
                         </li>) :
                             <p>Loading playlists...</p>
                 }
