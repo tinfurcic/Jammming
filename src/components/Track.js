@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Track.module.css';
+import noPlaylistImage from '../images/no-playlist-image.png';
 
 function Track ({trackInfo, setPlaylist, playlist, parent}) {
 
@@ -22,6 +23,10 @@ function Track ({trackInfo, setPlaylist, playlist, parent}) {
 
     return (
             <div className={styles.trackContainer}>
+                <div className={styles.trackImage}>
+                    <img src = {trackInfo.album.images ? trackInfo.album.images[0].url : noPlaylistImage} alt="Playlist cover" />
+                    {console.log(trackInfo)}
+                </div>
                 <div className={styles.trackInfo}>
                     <h3>{trackInfo.name}</h3>
                     <p>{trackInfo.artists.map((artist, i) => {

@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Playlist.module.css';
 import getPlaylist from '../helper functions/getPlaylist';
 import checkTokenValidity from '../helper functions/checkTokenValidity';
-import noPlaylistImage from '../images/no-playlist-image.jpg';
+import noPlaylistImage from '../images/no-playlist-image.png';
 import decodeHtmlEntities from '../helper functions/decodeHtmlEntities';
 
 function Playlist ({accessToken, setAccessToken, playlistInfo, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId}) {
@@ -26,7 +26,8 @@ function Playlist ({accessToken, setAccessToken, playlistInfo, setPlaylist, setP
     return (
         <div className={styles.playlistContainer}>
             <div className={styles.playlistImage}>
-                <img src = {playlistInfo.images ? playlistInfo.images[0].url : noPlaylistImage} width="50px" alt="Playlist cover" />
+                <img src = {playlistInfo.images ? playlistInfo.images[0].url : noPlaylistImage} alt="Playlist cover" />
+                {console.log(playlistInfo.images)}
             </div>
             <div className={styles.playlistInfo}>
                 <h3>{playlistInfo.name}</h3>

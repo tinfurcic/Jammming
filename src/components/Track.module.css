@@ -47,3 +47,9 @@
   margin: 0 4px 4px 4px;
 }
 
+.trackImage {
+    width: 50px;
+    flex-shrink: 0;
+    /* At some point, shrinking might make sense (especially if the image was larger than 50px), but all images should
+    shrink at the same rate. On small resolutions, images should probably vanish. */
+}
