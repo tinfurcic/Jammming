@@ -8,6 +8,7 @@ import UsersPlaylists from './UsersPlaylists';
 
 function SearchBar ({accessTokenTemp, accessToken, setAccessToken, isSaving, setIsSaving}) {
     const [searchText, setSearchText] = useState('');
+    const [placeholder, setPlaceholder] = useState('Search for tracks...');
     const [results, setResults] = useState([]);
     const [playlist, setPlaylist] = useState([]);
     const [playlistName, setPlaylistName] = useState('');
@@ -25,7 +26,14 @@ function SearchBar ({accessTokenTemp, accessToken, setAccessToken, isSaving, set
         setShowUserPlaylists(false);
         searchTracks(searchString, setResults, accessTokenTemp);
     }
-
+    const handleFocus = () => {
+        setPlaceholder('');
+    }
+    const handleBlur = (event) => {
+        if (event.target.value === '') {
+            setPlaceholder('Search for tracks...')
+        }
+    }
     const toggleUsersPlaylists = () => {
         setShowUserPlaylists(!showUserPlaylists);
     }
@@ -34,14 +42,14 @@ function SearchBar ({accessTokenTemp, accessToken, setAccessToken, isSaving, set
             <div className={styles.searchBarContainer}>
                 <div className={styles.browsingTools}>
                     <button className={styles.browseButton} onClick={toggleUsersPlaylists}> My playlists </button>
-                    <input className={styles.searchField} id="searchBar" type="search" onChange={handleChange} value={searchText} placeholder="Search for tracks..." />
+                    <input className={styles.searchField} id="searchBar" type="search" onChange={handleChange} value={searchText} placeholder={placeholder} onFocus={handleFocus} onBlur={handleBlur} />
                 </div>
                 <div className={styles.lists}>
                     {showUserPlaylists ?
                         <UsersPlaylists accessToken={accessToken} setAccessToken={setAccessToken} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} usersPlaylists={usersPlaylists} setUsersPlaylists={setUsersPlaylists} showFailMessage={showFailMessage} /> :
                             <SearchResults setPlaylist={setPlaylist} results={results} showFailMessage={showFailMessage} />
                     }
-                    <PlaylistUnderConstruction playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} accessToken={accessToken} setAccessToken={setAccessToken} isSaving={isSaving} setIsSaving={setIsSaving} setSearchText={setSearchText} setResults={setResults} showSuccessMessage={showSuccessMessage} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setUsersPlaylists={setUsersPlaylists} />                        
+                    <PlaylistUnderConstruction playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} accessToken={accessToken} setAccessToken={setAccessToken} isSaving={isSaving} setIsSaving={setIsSaving} setSearchText={setSearchText} setResults={setResults} showSuccessMessage={showSuccessMessage} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setUsersPlaylists={setUsersPlaylists} setShowUserPlaylists={setShowUserPlaylists} />                        
                 </div>
                 
             </div> 
