@@ -4,8 +4,9 @@ import SearchBar from './SearchBar';
 import Header from './Header';
 //import Footer from './components/Footer';
 import { Outlet } from 'react-router-dom';
-import { generateAuthUrl } from '../helper functions/generateAuthUrl';
+//import { generateAuthUrl } from '../helper functions/generateAuthUrl';
 import checkTokenValidity from '../helper functions/checkTokenValidity';
+import refreshAccessToken from '../helper functions/refreshAccessToken';
 
     // new bug?: removing access to user data doesn't prevent the app from creating new playlists
         // manually redirecting to generateAuthUrl DOES recognize that access is not given, but
@@ -27,7 +28,7 @@ function App() {
     //localStorage.clear(); // debugging
     const [isSaving, setIsSaving] = useState(false);
     const [accessToken, setAccessToken] = useState('');
-
+/*
     useEffect(() => {
         const returningFromCallback = window.location.pathname === '/callback';
         const checkAuthentication = () => {
@@ -44,11 +45,31 @@ function App() {
             } else {
                 console.log("NOT Authenticated!");
                 if (!returningFromCallback) {
-                    window.location.replace = generateAuthUrl(false);
+                    window.location.replace(generateAuthUrl(false));
                 }
             }
         };
         checkAuthentication();
+    }, [accessToken]);
+*/
+
+    // prior to this, a token package is definitely retreived, in AppRouter
+    useEffect(() => {
+        const refreshToken = async () => {
+            console.log("entering refreshToken() in App")
+            await checkTokenValidity(accessToken, setAccessToken);
+            const tokenData = JSON.parse(localStorage.getItem("tokenData"));
+            const expirationTime = tokenData.expires_in;
+            const timeUntilExpiration = (expirationTime - Date.now() / 1000) * 1000;
+            if (timeUntilExpiration > 60000) {
+                console.log("setting timeout...")
+                setTimeout(() => refreshAccessToken(setAccessToken), timeUntilExpiration - 60000)
+            } else {
+                console.log("... token was expired, or within a minute of expiring.");
+                await refreshAccessToken(setAccessToken);
+            }
+        }
+        refreshToken();
     }, [accessToken]);
 
     return ( 

@@ -20,12 +20,12 @@ function AppRouter() {
     const returningFromCallback = window.location.pathname === '/callback';
 
     useEffect(() => {
-        if (!returningFromCallback) {
+        if (!returningFromCallback && window.location.pathname !== '/login') { // you might need to add a few more paths here
             window.location.replace(generateAuthUrl(false));
         }
     }, [returningFromCallback]);
 
-    if (!returningFromCallback) {
+    if (!returningFromCallback && window.location.pathname !== '/login') { // and here
         return null;
     }
     return <RouterProvider router={appRouter} />;

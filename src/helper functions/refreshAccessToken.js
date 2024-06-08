@@ -3,7 +3,6 @@ const client_secret = process.env.REACT_APP_CLIENT_SECRET;
 
 async function refreshAccessToken (setAccessToken) {
     const refreshToken = JSON.parse(localStorage.getItem("tokenData")).refresh_token;
-    console.log("Refresh token provided to refreshAccessToken: " + refreshToken);
     const authHeader = `Basic ${btoa(`${client_id}:${client_secret}`)}`;
 
     const refreshResponse = await fetch('https://accounts.spotify.com/api/token', {
