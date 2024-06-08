@@ -4,7 +4,7 @@ import { generateAuthUrl } from "../helper functions/generateAuthUrl";
 function Login () {
 
     useEffect(() => {
-        window.location.href = generateAuthUrl();
+        window.location.replace = generateAuthUrl(true);
     }, [])
  
     return null;

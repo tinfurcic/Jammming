@@ -1,11 +1,11 @@
 import styles from './App.module.css';
 import React, { useEffect, useState } from 'react';
-import SearchBar from './components/SearchBar';
-import Header from './components/Header';
+import SearchBar from './SearchBar';
+import Header from './Header';
 //import Footer from './components/Footer';
 import { Outlet } from 'react-router-dom';
-import { generateAuthUrl } from './helper functions/generateAuthUrl';
-import checkTokenValidity from './helper functions/checkTokenValidity';
+import { generateAuthUrl } from '../helper functions/generateAuthUrl';
+import checkTokenValidity from '../helper functions/checkTokenValidity';
 
     // new bug?: removing access to user data doesn't prevent the app from creating new playlists
         // manually redirecting to generateAuthUrl DOES recognize that access is not given, but
@@ -44,7 +44,7 @@ function App() {
             } else {
                 console.log("NOT Authenticated!");
                 if (!returningFromCallback) {
-                    window.location.href = generateAuthUrl();
+                    window.location.replace = generateAuthUrl(false);
                 }
             }
         };
