@@ -3,6 +3,7 @@ import Playlist from "./Playlist";
 import styles from "./UsersPlaylists.module.css";
 import findCurrentUserId from "../helper functions/findCurrentUserId";
 import getUsersPlaylists from "../helper functions/getUsersPlaylists";
+import checkTokenValidity from "../helper functions/checkTokenValidity";
 
 function UsersPlaylists ({accessToken, setAccessToken, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId, usersPlaylists, setUsersPlaylists, showFailMessage}) {
 
@@ -10,12 +11,13 @@ function UsersPlaylists ({accessToken, setAccessToken, setPlaylist, setPlaylistN
 
     useEffect(() => {
         const loadUsersPlaylists = async () => {
-            const userId = await findCurrentUserId(accessToken);
-            const fetchedPlaylists = await getUsersPlaylists(userId, accessToken);
+            const theValidToken = await checkTokenValidity(accessToken, setAccessToken)
+            const userId = await findCurrentUserId(theValidToken);
+            const fetchedPlaylists = await getUsersPlaylists(userId, theValidToken);
             setUsersPlaylists(fetchedPlaylists);
         }
         loadUsersPlaylists();
-    }, [accessToken, setUsersPlaylists]);
+    }, [accessToken, setAccessToken, setUsersPlaylists]);
 
     return (
         <div className={styles.usersPlaylistsContainer} >
