@@ -7,7 +7,7 @@ import checkTokenValidity from '../helper functions/checkTokenValidity';
 import editPlaylist from '../helper functions/editPlaylist';
 import changePlaylistDetails from '../helper functions/changePlaylistDetails';
 
-function Save({ accessToken, setAccessToken, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving, setShowSuccessMessage, setShowFailMessage, setSearchText, setResults, isEditing, setIsEditing, openedPlaylistId, setUsersPlaylists }) {
+function Save({ accessToken, setAccessToken, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving, setShowSuccessMessage, setShowFailMessage, setSearchText, setResults, isEditing, setIsEditing, openedPlaylistId, setUsersPlaylists, setShowUserPlaylists }) {
 
     // Inconvenient problem: after renaming a playlist, it takes a while for the changes to become visible.
         // I could temporarily save new playlist details and display them until API calls fetch updated playlist details.
@@ -65,6 +65,7 @@ function Save({ accessToken, setAccessToken, playlist, setPlaylist, playlistName
                 setResults([]);
                 setUsersPlaylists([]);
                 setShowFailMessage(true);
+                setShowUserPlaylists(false);
                 console.log("Changes are NOT saved. Something went wrong.")
             }
             setIsSaving(false); 

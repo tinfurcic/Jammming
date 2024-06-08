@@ -1,5 +1,3 @@
-
-
 async function getUsersPlaylists(userId, accessToken) {
 
     const getUsersPlaylistsResponse = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {

@@ -1,0 +1,65 @@
+/* Reset all elements' margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Reset common form elements */
+input,
+textarea,
+select,
+button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    background: none;
+    box-shadow: none;
+    outline: none;
+    font: inherit;
+    color: inherit;
+}
+
+/* Remove clear buttons from input fields */
+input[type="text"]::-webkit-clear-button,
+input[type="search"]::-webkit-search-cancel-button {
+    display: none;
+}
+
+/* Remove default styling for buttons */
+button {
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+/* Normalize line height */
+body {
+    line-height: 1.5;
+}
+
+/* Normalize lists */
+ul,
+ol {
+    list-style: none;
+}
+
+/* Normalize tables */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* Normalize links */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Normalize images */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}

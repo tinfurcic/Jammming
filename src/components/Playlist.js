@@ -2,6 +2,8 @@ import React from 'react';
 import styles from './Playlist.module.css';
 import getPlaylist from '../helper functions/getPlaylist';
 import checkTokenValidity from '../helper functions/checkTokenValidity';
+import noPlaylistImage from '../images/no-playlist-image.png';
+import decodeHtmlEntities from '../helper functions/decodeHtmlEntities';
 
 function Playlist ({accessToken, setAccessToken, playlistInfo, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId}) {
 
@@ -24,11 +26,11 @@ function Playlist ({accessToken, setAccessToken, playlistInfo, setPlaylist, setP
     return (
         <div className={styles.playlistContainer}>
             <div className={styles.playlistImage}>
-                <img src = {playlistInfo.images ? playlistInfo.images[0].url : "../images/no-playlist-image.jpg"} width="50px" alt="Playlist cover" />
+                <img src = {playlistInfo.images ? playlistInfo.images[0].url : noPlaylistImage} alt="Playlist cover" />
             </div>
             <div className={styles.playlistInfo}>
                 <h3>{playlistInfo.name}</h3>
-                <p>{playlistInfo.description ? playlistInfo.description + " | " : null} {playlistInfo.tracks.total} tracks </p>
+                <p>{playlistInfo.description ? decodeHtmlEntities(playlistInfo.description) + " | " : null} {playlistInfo.tracks.total} tracks </p>
             </div>
             <div className={styles.buttonContainer}>
                 <button className={styles.button} onClick={() => openPlaylist(playlistInfo)} > Edit playlist </button>
