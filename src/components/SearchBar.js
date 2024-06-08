@@ -6,7 +6,7 @@ import searchTracks from '../helper functions/searchTracks';
 import UsersPlaylists from './UsersPlaylists';
 
 
-function SearchBar ({accessTokenTemp, accessToken, setAccessToken, isSaving, setIsSaving}) {
+function SearchBar ({accessToken, setAccessToken, isSaving, setIsSaving}) {
     const [searchText, setSearchText] = useState('');
     const [placeholder, setPlaceholder] = useState('Search for tracks...');
     const [results, setResults] = useState([]);
@@ -24,7 +24,7 @@ function SearchBar ({accessTokenTemp, accessToken, setAccessToken, isSaving, set
         const searchString = event.target.value
         setSearchText(searchString);
         setShowUserPlaylists(false);
-        searchTracks(searchString, setResults, accessTokenTemp);
+        searchTracks(searchString, setResults, accessToken);
     }
     const handleFocus = () => {
         setPlaceholder('');

@@ -25,7 +25,6 @@ function Track ({trackInfo, setPlaylist, playlist, parent}) {
             <div className={styles.trackContainer}>
                 <div className={styles.trackImage}>
                     <img src = {trackInfo.album.images ? trackInfo.album.images[0].url : noPlaylistImage} alt="Playlist cover" />
-                    {console.log(trackInfo)}
                 </div>
                 <div className={styles.trackInfo}>
                     <h3>{trackInfo.name}</h3>

@@ -1,4 +1,4 @@
-async function searchTracks (searchString, setResults, accessTokenTemp) {
+async function searchTracks (searchString, setResults, accessToken) {
     if (searchString.trim() === '') {
         setResults([]);
         return; 
@@ -8,7 +8,7 @@ async function searchTracks (searchString, setResults, accessTokenTemp) {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + accessTokenTemp
+        'Authorization': 'Bearer ' + accessToken
       }
     }
 

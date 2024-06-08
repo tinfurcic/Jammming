@@ -3,8 +3,8 @@ import stringifyQueryParams from './stringifyQueryParams';
 const client_id = process.env.REACT_APP_CLIENT_ID;
 const client_secret = process.env.REACT_APP_CLIENT_SECRET;
 
-//const redirect_uri = 'https://tfjammming.netlify.app/callback';
-const redirect_uri = 'http://localhost:3000/callback';
+const redirect_uri = 'https://tfjammming.netlify.app/callback';
+//const redirect_uri = 'http://localhost:3000/callback';
 
 
 async function getAccessToken (setAccessToken, params) {
@@ -39,13 +39,11 @@ async function getAccessToken (setAccessToken, params) {
             const newAccessToken = tokenData.access_token;
             console.log("OBTAINING BRAND NEW TOKEN PACKAGE")
             tokenData.expires_in = tokenData.expires_in + Date.now() / 1000;
-
-            console.log("Old package:")
-            console.log(localStorage.getItem("tokenData"));
+            //console.log("Old package:") //debugging
+            //console.log(localStorage.getItem("tokenData")); //debugging
             localStorage.setItem("tokenData", JSON.stringify(tokenData));
-            console.log("New package:")
-            console.log(localStorage.getItem("tokenData"));
-
+            //console.log("New package:"); //debugging
+            //console.log(localStorage.getItem("tokenData")); //debugging
             setAccessToken(newAccessToken);
         } else {
             console.error('Failed to exchange authorization code for access token');         

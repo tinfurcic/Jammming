@@ -4,7 +4,6 @@ import SearchBar from './components/SearchBar';
 import Header from './components/Header';
 //import Footer from './components/Footer';
 import { Outlet } from 'react-router-dom';
-import getToken from './helper functions/getToken';
 import { generateAuthUrl } from './helper functions/generateAuthUrl';
 import checkTokenValidity from './helper functions/checkTokenValidity';
 
@@ -26,27 +25,14 @@ import checkTokenValidity from './helper functions/checkTokenValidity';
     
 function App() {
     //localStorage.clear(); // debugging
-    const maybeValidToken = JSON.parse(localStorage.getItem("tokenData")).access_token;
-
     const [isSaving, setIsSaving] = useState(false);
-    const [accessToken, setAccessToken] = useState(maybeValidToken);
-    const [accessTokenTemp, setAccessTokenTemp] = useState();
-    // I need this for search to work because the expired token doesn't immediately refresh.
-
-    useEffect(() => {
-        const getTempToken = async () => {
-            const token = await getToken();
-            setAccessTokenTemp(token);
-        }
-        getTempToken();
-    }, []);
+    const [accessToken, setAccessToken] = useState('');
 
     useEffect(() => {
         const returningFromCallback = window.location.pathname === '/callback';
         const checkAuthentication = () => {
             const isAuth = localStorage.getItem("tokenData") !== null;
             // returns true if there is any kind of token package saved, which happens the first time a user is authenticated
-
             if (isAuth) {
                 console.log("Authenticated!");
                 // check whether the token needs to be refreshed
@@ -71,7 +57,7 @@ function App() {
                 <Header />
             </div>
             <div className={styles.searchBar}>
-                <SearchBar accessTokenTemp={accessTokenTemp} accessToken={accessToken} setAccessToken={setAccessToken} isSaving={isSaving} setIsSaving={setIsSaving} />
+                <SearchBar accessToken={accessToken} setAccessToken={setAccessToken} isSaving={isSaving} setIsSaving={setIsSaving} />
             </div> 
             {<Outlet context={setAccessToken} />}
             {/* This will render <Callback /> when the path is "/callback" */}

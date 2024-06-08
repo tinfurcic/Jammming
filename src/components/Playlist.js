@@ -27,7 +27,6 @@ function Playlist ({accessToken, setAccessToken, playlistInfo, setPlaylist, setP
         <div className={styles.playlistContainer}>
             <div className={styles.playlistImage}>
                 <img src = {playlistInfo.images ? playlistInfo.images[0].url : noPlaylistImage} alt="Playlist cover" />
-                {console.log(playlistInfo.images)}
             </div>
             <div className={styles.playlistInfo}>
                 <h3>{playlistInfo.name}</h3>
