@@ -4,7 +4,6 @@ import SearchBar from './SearchBar';
 import Header from './Header';
 //import Footer from './components/Footer';
 import { Outlet } from 'react-router-dom';
-//import { generateAuthUrl } from '../helper functions/generateAuthUrl';
 import checkTokenValidity from '../helper functions/checkTokenValidity';
 import refreshAccessToken from '../helper functions/refreshAccessToken';
 
@@ -28,30 +27,6 @@ function App() {
     //localStorage.clear(); // debugging
     const [isSaving, setIsSaving] = useState(false);
     const [accessToken, setAccessToken] = useState('');
-/*
-    useEffect(() => {
-        const returningFromCallback = window.location.pathname === '/callback';
-        const checkAuthentication = () => {
-            const isAuth = localStorage.getItem("tokenData") !== null;
-            // returns true if there is any kind of token package saved, which happens the first time a user is authenticated
-            if (isAuth) {
-                console.log("Authenticated!");
-                // check whether the token needs to be refreshed
-                const doTheThing = async () => {
-                    await checkTokenValidity(accessToken, setAccessToken);
-                    // this returns the new access token, but we don't need it immediately
-                }
-                doTheThing();
-            } else {
-                console.log("NOT Authenticated!");
-                if (!returningFromCallback) {
-                    window.location.replace(generateAuthUrl(false));
-                }
-            }
-        };
-        checkAuthentication();
-    }, [accessToken]);
-*/
 
     // prior to this, a token package is definitely retreived, in AppRouter
     useEffect(() => {
@@ -60,11 +35,11 @@ function App() {
             await checkTokenValidity(accessToken, setAccessToken);
             const tokenData = JSON.parse(localStorage.getItem("tokenData"));
             const expirationTime = tokenData.expires_in;
-            const timeUntilExpiration = (expirationTime - Date.now() / 1000) * 1000;
-            if (timeUntilExpiration > 60000) {
-                console.log("setting timeout...")
+            const timeUntilExpiration = expirationTime - Date.now();
+            if (timeUntilExpiration > 60000) { // if the token remains valid for more that one minute
+                console.log("Setting timeout...") // set up a timer to refresh it one minute before its expiration
                 setTimeout(() => refreshAccessToken(setAccessToken), timeUntilExpiration - 60000)
-            } else {
+            } else { // otherwise, refresh it immediately
                 console.log("... token was expired, or within a minute of expiring.");
                 await refreshAccessToken(setAccessToken);
             }

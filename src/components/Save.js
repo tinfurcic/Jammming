@@ -3,11 +3,10 @@ import findCurrentUserId from '../helper functions/findCurrentUserId';
 import createPlaylist from '../helper functions/createPlaylist';
 import addTracksToPlaylist from '../helper functions/addTracksToPlaylist';
 import styles from './Save.module.css';
-import checkTokenValidity from '../helper functions/checkTokenValidity';
 import editPlaylist from '../helper functions/editPlaylist';
 import changePlaylistDetails from '../helper functions/changePlaylistDetails';
 
-function Save({ accessToken, setAccessToken, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving, setShowSuccessMessage, setShowFailMessage, setSearchText, setResults, isEditing, setIsEditing, openedPlaylistId, setUsersPlaylists, setShowUsersPlaylists }) {
+function Save({ accessToken, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving, setShowSuccessMessage, setShowFailMessage, setSearchText, setResults, isEditing, setIsEditing, openedPlaylistId, setUsersPlaylists, setShowUsersPlaylists }) {
 
     // Inconvenient problem: after renaming a playlist, it takes a while for the changes to become visible.
         // I could temporarily save new playlist details and display them until API calls fetch updated playlist details.
@@ -18,11 +17,10 @@ function Save({ accessToken, setAccessToken, playlist, setPlaylist, playlistName
             return;
         }
         setIsSaving(true);
-        const theValidToken = await checkTokenValidity (accessToken, setAccessToken);
         try {
-            const currentUserId = await findCurrentUserId(theValidToken);
-            const playlistId = await createPlaylist(theValidToken, currentUserId, playlistName);
-            const isCompleted = await addTracksToPlaylist(theValidToken, playlist, playlistId);
+            const currentUserId = await findCurrentUserId(accessToken);
+            const playlistId = await createPlaylist(accessToken, currentUserId, playlistName);
+            const isCompleted = await addTracksToPlaylist(accessToken, playlist, playlistId);
             if (isCompleted) {
                 setPlaylistName("");
                 setPlaylist([]);
@@ -47,11 +45,10 @@ function Save({ accessToken, setAccessToken, playlist, setPlaylist, playlistName
             return;
         }
         setIsSaving(true);
-        const theValidToken = await checkTokenValidity (accessToken, setAccessToken);
         try {
             const playlistId = openedPlaylistId;
-            const isRenamed = await changePlaylistDetails(theValidToken, playlistId, playlistName, "A Jammming playlist"); // this doesn't work.
-            const isEdited = await editPlaylist(theValidToken, playlist, playlistId)
+            const isRenamed = await changePlaylistDetails(accessToken, playlistId, playlistName, "A Jammming playlist"); // this doesn't work.
+            const isEdited = await editPlaylist(accessToken, playlist, playlistId)
             const isCompleted = isEdited && isRenamed;
             if (isCompleted) {
                 setPlaylistName("");

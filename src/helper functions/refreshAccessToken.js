@@ -21,7 +21,7 @@ async function refreshAccessToken (setAccessToken) {
     if (refreshResponse.ok) {
         const newTokenData = await refreshResponse.json();
         console.log("REFRESHING ACCESS TOKEN")
-        newTokenData.expires_in = newTokenData.expires_in + Date.now() / 1000;
+        newTokenData.expires_in = newTokenData.expires_in * 1000 + Date.now();
 
         // There may or may not be a new refresh token in this package. If there isn't one, the old one should be used.
         if (!newTokenData.refresh_token) {
@@ -32,7 +32,6 @@ async function refreshAccessToken (setAccessToken) {
         setAccessToken(newTokenData.access_token)
         console.log("Token is successfully refreshed.")
 
-        // this is needed just in Save.js, to have the new access token immediately at ready.
         return newTokenData.access_token;
 
     } else {
