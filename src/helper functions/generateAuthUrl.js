@@ -6,7 +6,7 @@ const redirect_uri = 'https://tfjammming.netlify.app/callback';
 //const redirect_uri = 'http://localhost:3000/callback'; 
 
 
-export function generateAuthUrl () {
+export function generateAuthUrl (showDialog) {
     const state = generateRandomString(16);
     localStorage.setItem("state", state);  // This is used to check the expected state in Callback
     const scope = 'user-read-private user-read-email playlist-modify-public playlist-modify-private user-top-read playlist-read-private playlist-read-collaborative';
@@ -16,7 +16,8 @@ export function generateAuthUrl () {
         client_id: client_id,
         scope: scope,
         redirect_uri: redirect_uri, // this is where the app redirects the user after they grant or deny permission.
-        state: state
+        state: state,
+        show_dialog: showDialog 
     });
 
     // We're just following Spotify's guide to creating an authorization URL.

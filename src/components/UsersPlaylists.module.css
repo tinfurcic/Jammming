@@ -1,11 +1,11 @@
-.userPlaylistsContainer {
+.usersPlaylistsContainer {
     width: 35%;
 
     display: flex;
     flex-direction: column;
 }
 
-.userPlaylistsContainer ul {
+.usersPlaylistsContainer ul {
     list-style-type: none;
     display: flex;
     flex-direction: column;

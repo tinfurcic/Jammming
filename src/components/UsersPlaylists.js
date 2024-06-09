@@ -9,16 +9,16 @@ function UsersPlaylists ({accessToken, setAccessToken, setPlaylist, setPlaylistN
     const failMessage = "Oops! An error occurred. Changes are not saved."
 
     useEffect(() => {
-        const loadUserPlaylists = async () => {
+        const loadUsersPlaylists = async () => {
             const userId = await findCurrentUserId(accessToken);
             const fetchedPlaylists = await getUsersPlaylists(userId, accessToken);
             setUsersPlaylists(fetchedPlaylists);
         }
-        loadUserPlaylists();
-    }, [accessToken, setUsersPlaylists]);
+        loadUsersPlaylists();
+    }, [accessToken, setAccessToken, setUsersPlaylists]);
 
     return (
-        <div className={styles.userPlaylistsContainer} >
+        <div className={styles.usersPlaylistsContainer} >
             {usersPlaylists.length === 0 ? (
                 showFailMessage ? <div className={styles.message}>{failMessage}</div> : null) :
                     <div className={styles.tableHeading}>
@@ -29,7 +29,7 @@ function UsersPlaylists ({accessToken, setAccessToken, setPlaylist, setPlaylistN
                 {usersPlaylists ?
                     usersPlaylists.map((playlist) =>
                         <li key={playlist.id}>
-                            <Playlist accessToken={accessToken} setAccessToken={setAccessToken} playlistInfo={playlist} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} />
+                            <Playlist accessToken={accessToken} playlistInfo={playlist} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} />
                         </li>) :
                             <p>Loading playlists...</p>
                 }

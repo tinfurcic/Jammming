@@ -3,7 +3,7 @@ import Track from './Track';
 import styles from './PlaylistUnderConstruction.module.css';
 import Save from './Save';
 
-function PlaylistUnderConstruction ({playlist, setPlaylist, playlistName, setPlaylistName, accessToken, setAccessToken, isSaving, setIsSaving, setSearchText, setResults, showSuccessMessage, setShowSuccessMessage, setShowFailMessage, isEditing, setIsEditing, openedPlaylistId, setUsersPlaylists, setShowUserPlaylists }) {
+function PlaylistUnderConstruction ({playlist, setPlaylist, playlistName, setPlaylistName, accessToken, isSaving, setIsSaving, setSearchText, setResults, showSuccessMessage, setShowSuccessMessage, setShowFailMessage, isEditing, setIsEditing, openedPlaylistId, setUsersPlaylists, setShowUsersPlaylists }) {
 
     const successMessage = "Saving completed!";
 
@@ -31,7 +31,7 @@ function PlaylistUnderConstruction ({playlist, setPlaylist, playlistName, setPla
                         <div className={styles.nameAndSaveContainer}>
                             <input className={styles.nameInput} id="playlistName" type="text" value={playlistName} onChange={handleChange} placeholder='New Playlist'/>
                             <div className={styles.saveButtonContainer}>
-                                <Save accessToken={accessToken} setAccessToken={setAccessToken} playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} isSaving={isSaving} setIsSaving={setIsSaving} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setSearchText={setSearchText} setResults={setResults} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setUsersPlaylists={setUsersPlaylists} setShowUserPlaylists={setShowUserPlaylists} />
+                                <Save accessToken={accessToken} playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} isSaving={isSaving} setIsSaving={setIsSaving} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setSearchText={setSearchText} setResults={setResults} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setUsersPlaylists={setUsersPlaylists} setShowUsersPlaylists={setShowUsersPlaylists} />
                             </div>
                         </div>
                 }
