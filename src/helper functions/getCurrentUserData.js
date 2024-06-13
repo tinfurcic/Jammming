@@ -1,4 +1,4 @@
-async function findCurrentUserId(accessToken) {
+async function getCurrentUserData(accessToken) {
     const currentUserIdResponse = await fetch('https://api.spotify.com/v1/me', {
         method: 'GET',
         headers: {  
@@ -7,11 +7,11 @@ async function findCurrentUserId(accessToken) {
     });
     if (currentUserIdResponse.ok) {
         const currentUserIdData = await currentUserIdResponse.json();
-        return currentUserIdData.id;
+        return currentUserIdData;
     } else {
         console.error('Failed to get current user id.');
     }
     
 }
 
-export default findCurrentUserId;
+export default getCurrentUserData;

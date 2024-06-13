@@ -50,13 +50,14 @@ function App() {
     return ( 
         <div className={`${styles.App} ${isSaving ? styles.saving : ''}`}>
             <div className={styles.header}>
-                <Header />
+                <Header accessToken={accessToken} />
             </div>
             <div className={styles.searchBar}>
                 <SearchBar accessToken={accessToken} setAccessToken={setAccessToken} isSaving={isSaving} setIsSaving={setIsSaving} />
             </div> 
             {<Outlet context={setAccessToken} />}
             {/* This will render <Callback /> when the path is "/callback" */}
+
         </div>
     );
 

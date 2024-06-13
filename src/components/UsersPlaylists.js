@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Playlist from "./Playlist";
 import styles from "./UsersPlaylists.module.css";
-import findCurrentUserId from "../helper functions/findCurrentUserId";
+import getCurrentUserData from "../helper functions/getCurrentUserData";
 import getUsersPlaylists from "../helper functions/getUsersPlaylists";
 
 function UsersPlaylists ({accessToken, setAccessToken, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId, usersPlaylists, setUsersPlaylists, showFailMessage}) {
@@ -10,7 +10,8 @@ function UsersPlaylists ({accessToken, setAccessToken, setPlaylist, setPlaylistN
 
     useEffect(() => {
         const loadUsersPlaylists = async () => {
-            const userId = await findCurrentUserId(accessToken);
+            const userData = await getCurrentUserData(accessToken);
+            const userId = userData.id;
             const fetchedPlaylists = await getUsersPlaylists(userId, accessToken);
             setUsersPlaylists(fetchedPlaylists);
         }

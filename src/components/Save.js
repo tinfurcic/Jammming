@@ -1,5 +1,5 @@
 import React from 'react';
-import findCurrentUserId from '../helper functions/findCurrentUserId';
+import getCurrentUserData from '../helper functions/getCurrentUserData';
 import createPlaylist from '../helper functions/createPlaylist';
 import addTracksToPlaylist from '../helper functions/addTracksToPlaylist';
 import styles from './Save.module.css';
@@ -18,7 +18,8 @@ function Save({ accessToken, playlist, setPlaylist, playlistName, setPlaylistNam
         }
         setIsSaving(true);
         try {
-            const currentUserId = await findCurrentUserId(accessToken);
+            const currentUserData = await getCurrentUserData(accessToken);
+            const currentUserId = currentUserData.id;
             const playlistId = await createPlaylist(accessToken, currentUserId, playlistName);
             const isCompleted = await addTracksToPlaylist(accessToken, playlist, playlistId);
             if (isCompleted) {
