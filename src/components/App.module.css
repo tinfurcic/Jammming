@@ -7,10 +7,10 @@ body {
     cursor: progress;
 }
 
-.App { /* This is essentially a container filled with components */
-  display: flex; /* so here we declare it's a flex container */
-  flex-direction: column; /* and that its items are going to be arranged vertically */
-  height: 100vh; /* The height of the outermost container is exactly 100% of the viewport (browser window)*/
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
   background-color: #191414;
 }
 

@@ -1,0 +1,36 @@
+.genericError {
+    background-color: #191414;
+    color: white;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+}
+
+.genericError h2 {
+    font-size: 30px;
+}
+
+.genericError p {
+    font-size: 24px;
+    margin: 2rem 0;
+}
+
+.genericError button {
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    height: 50px;
+    background-color: #1DB954;
+}
+
+.genericError button:active {
+    background: rgb(29 185 84 / 80%);
+}
+
+.genericError button:hover {
+    cursor: pointer;
+}

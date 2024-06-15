@@ -30,8 +30,6 @@ async function refreshAccessToken (setAccessToken) {
 
         localStorage.setItem("tokenData", JSON.stringify(newTokenData));
         setAccessToken(newTokenData.access_token)
-        console.log("Token is successfully refreshed.")
-
         return newTokenData.access_token;
 
     } else {

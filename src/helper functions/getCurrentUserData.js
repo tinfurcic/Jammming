@@ -1,13 +1,13 @@
 async function getCurrentUserData(accessToken) {
-    const currentUserIdResponse = await fetch('https://api.spotify.com/v1/me', {
+    const currentUserDataResponse = await fetch('https://api.spotify.com/v1/me', {
         method: 'GET',
         headers: {  
             'Authorization': 'Bearer ' + accessToken
         }
     });
-    if (currentUserIdResponse.ok) {
-        const currentUserIdData = await currentUserIdResponse.json();
-        return currentUserIdData;
+    if (currentUserDataResponse.ok) {
+        const currentUserData = await currentUserDataResponse.json();
+        return currentUserData;
     } else {
         console.error('Failed to get current user id.');
     }

@@ -10,7 +10,7 @@ async function checkTokenValidity (accessToken, setAccessToken) {
         console.log("The token has expired.");
         newToken = await refreshAccessToken(setAccessToken);
     } else {
-        console.log("The access token is still valid.")
+        console.log("The access token is still valid."); // maybe here I should setAccessToken(tokenData.access_token)?
     }
     return newToken || accessToken;
 };

@@ -3,11 +3,10 @@ import stringifyQueryParams from './stringifyQueryParams';
 const client_id = process.env.REACT_APP_CLIENT_ID;
 const client_secret = process.env.REACT_APP_CLIENT_SECRET;
 
-//const redirect_uri = 'https://tfjammming.netlify.app/callback';
-const redirect_uri = 'http://localhost:3000/callback';
+const redirect_uri = 'https://tfjammming.netlify.app/callback';
+//const redirect_uri = 'http://localhost:3000/callback';
 
-
-async function getAccessToken (setAccessToken, params) {
+async function getAccessToken (params) {
     console.log("we got to getAccessToken")
     const { code, state } = params;
 
@@ -15,7 +14,7 @@ async function getAccessToken (setAccessToken, params) {
         const expectedState = localStorage.getItem("state");
         if (state !== expectedState) {
             console.error('State mismatch');
-            return;
+            return false;
         }
 
         const tokenParameters = { 
@@ -36,16 +35,17 @@ async function getAccessToken (setAccessToken, params) {
 
         if (tokenResponse.ok) {
             const tokenData = await tokenResponse.json();
-            const newAccessToken = tokenData.access_token;
-            console.log("OBTAINING BRAND NEW TOKEN PACKAGE")
+            console.log("OBTAINING BRAND NEW TOKEN PACKAGE");
             tokenData.expires_in = tokenData.expires_in + Date.now() / 1000;
             localStorage.setItem("tokenData", JSON.stringify(tokenData));
-            setAccessToken(newAccessToken);
+            return true;
         } else {
-            console.error('Failed to exchange authorization code for access token');         
+            console.error('Failed to exchange authorization code for access token');
+            return false;      
         }
     } else {
         console.error('Missing code parameter');
+        return false;
     }
 }
 

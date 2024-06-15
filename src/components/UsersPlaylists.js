@@ -9,13 +9,28 @@ function UsersPlaylists ({accessToken, setAccessToken, setPlaylist, setPlaylistN
     const failMessage = "Oops! An error occurred. Changes are not saved."
 
     useEffect(() => {
+        let isMounted = true;
         const loadUsersPlaylists = async () => {
-            const userData = await getCurrentUserData(accessToken);
-            const userId = userData.id;
-            const fetchedPlaylists = await getUsersPlaylists(userId, accessToken);
-            setUsersPlaylists(fetchedPlaylists);
+            try {
+                const userData = await getCurrentUserData(accessToken);
+                if (isMounted) {
+                    const userId = userData.id;
+                    const fetchedPlaylists = await getUsersPlaylists(userId, accessToken);
+                    if (isMounted) {
+                        setUsersPlaylists(fetchedPlaylists);
+                    }
+                }
+            }
+            catch (error) {
+                console.error("Failed to fetch user data", error);
+            }
         }
-        loadUsersPlaylists();
+        if (accessToken) {
+            loadUsersPlaylists();
+        }
+        return () => {
+            isMounted = false;
+        }
     }, [accessToken, setAccessToken, setUsersPlaylists]);
 
     return (
