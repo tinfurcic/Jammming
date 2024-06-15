@@ -1,0 +1,96 @@
+.profileButton {
+    --starting-length: 50px;
+    --ending-percentage: 90%;
+
+    border-radius: 25px; 
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(to left, #1DB954 var(--starting-length), #191414 var(--ending-percentage));
+    transition: width 0.3s ease-out, --ending-percentage 0.4s ease-out, --starting-length 0.1s ease-out;
+
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.profileButton.expanded {
+    width: 200px;
+}
+
+.profileButton.shrunk { /*firefox...*/
+    border-radius: 25px;
+}
+
+.profileButton.shrunk:active { /*firefox...*/
+    border-radius: 25px;
+}
+
+.profileButton.expanded:hover .profileImageContainer {
+    border-right: 2px solid white;
+    padding-left: 1px;
+}
+
+.profileImageContainer {
+    flex-shrink: 0;
+
+    border-radius: 25px;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transform: translateX(0);
+    transition: transform 0.2s linear;
+}
+
+.profileImageContainer:hover {
+    border: 1px solid white;
+}
+
+.profileImageContainer:active {
+    border: 2px solid white;
+    opacity: 0.9;
+}
+
+.profileImage {
+    border-radius: 25px;
+    object-fit: cover;
+    width: 50px;
+    height: 50px;
+}
+
+.displayName {
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.textContainer {
+    overflow: hidden;
+}
+
+.logoutText {
+    padding-right: 20px;
+}
+
+.noLeftBorder {
+    border-radius: 0 25px 25px 0;
+    border: 1px solid white;
+    border-left: none;
+}
+
+.profileImageContainer.pushed {
+    transform: translateX(-25px);
+}
+
+.expanded.noLeftBorder .logoutText {
+    padding-right: 19px;
+}

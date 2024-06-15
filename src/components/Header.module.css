@@ -1,5 +1,18 @@
+.headerContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+}
+
 .heading {
+    grid-column: 2;
     text-align: center;
     padding: 0.5em;
 }
 
+.profileContainer {
+    grid-column: 3;
+    justify-self: end;
+    margin-right: 15%;
+}

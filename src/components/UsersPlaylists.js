@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Playlist from "./Playlist";
 import styles from "./UsersPlaylists.module.css";
-import findCurrentUserId from "../helper functions/findCurrentUserId";
+import getCurrentUserData from "../helper functions/getCurrentUserData";
 import getUsersPlaylists from "../helper functions/getUsersPlaylists";
 
 function UsersPlaylists ({accessToken, setAccessToken, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId, usersPlaylists, setUsersPlaylists, showFailMessage}) {
@@ -9,12 +9,28 @@ function UsersPlaylists ({accessToken, setAccessToken, setPlaylist, setPlaylistN
     const failMessage = "Oops! An error occurred. Changes are not saved."
 
     useEffect(() => {
+        let isMounted = true;
         const loadUsersPlaylists = async () => {
-            const userId = await findCurrentUserId(accessToken);
-            const fetchedPlaylists = await getUsersPlaylists(userId, accessToken);
-            setUsersPlaylists(fetchedPlaylists);
+            try {
+                const userData = await getCurrentUserData(accessToken);
+                if (isMounted) {
+                    const userId = userData.id;
+                    const fetchedPlaylists = await getUsersPlaylists(userId, accessToken);
+                    if (isMounted) {
+                        setUsersPlaylists(fetchedPlaylists);
+                    }
+                }
+            }
+            catch (error) {
+                console.error("Failed to fetch user data", error);
+            }
         }
-        loadUsersPlaylists();
+        if (accessToken) {
+            loadUsersPlaylists();
+        }
+        return () => {
+            isMounted = false;
+        }
     }, [accessToken, setAccessToken, setUsersPlaylists]);
 
     return (

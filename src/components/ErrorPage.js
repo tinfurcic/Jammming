@@ -1,17 +1,14 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import AccessDeniedError from './AccessDeniedError';
+import GenericError from './GenericError';
 
 function ErrorPage () {
+    const location = useLocation();
+    const params = new URLSearchParams(location.search); // in params, there is only one
+    const errorType = params.get('type');
 
-    const navigate = useNavigate();
-
-    return (
-        <div>
-            <h2>Error Page</h2>
-            <p>There was an error processing your request.</p>
-            <button onClick={() => navigate("/")} >Go Home</button>
-        </div>
-    );
+    return errorType === 'access_denied' ? <AccessDeniedError /> : <GenericError />;
 }
 
 export default ErrorPage;
