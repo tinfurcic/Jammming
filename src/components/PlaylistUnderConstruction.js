@@ -24,12 +24,23 @@ function PlaylistUnderConstruction ({playlist, setPlaylist, playlistName, setPla
         setPlaylistName(event.target.value);
     }
 
+    const handleDiscard = () => {
+        // ask for confirmation
+        setPlaylist([]);
+        setPlaylistName("");
+    }
+
     return (
             <div className={styles.playlistContainer }>
                 {playlist.length === 0 ? (
                     showSuccessMessage ? <div className={styles.message}>{successMessage}</div> : null) :
                         <div className={styles.nameAndSaveContainer}>
                             <input className={styles.nameInput} id="playlistName" type="text" value={playlistName} onChange={handleChange} placeholder='New Playlist'/>
+                            <div className={styles.discardButtonWrapper}>
+                                <button className={styles.discardButton} onClick={handleDiscard}>
+                                    Discard draft
+                                </button>
+                            </div>
                             <div className={styles.saveButtonContainer}>
                                 <Save accessToken={accessToken} playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} isSaving={isSaving} setIsSaving={setIsSaving} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setSearchText={setSearchText} setResults={setResults} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setUsersPlaylists={setUsersPlaylists} setShowUsersPlaylists={setShowUsersPlaylists} />
                             </div>

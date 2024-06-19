@@ -11,7 +11,7 @@ function SearchResults ({setPlaylist, results, showFailMessage}) {
             {results.length === 0 ? (
                 showFailMessage ? <div className={styles.message}>{failMessage}</div> : null) :
                     <div className={styles.tableHeading}>
-                        <h2>Search results:</h2>
+                        <h2>Search results</h2>
                     </div>
             }
             <ul>

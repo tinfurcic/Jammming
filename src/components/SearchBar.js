@@ -41,7 +41,9 @@ function SearchBar ({accessToken, setAccessToken, isSaving, setIsSaving}) {
     return (
             <div className={styles.searchBarContainer}>
                 <div className={styles.browsingTools}>
-                    <button className={styles.browseButton} onClick={toggleUsersPlaylists}> My playlists </button>
+                    <button className={styles.browseButton} onClick={toggleUsersPlaylists}>
+                        {showUsersPlaylists ? "Search results" : "My playlists"}
+                    </button>
                     <input className={styles.searchField} id="searchBar" type="search" onChange={handleChange} value={searchText} placeholder={placeholder} onFocus={handleFocus} onBlur={handleBlur} />
                 </div>
                 <div className={styles.lists}>

@@ -1,10 +1,12 @@
 .profileButton {
-    --starting-length: 50px;
+    --starting-length: 3.125em;
     --ending-percentage: 90%;
+    --button-height: 3.125em;
 
-    border-radius: 25px; 
-    width: 50px;
-    height: 50px;
+    width: var(--button-height);
+    height: var(--button-height);
+    border-radius: calc(var(--button-height)/2); 
+
     background: linear-gradient(to left, #1DB954 var(--starting-length), #191414 var(--ending-percentage));
     transition: width 0.3s ease-out, --ending-percentage 0.4s ease-out, --starting-length 0.1s ease-out;
 
@@ -19,15 +21,15 @@
 }
 
 .profileButton.expanded {
-    width: 200px;
+    width: 12.5em;
 }
 
 .profileButton.shrunk { /*firefox...*/
-    border-radius: 25px;
+    border-radius: calc(var(--button-height)/2);
 }
 
 .profileButton.shrunk:active { /*firefox...*/
-    border-radius: 25px;
+    border-radius: calc(var(--button-height)/2);
 }
 
 .profileButton.expanded:hover .profileImageContainer {
@@ -38,16 +40,15 @@
 .profileImageContainer {
     flex-shrink: 0;
 
-    border-radius: 25px;
-    width: 50px;
-    height: 50px;
+    border-radius: calc(var(--button-height)/2);
+    width: var(--button-height);
+    height: var(--button-height);
     cursor: pointer;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    transform: translateX(0);
     transition: transform 0.2s linear;
 }
 
@@ -57,19 +58,18 @@
 
 .profileImageContainer:active {
     border: 2px solid white;
-    opacity: 0.9;
 }
 
 .profileImage {
-    border-radius: 25px;
+    border-radius: calc(var(--button-height)/2);
     object-fit: cover;
-    width: 50px;
-    height: 50px;
+    width: var(--button-height);
+    height: var(--button-height);
 }
 
 .displayName {
     color: white;
-    font-size: 20px;
+    font-size: 1.25em;
     font-weight: 600;
 }
 
@@ -78,17 +78,17 @@
 }
 
 .logoutText {
-    padding-right: 20px;
+    padding-right: 1.25em;
 }
 
 .noLeftBorder {
-    border-radius: 0 25px 25px 0;
+    border-radius: 0 calc(var(--button-height)/2) calc(var(--button-height)/2) 0;
     border: 1px solid white;
     border-left: none;
 }
 
 .profileImageContainer.pushed {
-    transform: translateX(-25px);
+    transform: translateX(calc(var(--button-height)* (-1/2)));
 }
 
 .expanded.noLeftBorder .logoutText {

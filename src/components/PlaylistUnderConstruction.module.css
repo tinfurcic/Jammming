@@ -1,6 +1,5 @@
 .playlistContainer {
     width: 35%;
-
     display: flex;
     flex-direction: column;
 }
@@ -15,10 +14,10 @@
 }
 
 .nameAndSaveContainer {
-    min-height: 70px; /* this doesn't seem very elegant */
-
     display: flex;
     flex-direction: row;
+    align-items: center;
+    min-height: 3em;
 }
 
 .nameInput {
@@ -29,7 +28,8 @@
     color: white;
     border: none;
 
-    font-size: 20px;
+    font-size: 1.25em;
+    margin-right: 0.5em;
 }
 
 .nameInput:focus {
@@ -37,12 +37,46 @@
 }
 
 .message {
-    font-size: 24px;
-    padding-top: 19px;
+    font-size: 1.5em;
     color: #1DB954;
 }
 
 .saveButtonContainer {
     display: flex;
-    width: auto;
+}
+
+.discardButtonWrapper {
+    background-color: #191414;
+    color: white;
+    margin-right: 1em;
+    width: 7.5em;
+    height: 3em;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.discardButton {
+    width: 100%;
+    height: 100%;
+
+    border-radius: 0.625em;
+    border: 1px solid white;
+}
+
+.discardButton:hover {
+    cursor: pointer;
+    background-color: #E3736F;
+    color: black;
+    border: none;
+}
+
+.discardButton:active {
+    background-color: #E3736F;
+    color: black;
+
+    font-size: 0.95em;
+    width: 98%;
+    height: 96%;
 }
