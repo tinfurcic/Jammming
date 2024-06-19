@@ -2,9 +2,9 @@ import React from 'react';
 import Track from './Track';
 import styles from './SearchResults.module.css';
             
-function SearchResults ({setPlaylist, results, showFailMessage}) {
+function SearchResults ({setPlaylist, results, showFailMessage, failMessage}) {
 
-    const failMessage = "Oops! An error occurred. Playlist is not saved."
+    // const failMessage = "Oops! An error occurred. Playlist is not saved."
     
     return (
         <div className={styles.searchResultsContainer} >
