@@ -14,11 +14,11 @@
 .buttonContainer {
     flex-grow: 1;
     flex-shrink: 1;
-    max-width: 120px;
-    margin-right: 20px; /* I'll need a better solution for this*/
+    text-wrap: nowrap;
+    margin-right: 1em;
     
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
 
     visibility: hidden;
@@ -28,10 +28,9 @@
     background-color: #191414;
     color: white;
     border: 1px solid white;
-    border-radius: 5px;
-
-    padding: 5px 10px 5px 10px;
-    font-size: 14px;
+    border-radius: 0.3125em;
+    padding: 0.32em 0.64em;
+    font-size: 0.875em;
 }
 
 .button:hover {
@@ -42,8 +41,7 @@
 }
 
 .button:active {
-    padding: 4.5px 10px 4.5px 10px;
-    font-size: 13.333px;
+    font-size: 0.85em;
 }
 
 .playlistContainer:hover > .buttonContainer {
@@ -57,18 +55,17 @@
 }
 
 .playlistInfo h3 {
-    font-size: 18px;
+    font-size: 1.125em;
     font-weight: normal;
-    margin: 4px 4px 0 4px;
+    margin: 0.25em;
 }
 
 .playlistInfo p {
-  font-size: 16px;
-  margin: 4px 4px 4px 4px;
+    margin: 0.25em;
 }
 
 .playlistImage {
-    width: 50px;
+    width: 60px;
     flex-shrink: 0;
     /* At some point, shrinking might make sense (especially if the image was larger than 50px), but all images should
     shrink at the same rate. On small resolutions, images should probably vanish. */

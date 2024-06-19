@@ -11,6 +11,7 @@
     border-right: 1px solid gray;
 }
 
+/* This whole part will be redesigned later */
 .button { /* this isn't actually styling a button, just the area it lies in (but it might end up spanning the whole area, idk) */
     flex-basis: 53px; /* here I'm just manually trying to get a square area */
     flex-shrink: 0;
@@ -18,7 +19,6 @@
     display: flex;
     justify-content: center;
 }
-
 
 .addBtn, .removeBtn {
     height: 30px;
@@ -36,19 +36,17 @@
 }
 
 .trackInfo h3 {
-    font-size: 18px;
+    font-size: 1.125em;
     font-weight: normal;
-    margin: 4px 4px 0 4px;
-
+    margin: 0.25em;
 }
 
 .trackInfo p {
-  font-size: 16px;
-  margin: 0 4px 4px 4px;
+    margin: 0.25em;
 }
 
 .trackImage {
-    width: 50px;
+    width: 60px;
     flex-shrink: 0;
     /* At some point, shrinking might make sense (especially if the image was larger than 50px), but all images should
     shrink at the same rate. On small resolutions, images should probably vanish. */

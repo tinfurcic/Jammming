@@ -73,7 +73,7 @@ function Save({ accessToken, playlist, setPlaylist, playlistName, setPlaylistNam
     }
 
     return (
-        <div>
+        <div className={styles.saveButtonWrapper}>
             {!isEditing ? 
                 <button className={styles.saveButton} onClick={handleSave}>
                     {isSaving ? "Saving..." : "Save to Spotify"}

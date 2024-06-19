@@ -10,7 +10,7 @@ function Profile({ accessToken }) {
     const [isExpanded, setIsExpanded] = useState(false);
     const [isImageHovered, setIsImageHovered] = useState(false);
     const [isButtonHovered, setIsButtonHovered] = useState(false);
-    const [isActive, setIsActive] = useState(false);
+    const [isActive, setIsActive] = useState(false); // This doesn't quite mimic the :active selector
 
     const profileImageContainerRef = useRef(null);
     const buttonRef = useRef(null);
@@ -53,7 +53,7 @@ function Profile({ accessToken }) {
         setIsActive(true);
     }
 
-    const handleMouseUp = () => { // is this really necessary?
+    const handleMouseUp = () => {
         setIsActive(false);
     }
 
@@ -112,7 +112,7 @@ function Profile({ accessToken }) {
     }
 
     return (
-        <button ref={buttonRef} className={`${styles.profileButton} ${isExpanded ? styles.expanded : styles.shrunk} ${isButtonHovered && !isImageHovered && isExpanded ? styles.noLeftBorder : ''} ${isActive ? styles.active : styles.inactive}`} onClick={switchAccount} onMouseOver={handleMouseOverButton} onMouseOut={handleMouseOutButton} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} >
+        <button ref={buttonRef} className={`${styles.profileButton} ${isExpanded ? styles.expanded : styles.shrunk} ${isButtonHovered && !isImageHovered && isExpanded ? styles.noLeftBorder : ''}`} onClick={switchAccount} onMouseOver={handleMouseOverButton} onMouseOut={handleMouseOutButton} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
             <div ref={profileImageContainerRef} className={`${styles.profileImageContainer} ${isExpanded ? styles.pushed : ""}`} onClick={toggleExpansion} onMouseOver={handleMouseOverImage} onMouseOut={handleMouseOutImage} > {/* you can add ${profileImage ? styles.hasImage : styles.noImage} */}
                 {profileImage ? (
                     <img className={styles.profileImage} src={profileImage} alt="Profile" />

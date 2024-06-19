@@ -11,15 +11,16 @@
 }
 
 .accessDeniedError p {
-    font-size: 24px;
-    margin: 2rem 0;
+    font-size: 1.5em;
+    margin: 2em 0;
 }
 
 .accessDeniedError button {
-    font-size: 18px;
-    padding: 10px 20px;
-    border-radius: 25px;
-    height: 50px;
+    --button-height: 2.777em;
+    font-size: 1.125em;
+    padding: 0.5em 1em;
+    height: var(--button-height);
+    border-radius: calc(var(--button-height)/2);   
     background-color: #1DB954;
 }
 
