@@ -6,7 +6,7 @@ import styles from './Save.module.css';
 import editPlaylist from '../helper functions/editPlaylist';
 import changePlaylistDetails from '../helper functions/changePlaylistDetails';
 
-function Save({ accessToken, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving, setShowSuccessMessage, setShowFailMessage, setSearchText, setResults, isEditing, setIsEditing, openedPlaylistId, setUsersPlaylists, setShowUsersPlaylists }) {
+function Save({ accessToken, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving, setShowSuccessMessage, setShowFailMessage, setFailMessage, setSearchText, setResults, isEditing, setIsEditing, openedPlaylistId, setUsersPlaylists, setShowUsersPlaylists }) {
 
     // Inconvenient problem: after renaming a playlist, it takes a while for the changes to become visible.
         // I could temporarily save new playlist details and display them until API calls fetch updated playlist details.
@@ -29,7 +29,13 @@ function Save({ accessToken, playlist, setPlaylist, playlistName, setPlaylistNam
                 setShowFailMessage(false);
                 console.log("Saving completed!")
             } else {
-                setSearchText("");
+                if (playlistName === "") {
+                    setFailMessage("Please name your new playlist.");
+                    console.log("Missing playlist name.");
+                } else {
+                    setFailMessage("Oops! An error occurred. Playlist is not saved.");
+                }
+                //setSearchText("");
                 setResults([]);
                 setShowFailMessage(true);
                 console.log("Saving NOT completed. Something went wrong.")
@@ -59,7 +65,13 @@ function Save({ accessToken, playlist, setPlaylist, playlistName, setPlaylistNam
                 setIsEditing(false);
                 console.log("Changes successfully saved!")
             } else {
-                setSearchText("");
+                if (playlistName === "") {
+                    setFailMessage("The playlist must have a name.");
+                    console.log("Missing playlist name.");
+                } else {
+                    setFailMessage("Oops! An error occurred. Playlist is not saved.");
+                }
+                //setSearchText("");
                 setResults([]);
                 setUsersPlaylists([]);
                 setShowFailMessage(true);

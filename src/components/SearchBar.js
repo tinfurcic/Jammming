@@ -18,6 +18,7 @@ function SearchBar ({accessToken, setAccessToken, isSaving, setIsSaving}) {
     const [usersPlaylists, setUsersPlaylists] = useState([]);
 
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const [failMessage, setFailMessage] = useState("placeholder fail message");
     const [showFailMessage, setShowFailMessage] = useState(false);
 
     const handleChange = (event) => {
@@ -49,9 +50,9 @@ function SearchBar ({accessToken, setAccessToken, isSaving, setIsSaving}) {
                 <div className={styles.lists}>
                     {showUsersPlaylists ?
                         <UsersPlaylists accessToken={accessToken} setAccessToken={setAccessToken} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} usersPlaylists={usersPlaylists} setUsersPlaylists={setUsersPlaylists} showFailMessage={showFailMessage} /> :
-                            <SearchResults setPlaylist={setPlaylist} results={results} showFailMessage={showFailMessage} />
+                            <SearchResults setPlaylist={setPlaylist} results={results} showFailMessage={showFailMessage} failMessage={failMessage} />
                     }
-                    <PlaylistUnderConstruction playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} accessToken={accessToken} isSaving={isSaving} setIsSaving={setIsSaving} setSearchText={setSearchText} setResults={setResults} showSuccessMessage={showSuccessMessage} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setUsersPlaylists={setUsersPlaylists} setShowUsersPlaylists={setShowUsersPlaylists} />                        
+                    <PlaylistUnderConstruction playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} accessToken={accessToken} isSaving={isSaving} setIsSaving={setIsSaving} setSearchText={setSearchText} setResults={setResults} showSuccessMessage={showSuccessMessage} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setFailMessage={setFailMessage} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setUsersPlaylists={setUsersPlaylists} setShowUsersPlaylists={setShowUsersPlaylists} />                        
                 </div>
                 
             </div> 
