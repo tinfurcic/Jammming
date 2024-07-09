@@ -4,9 +4,11 @@ import SearchResults from './SearchResults';
 import PlaylistUnderConstruction from './PlaylistUnderConstruction';
 import searchTracks from '../helper functions/searchTracks';
 import UsersPlaylists from './UsersPlaylists';
+import BrowseManageButton from './BrowseManageButton';
+import Profile from './Profile';
 
 
-function SearchBar ({accessToken, setAccessToken, isSaving, setIsSaving}) {
+function SearchBar ({accessToken, setAccessToken, isSaving, setIsSaving, isScreenSmall }) {
     const [searchText, setSearchText] = useState('');
     const [placeholder, setPlaceholder] = useState('Search for tracks...');
     const [results, setResults] = useState([]);
@@ -20,6 +22,11 @@ function SearchBar ({accessToken, setAccessToken, isSaving, setIsSaving}) {
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const [failMessage, setFailMessage] = useState("placeholder fail message");
     const [showFailMessage, setShowFailMessage] = useState(false);
+    
+    const [isBrowsing, setIsBrowsing] = useState(false);
+    const [isManaging, setIsManaging] = useState(false);
+
+    const [isPushedOut, setIsPushedOut] = useState(false);
 
     const handleChange = (event) => {
         const searchString = event.target.value
@@ -37,24 +44,58 @@ function SearchBar ({accessToken, setAccessToken, isSaving, setIsSaving}) {
     }
     const toggleUsersPlaylists = () => {
         setShowUsersPlaylists(!showUsersPlaylists);
+        if (!isBrowsing) {
+            setIsBrowsing(true);
+            setShowUsersPlaylists(true);
+            setIsManaging(false);
+        }
     }
 
     return (
-            <div className={styles.searchBarContainer}>
+            <div className={styles.mainContainer}>
                 <div className={styles.browsingTools}>
-                    <button className={styles.browseButton} onClick={toggleUsersPlaylists}>
-                        {showUsersPlaylists ? "Search results" : "My playlists"}
-                    </button>
-                    <input className={styles.searchField} id="searchBar" type="search" onChange={handleChange} value={searchText} placeholder={placeholder} onFocus={handleFocus} onBlur={handleBlur} />
+                    <div className={styles.myPlaylistsButtonContainer}>
+                        {!isPushedOut &&
+                            <button className={styles.myPlaylistsButton} onClick={toggleUsersPlaylists}>
+                                {showUsersPlaylists ? "Search results" : "My playlists"}
+                            </button>
+                        }
+                    </div>
+                    {!isScreenSmall && <input className={`${styles.searchField}`} id="searchBar" type="search" onChange={handleChange} value={searchText} placeholder={placeholder} onFocus={handleFocus} onBlur={handleBlur} />}
+                    {!isPushedOut && isScreenSmall && <BrowseManageButton accessToken={accessToken} isBrowsing={isBrowsing} setIsBrowsing={setIsBrowsing} isManaging={isManaging} setIsManaging={setIsManaging} setResults={setResults} setSearchText={setSearchText} setShowUsersPlaylists={setShowUsersPlaylists} />}
+                    {isScreenSmall && <Profile accessToken={accessToken} isScreenSmall={isScreenSmall} setIsPushedOut={setIsPushedOut} />}
                 </div>
-                <div className={styles.lists}>
-                    {showUsersPlaylists ?
-                        <UsersPlaylists accessToken={accessToken} setAccessToken={setAccessToken} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} usersPlaylists={usersPlaylists} setUsersPlaylists={setUsersPlaylists} showFailMessage={showFailMessage} /> :
-                            <SearchResults setPlaylist={setPlaylist} results={results} showFailMessage={showFailMessage} failMessage={failMessage} />
-                    }
-                    <PlaylistUnderConstruction playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} accessToken={accessToken} isSaving={isSaving} setIsSaving={setIsSaving} setSearchText={setSearchText} setResults={setResults} showSuccessMessage={showSuccessMessage} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setFailMessage={setFailMessage} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setUsersPlaylists={setUsersPlaylists} setShowUsersPlaylists={setShowUsersPlaylists} />                        
+                <div className={styles.listsContainer}>
+                    {!isScreenSmall ? (
+                        <div className={styles.twoLists}>
+                            {showUsersPlaylists ? (
+                                <div className={styles.firstList}>
+                                    <UsersPlaylists accessToken={accessToken} setAccessToken={setAccessToken} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} usersPlaylists={usersPlaylists} setUsersPlaylists={setUsersPlaylists} showFailMessage={showFailMessage} setIsBrowsing={setIsBrowsing} setIsManaging={setIsManaging} />
+                                </div>
+                            ) : (
+                                <div className={styles.firstList}>
+                                    <SearchResults setPlaylist={setPlaylist} results={results} showFailMessage={showFailMessage} failMessage={failMessage} />
+                                </div>
+                            )}
+                            <div className={styles.secondList}>
+                                <PlaylistUnderConstruction playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} accessToken={accessToken} isSaving={isSaving} setIsSaving={setIsSaving} setSearchText={setSearchText} setResults={setResults} showSuccessMessage={showSuccessMessage} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setFailMessage={setFailMessage} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setUsersPlaylists={setUsersPlaylists} setShowUsersPlaylists={setShowUsersPlaylists} />                        
+                            </div>
+                        </div>
+                    ) : (
+                        <div className={styles.oneList}>
+                            {isBrowsing && (
+                                showUsersPlaylists ? (
+                                    <UsersPlaylists accessToken={accessToken} setAccessToken={setAccessToken} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} usersPlaylists={usersPlaylists} setUsersPlaylists={setUsersPlaylists} showFailMessage={showFailMessage} setIsBrowsing={setIsBrowsing} setIsManaging={setIsManaging} />
+                                ) : (
+                                    <SearchResults setPlaylist={setPlaylist} results={results} showFailMessage={showFailMessage} failMessage={failMessage} />
+                                )
+                            )}
+                            {isManaging && (
+                                <PlaylistUnderConstruction playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} accessToken={accessToken} isSaving={isSaving} setIsSaving={setIsSaving} setSearchText={setSearchText} setResults={setResults} showSuccessMessage={showSuccessMessage} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setFailMessage={setFailMessage} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setUsersPlaylists={setUsersPlaylists} setShowUsersPlaylists={setShowUsersPlaylists} />
+                            )}
+                        </div>
+                    )}
                 </div>
-                
             </div> 
     );
 }

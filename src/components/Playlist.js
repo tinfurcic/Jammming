@@ -4,7 +4,7 @@ import getPlaylist from '../helper functions/getPlaylist';
 import noPlaylistImage from '../images/no-playlist-image.png';
 import decodeHtmlEntities from '../helper functions/decodeHtmlEntities';
 
-function Playlist ({accessToken, playlistInfo, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId}) {
+function Playlist ({accessToken, playlistInfo, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId, setIsBrowsing, setIsManaging}) {
 
     const openPlaylist = async (playlistInfo) => {
         setIsEditing(true);
@@ -16,6 +16,8 @@ function Playlist ({accessToken, playlistInfo, setPlaylist, setPlaylistName, set
         setPlaylist(playlist);
         setPlaylistName(playlistInfo.name)
         setOpenedPlaylistId(playlistInfo.id);
+        setIsBrowsing(false);
+        setIsManaging(true);
     }
 
     // "Delete playlist" button would be nice as well.

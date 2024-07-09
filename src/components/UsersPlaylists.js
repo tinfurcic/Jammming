@@ -4,7 +4,7 @@ import styles from "./UsersPlaylists.module.css";
 import getCurrentUserData from "../helper functions/getCurrentUserData";
 import getUsersPlaylists from "../helper functions/getUsersPlaylists";
 
-function UsersPlaylists ({accessToken, setAccessToken, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId, usersPlaylists, setUsersPlaylists, showFailMessage}) {
+function UsersPlaylists ({accessToken, setAccessToken, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId, usersPlaylists, setUsersPlaylists, showFailMessage, setIsBrowsing, setIsManaging}) {
 
     useEffect(() => {
         let isMounted = true;
@@ -43,7 +43,7 @@ function UsersPlaylists ({accessToken, setAccessToken, setPlaylist, setPlaylistN
                 {usersPlaylists ?
                     usersPlaylists.map((playlist) =>
                         <li key={playlist.id}>
-                            <Playlist accessToken={accessToken} playlistInfo={playlist} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} />
+                            <Playlist accessToken={accessToken} playlistInfo={playlist} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} setIsBrowsing={setIsBrowsing} setIsManaging={setIsManaging} />
                         </li>) :
                             <p>Loading playlists...</p>
                 }
