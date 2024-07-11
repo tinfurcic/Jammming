@@ -2,7 +2,7 @@ import React from 'react';
 import Track from './Track';
 import styles from './SearchResults.module.css';
             
-function SearchResults ({setPlaylist, results, showFailMessage, failMessage}) {
+function SearchResults ({setPlaylist, results, showFailMessage, failMessage, pairs}) {
     
     return (
         <div className={styles.searchResultsContainer} >
@@ -15,7 +15,7 @@ function SearchResults ({setPlaylist, results, showFailMessage, failMessage}) {
             <ul>
                 {results.map((result) =>
                 <li key={result.uri}>
-                    <Track trackInfo={result} setPlaylist={setPlaylist} parent="SearchResults"/>
+                    <Track trackInfo={result} setPlaylist={setPlaylist} parent="SearchResults" pairs={pairs} />
                 </li>)}
             </ul>
         </div>            

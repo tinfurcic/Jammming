@@ -3,7 +3,7 @@ import Track from './Track';
 import styles from './PlaylistUnderConstruction.module.css';
 import Save from './Save';
 
-function PlaylistUnderConstruction ({playlist, setPlaylist, playlistName, setPlaylistName, accessToken, isSaving, setIsSaving, setSearchText, setResults, showSuccessMessage, setShowSuccessMessage, setShowFailMessage, setFailMessage, isEditing, setIsEditing, openedPlaylistId, setUsersPlaylists, setShowUsersPlaylists, isScreenSmall, isScreenSmartphony, isScreenLarge }) {
+function PlaylistUnderConstruction ({playlist, setPlaylist, playlistName, setPlaylistName, accessToken, isSaving, setIsSaving, setSearchText, setResults, showSuccessMessage, setShowSuccessMessage, setShowFailMessage, setFailMessage, isEditing, setIsEditing, openedPlaylistId, setUsersPlaylists, setShowUsersPlaylists, isScreenSmall, isScreenSmartphony, isScreenLarge, pairs }) {
 
     const successMessage = "Saving completed!";
 
@@ -49,7 +49,7 @@ function PlaylistUnderConstruction ({playlist, setPlaylist, playlistName, setPla
                 <ul>
                     {playlist.map((track, index) =>
                         <li key={index} >
-                            <Track trackInfo={track} setPlaylist={setPlaylist} playlist={playlist} parent="PlaylistUnderConstruction"/>
+                            <Track trackInfo={track} setPlaylist={setPlaylist} playlist={playlist} parent="PlaylistUnderConstruction" pairs={pairs} />
                         </li>)
                     }
                 </ul>

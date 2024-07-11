@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./BrowseManageButton.module.css";
 import searchTracks from "../helper functions/searchTracks";
 
-function BrowseManageButton ({ accessToken, isBrowsing, setIsBrowsing, isManaging, setIsManaging, setResults, setSearchText, setShowUsersPlaylists }) {
+function BrowseManageButton ({ accessToken, isBrowsing, setIsBrowsing, isManaging, setIsManaging, setResults, searchText, setSearchText, setShowUsersPlaylists }) {
+
+    const [placeholder, setPlaceholder] = useState("Search tracks...");
 
     const switchToBrowsing = () => {
         setIsBrowsing(true);
@@ -12,6 +14,7 @@ function BrowseManageButton ({ accessToken, isBrowsing, setIsBrowsing, isManagin
     const switchToManaging = () => {
         setIsManaging(true);
         setIsBrowsing(false);
+        setShowUsersPlaylists(false);
     }
 
     const handleChange = (event) => {
@@ -21,11 +24,24 @@ function BrowseManageButton ({ accessToken, isBrowsing, setIsBrowsing, isManagin
         searchTracks(searchString, setResults, accessToken);
     }
 
+    const handleFocus = () => {
+        setPlaceholder('');
+        setIsBrowsing(true);
+        setIsManaging(false);
+        setShowUsersPlaylists(false);
+    }
+
+    const handleBlur = (event) => {
+        if (event.target.value === '') {
+            setPlaceholder('Search tracks...');
+        }
+    }
+
     return (
         <div className={`${styles.buttonContainer}`}>
-            <input className={`${styles.browse} ${isBrowsing ? styles.active : ""}`} placeholder={"Search tracks..."} onChange={handleChange} onMouseDown={switchToBrowsing} onTouchStart={switchToBrowsing} />
+            <input className={`${styles.browse} ${isBrowsing ? styles.active : ""}`} onChange={handleChange} value={searchText} placeholder={placeholder} onFocus={handleFocus} onBlur={handleBlur} onMouseDown={switchToBrowsing} onTouchStart={switchToBrowsing} />
             <button className={`${styles.manage} ${isManaging ? styles.active : ""}`} onMouseDown={switchToManaging} onTouchStart={switchToManaging}>
-                Manage
+                Manage draft
             </button>
         </div>
     );

@@ -5,28 +5,29 @@
     border-bottom: 1px solid gray;
 }
 
-.trackInfo {
-    flex-grow: 1;
-    min-width: 0; /* without this, text-overflow: elipsis; doesn't work */
-    border-right: 1px solid gray;
-}
-
-/* This whole part will be redesigned later */
-.button { /* this isn't actually styling a button, just the area it lies in (but it might end up spanning the whole area, idk) */
-    flex-basis: 53px; /* here I'm just manually trying to get a square area */
-    flex-shrink: 0;
-
-    display: flex;
-    justify-content: center;
-}
-
-.addBtn, .removeBtn {
-    height: 30px;
-    width: 30px;
-}
-
-.addBtn:hover, .removeBtn:hover {
+.trackContainer:hover {
     cursor: pointer;
+}
+
+.trackContainer.add:hover {
+    color: #1DB954;
+}
+
+.trackContainer.remove:hover {
+    color: #E3736F;
+}
+
+.trackContainer.grayedOut {
+    opacity: 0.3;
+}
+
+.trackContainer.grayedOut:hover {
+    cursor: default;
+    color: white;
+}
+
+.trackInfo {
+    min-width: 0; /* without this, text-overflow: elipsis; doesn't work */
 }
 
 .trackInfo h3, p {
