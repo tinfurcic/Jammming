@@ -3,7 +3,7 @@ import Track from './Track';
 import styles from './PlaylistUnderConstruction.module.css';
 import Save from './Save';
 
-function PlaylistUnderConstruction ({playlist, setPlaylist, playlistName, setPlaylistName, accessToken, isSaving, setIsSaving, setSearchText, setResults, showSuccessMessage, setShowSuccessMessage, setShowFailMessage, setFailMessage, isEditing, setIsEditing, openedPlaylistId, setUsersPlaylists, setShowUsersPlaylists, isScreenSmall, isScreenSmartphony }) {
+function PlaylistUnderConstruction ({playlist, setPlaylist, playlistName, setPlaylistName, accessToken, isSaving, setIsSaving, setSearchText, setResults, showSuccessMessage, setShowSuccessMessage, setShowFailMessage, setFailMessage, isEditing, setIsEditing, openedPlaylistId, setUsersPlaylists, setShowUsersPlaylists, isScreenSmall, isScreenSmartphony, isScreenLarge }) {
 
     const successMessage = "Saving completed!";
 
@@ -36,13 +36,13 @@ function PlaylistUnderConstruction ({playlist, setPlaylist, playlistName, setPla
                     showSuccessMessage ? <div className={styles.message}>{successMessage}</div> : null) :
                         <div className={styles.nameAndSaveContainer}>
                             <input className={styles.nameInput} id="playlistName" type="text" value={playlistName} onChange={handleChange} placeholder='New Playlist'/>
-                            <div className={`${styles.discardButtonWrapper} ${isScreenSmall || isScreenSmartphony ? styles.smallerDiscardButtonWrapper : ""}`}>
+                            <div className={`${styles.discardButtonWrapper} ${isScreenSmall || isScreenSmartphony || isScreenLarge ? styles.smallerDiscardButtonWrapper : ""}`}>
                                 <button className={styles.discardButton} onClick={handleDiscard}>
-                                    {isScreenSmall || isScreenSmartphony ? "Discard" : "Discard draft"}
+                                    {isScreenSmall || isScreenSmartphony || isScreenLarge ? "Discard" : "Discard draft"}
                                 </button>
                             </div>
                             <div className={styles.saveButtonContainer}>
-                                <Save accessToken={accessToken} playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} isSaving={isSaving} setIsSaving={setIsSaving} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setFailMessage={setFailMessage} setSearchText={setSearchText} setResults={setResults} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setUsersPlaylists={setUsersPlaylists} setShowUsersPlaylists={setShowUsersPlaylists} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} />
+                                <Save accessToken={accessToken} playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} isSaving={isSaving} setIsSaving={setIsSaving} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setFailMessage={setFailMessage} setSearchText={setSearchText} setResults={setResults} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setUsersPlaylists={setUsersPlaylists} setShowUsersPlaylists={setShowUsersPlaylists} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} isScreenLarge={isScreenLarge} />
                             </div>
                         </div>
                 }

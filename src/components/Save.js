@@ -6,7 +6,7 @@ import styles from './Save.module.css';
 import editPlaylist from '../helper functions/editPlaylist';
 import changePlaylistDetails from '../helper functions/changePlaylistDetails';
 
-function Save({ accessToken, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving, setShowSuccessMessage, setShowFailMessage, setFailMessage, setSearchText, setResults, isEditing, setIsEditing, openedPlaylistId, setUsersPlaylists, setShowUsersPlaylists, isScreenSmall, isScreenSmartphony }) {
+function Save({ accessToken, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving, setShowSuccessMessage, setShowFailMessage, setFailMessage, setSearchText, setResults, isEditing, setIsEditing, openedPlaylistId, setUsersPlaylists, setShowUsersPlaylists, isScreenSmall, isScreenSmartphony, isScreenLarge }) {
 
     // Inconvenient problem: after renaming a playlist, it takes a while for the changes to become visible.
         // I could temporarily save new playlist details and display them until API calls fetch updated playlist details.
@@ -85,10 +85,10 @@ function Save({ accessToken, playlist, setPlaylist, playlistName, setPlaylistNam
     }
 
     return (
-        <div className={`${styles.saveButtonWrapper} ${isScreenSmall || isScreenSmartphony ? styles.smallerSaveButtonWrapper : ""}`}>
+        <div className={`${styles.saveButtonWrapper} ${isScreenSmall || isScreenSmartphony || isScreenLarge ? styles.smallerSaveButtonWrapper : ""}`}>
             {!isEditing ? 
                 <button className={styles.saveButton} onClick={handleSave}>
-                    {isSaving ? "Saving..." : (isScreenSmall || isScreenSmartphony ? "Save" : "Save to Spotify")}
+                    {isSaving ? "Saving..." : (isScreenSmall || isScreenSmartphony || isScreenLarge ? "Save" : "Save to Spotify")}
                 </button> :
                     <button className={styles.saveButton} onClick={handleEdit} > 
                         {isSaving ? "Saving..." : "Save changes"}

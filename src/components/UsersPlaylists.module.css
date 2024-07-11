@@ -12,7 +12,7 @@
 }
 
 .tableHeading {
-    padding-bottom: 1em;
+    min-height: 3em;
     text-align: center;
     text-decoration-line: underline;
 }
