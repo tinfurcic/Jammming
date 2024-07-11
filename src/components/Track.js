@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Track.module.css';
 import noPlaylistImage from '../images/no-playlist-image.png';
 
-function Track ({trackInfo, setPlaylist, playlist, parent}) {
+function Track ({trackInfo, setPlaylist, playlist, parent, pairs}) {
 
     // Is there a better way to find the answer to "Is this track (which is an object) already on the playlist?"?
     const addToPlaylist = (trackToAdd) => {
@@ -22,7 +22,7 @@ function Track ({trackInfo, setPlaylist, playlist, parent}) {
     }
 
     return (
-            <div className={styles.trackContainer}>
+            <div className={`${styles.trackContainer} ${parent === "SearchResults" ? styles.add : styles.remove} ${pairs.includes(trackInfo) && parent === "SearchResults" ? styles.grayedOut : ""}`} onClick={parent === "SearchResults" ? () => addToPlaylist(trackInfo) : () => removeFromPlaylist(trackInfo.uri)}>
                 <div className={styles.trackImage}>
                     <img src = {trackInfo.album.images ? trackInfo.album.images[0].url : noPlaylistImage} alt="Playlist cover" />
                 </div>
@@ -32,11 +32,6 @@ function Track ({trackInfo, setPlaylist, playlist, parent}) {
                         if (i !== trackInfo.artists.length - 1) return artist.name + ', ';
                         else return artist.name;
                     })} | {trackInfo.album.name}</p>
-                </div>
-                <div className={styles.button}>
-                    {parent === "SearchResults" ?
-                    <button className={styles.addBtn} onClick={() => addToPlaylist(trackInfo)} > + </button> :
-                    <button className={styles.removeBtn} onClick={() => removeFromPlaylist(trackInfo.uri)} > - </button>}
                 </div>
             </div>
     );
