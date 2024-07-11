@@ -8,7 +8,7 @@ import BrowseManageButton from './BrowseManageButton';
 import Profile from './Profile';
 
 
-function SearchBar ({accessToken, setAccessToken, isSaving, setIsSaving, isScreenSmall, isScreenSmartphony, isPushedOut, setIsPushedOut }) {
+function SearchBar ({accessToken, setAccessToken, isSaving, setIsSaving, isScreenSmall, isScreenSmartphony, isScreenMedium, isPushedOut, setIsPushedOut }) {
     const [searchText, setSearchText] = useState('');
     const [placeholder, setPlaceholder] = useState('Search for tracks...');
     const [results, setResults] = useState([]);
@@ -27,7 +27,9 @@ function SearchBar ({accessToken, setAccessToken, isSaving, setIsSaving, isScree
     const [isManaging, setIsManaging] = useState(false);
 
     const handleChange = (event) => {
-        const searchString = event.target.value
+        setIsBrowsing(true);
+        setIsManaging(false);
+        const searchString = event.target.value;
         setSearchText(searchString);
         setShowUsersPlaylists(false);
         searchTracks(searchString, setResults, accessToken);
@@ -49,22 +51,33 @@ function SearchBar ({accessToken, setAccessToken, isSaving, setIsSaving, isScree
         }
     }
 
+    const openDraft = () => {
+        setIsManaging(true);
+        setIsBrowsing(false);
+    }
+
+// on small and smartphony screens, the profile button animation should be changed completely.
     return (
             <div className={styles.mainContainer}>
-                <div className={styles.browsingTools}>
-                    <div className={styles.myPlaylistsButtonContainer}>
-                        {!isPushedOut &&
-                            <button className={styles.myPlaylistsButton} onClick={toggleUsersPlaylists}>
+                <div className={`${styles.browsingTools} ${isPushedOut ? styles.pushRight : ""}`}>
+                    {!isPushedOut &&
+                        <div className={styles.toolbarButtonContainer}>
+                            <button className={styles.toolbarButton} onClick={toggleUsersPlaylists}>
                                 {showUsersPlaylists ? "Search results" : "My playlists"}
                             </button>
-                        }
-                    </div>
+                        </div>}
                     {!isScreenSmall && !isScreenSmartphony && <input className={`${styles.searchField}`} id="searchBar" type="search" onChange={handleChange} value={searchText} placeholder={placeholder} onFocus={handleFocus} onBlur={handleBlur} />}
                     {!isPushedOut && (isScreenSmall || isScreenSmartphony) && <BrowseManageButton accessToken={accessToken} isBrowsing={isBrowsing} setIsBrowsing={setIsBrowsing} isManaging={isManaging} setIsManaging={setIsManaging} setResults={setResults} setSearchText={setSearchText} setShowUsersPlaylists={setShowUsersPlaylists} />}
                     {(isScreenSmall || isScreenSmartphony) && <Profile accessToken={accessToken} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} setIsPushedOut={setIsPushedOut} />}
+                    {isScreenMedium && 
+                        <div className={`${styles.toolbarButtonContainer} ${isManaging || playlist.length === 0 ? styles.hidden : ""}`}>
+                            <button className={styles.toolbarButton} onClick={openDraft}>
+                                View draft
+                            </button>
+                        </div>}
                 </div>
                 <div className={styles.listsContainer}>
-                    {!isScreenSmall && !isScreenSmartphony ? (
+                    {!isScreenSmall && !isScreenSmartphony && !isScreenMedium ? (
                         <div className={styles.twoLists}>
                             {showUsersPlaylists ? (
                                 <div className={styles.firstList}>

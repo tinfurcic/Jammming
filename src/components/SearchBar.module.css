@@ -67,14 +67,14 @@
     outline: none;
 }
 
-.myPlaylistsButtonContainer {
+.toolbarButtonContainer {
     min-width: 8.2em; /* to prevent shifting of other flex items */
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.myPlaylistsButton {
+.toolbarButton {
     grid-column: 1; 
 
     width: 8.1em; /* this is set just to ensure the button size is the same regardless of what's written in it*/
@@ -89,14 +89,18 @@
     transition: box-shadow 0.2s linear;
 }
 
-.myPlaylistsButton:active {
+.toolbarButton:active {
     box-shadow: 0 0 1em #1DB954;
     font-size: 0.95em;
 }
 
-.myPlaylistsButton:hover {
+.toolbarButton:hover {
     box-shadow: 0 0 1em #1DB954;
     cursor: pointer;
+}
+
+.hidden {
+    visibility: hidden;
 }
 
 @media screen and (max-width: 320px) {
@@ -112,14 +116,19 @@
         margin-bottom: 1em;
     }
 
-    .myPlaylistsButtonContainer {
+    .toolbarButtonContainer {
         height: 100%;
         min-width: 5.1em;
     }
 
-    .myPlaylistsButton {
+    .toolbarButton {
         max-height: 100%;
         width: 5em;
+    }
+
+    .pushRight {
+        justify-content: flex-end;
+        margin-right: calc((100% - 5.1em - 8em - 3.025em)/6);
     }
 }
 
@@ -136,13 +145,25 @@
         margin-bottom: 1em;
     }
 
-    .myPlaylistsButtonContainer {
+    .toolbarButtonContainer {
         height: 100%;
         min-width: 5.1em;
     }
 
-    .myPlaylistsButton {
+    .toolbarButton {
         max-height: 100%;
         width: 5em;
     }
+
+    .pushRight {
+        justify-content: flex-end;
+        margin-right: calc((100% - 5.1em - 8em - 3.025em)/6);
+    }
 }
+
+@media screen and (min-width: 480px) and (max-width: 768px) {
+    .listsContainer {
+        margin-bottom: 1em;
+    }
+}
+
