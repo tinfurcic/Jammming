@@ -1,5 +1,5 @@
 .playlistContainer {
-    max-width: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
 }
@@ -53,6 +53,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.smallerDiscardButtonWrapper {
+    min-width: 4.5em;
+    margin-right: 0.5em;
 }
 
 .discardButton {

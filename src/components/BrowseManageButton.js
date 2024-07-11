@@ -23,7 +23,7 @@ function BrowseManageButton ({ accessToken, isBrowsing, setIsBrowsing, isManagin
 
     return (
         <div className={`${styles.buttonContainer}`}>
-            <input className={`${styles.browse} ${isBrowsing ? styles.active : ""}`} placeholder={"Search..."} onChange={handleChange} onMouseDown={switchToBrowsing} onTouchStart={switchToBrowsing} />
+            <input className={`${styles.browse} ${isBrowsing ? styles.active : ""}`} placeholder={"Search tracks..."} onChange={handleChange} onMouseDown={switchToBrowsing} onTouchStart={switchToBrowsing} />
             <button className={`${styles.manage} ${isManaging ? styles.active : ""}`} onMouseDown={switchToManaging} onTouchStart={switchToManaging}>
                 Manage
             </button>

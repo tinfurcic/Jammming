@@ -3,7 +3,7 @@ import getCurrentUserData from "../helper functions/getCurrentUserData";
 import styles from "./Profile.module.css";
 import { generateAuthUrl } from "../helper functions/generateAuthUrl";
 
-function Profile({ accessToken, isScreenSmall, setIsPushedOut }) {
+function Profile({ accessToken, isScreenSmall, isScreenSmartphony, setIsPushedOut }) {
     const [profileImage, setProfileImage] = useState(null);
     const [displayName, setDisplayName] = useState("");
 
@@ -16,12 +16,12 @@ function Profile({ accessToken, isScreenSmall, setIsPushedOut }) {
     const buttonRef = useRef(null);
 
     useEffect(() => {
-        if (isExpanded && isScreenSmall) {
+        if (isExpanded && (isScreenSmall || isScreenSmartphony)) {
             setIsPushedOut(true);
         } else {
             setIsPushedOut(false);
         }
-    }, [isExpanded, isScreenSmall, setIsPushedOut]);
+    }, [isExpanded, isScreenSmall, isScreenSmartphony, setIsPushedOut]);
 
 
     useEffect(() => { // I need this to effectively transition the linear gradient. Doesn't work in firefox, for now.

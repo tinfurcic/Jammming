@@ -3,6 +3,7 @@
     grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
     justify-items: center;
+    height: 5em;
 }
 
 .heading {
@@ -15,11 +16,4 @@
     grid-column: 3;
     justify-self: end;
     margin-right: 15%;
-}
-
-@media screen and (max-width: 320px) {
-    .hiddenOnSmallestScreens { /* you might want to change this to 768px later */
-        display: none;
-    }
-    
 }

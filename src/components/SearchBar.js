@@ -8,7 +8,7 @@ import BrowseManageButton from './BrowseManageButton';
 import Profile from './Profile';
 
 
-function SearchBar ({accessToken, setAccessToken, isSaving, setIsSaving, isScreenSmall }) {
+function SearchBar ({accessToken, setAccessToken, isSaving, setIsSaving, isScreenSmall, isScreenSmartphony, isPushedOut, setIsPushedOut }) {
     const [searchText, setSearchText] = useState('');
     const [placeholder, setPlaceholder] = useState('Search for tracks...');
     const [results, setResults] = useState([]);
@@ -25,8 +25,6 @@ function SearchBar ({accessToken, setAccessToken, isSaving, setIsSaving, isScree
     
     const [isBrowsing, setIsBrowsing] = useState(false);
     const [isManaging, setIsManaging] = useState(false);
-
-    const [isPushedOut, setIsPushedOut] = useState(false);
 
     const handleChange = (event) => {
         const searchString = event.target.value
@@ -61,12 +59,12 @@ function SearchBar ({accessToken, setAccessToken, isSaving, setIsSaving, isScree
                             </button>
                         }
                     </div>
-                    {!isScreenSmall && <input className={`${styles.searchField}`} id="searchBar" type="search" onChange={handleChange} value={searchText} placeholder={placeholder} onFocus={handleFocus} onBlur={handleBlur} />}
-                    {!isPushedOut && isScreenSmall && <BrowseManageButton accessToken={accessToken} isBrowsing={isBrowsing} setIsBrowsing={setIsBrowsing} isManaging={isManaging} setIsManaging={setIsManaging} setResults={setResults} setSearchText={setSearchText} setShowUsersPlaylists={setShowUsersPlaylists} />}
-                    {isScreenSmall && <Profile accessToken={accessToken} isScreenSmall={isScreenSmall} setIsPushedOut={setIsPushedOut} />}
+                    {!isScreenSmall && !isScreenSmartphony && <input className={`${styles.searchField}`} id="searchBar" type="search" onChange={handleChange} value={searchText} placeholder={placeholder} onFocus={handleFocus} onBlur={handleBlur} />}
+                    {!isPushedOut && (isScreenSmall || isScreenSmartphony) && <BrowseManageButton accessToken={accessToken} isBrowsing={isBrowsing} setIsBrowsing={setIsBrowsing} isManaging={isManaging} setIsManaging={setIsManaging} setResults={setResults} setSearchText={setSearchText} setShowUsersPlaylists={setShowUsersPlaylists} />}
+                    {(isScreenSmall || isScreenSmartphony) && <Profile accessToken={accessToken} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} setIsPushedOut={setIsPushedOut} />}
                 </div>
                 <div className={styles.listsContainer}>
-                    {!isScreenSmall ? (
+                    {!isScreenSmall && !isScreenSmartphony ? (
                         <div className={styles.twoLists}>
                             {showUsersPlaylists ? (
                                 <div className={styles.firstList}>
@@ -78,7 +76,7 @@ function SearchBar ({accessToken, setAccessToken, isSaving, setIsSaving, isScree
                                 </div>
                             )}
                             <div className={styles.secondList}>
-                                <PlaylistUnderConstruction playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} accessToken={accessToken} isSaving={isSaving} setIsSaving={setIsSaving} setSearchText={setSearchText} setResults={setResults} showSuccessMessage={showSuccessMessage} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setFailMessage={setFailMessage} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setUsersPlaylists={setUsersPlaylists} setShowUsersPlaylists={setShowUsersPlaylists} />                        
+                                <PlaylistUnderConstruction playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} accessToken={accessToken} isSaving={isSaving} setIsSaving={setIsSaving} setSearchText={setSearchText} setResults={setResults} showSuccessMessage={showSuccessMessage} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setFailMessage={setFailMessage} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setUsersPlaylists={setUsersPlaylists} setShowUsersPlaylists={setShowUsersPlaylists} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} />                        
                             </div>
                         </div>
                     ) : (
@@ -91,7 +89,7 @@ function SearchBar ({accessToken, setAccessToken, isSaving, setIsSaving, isScree
                                 )
                             )}
                             {isManaging && (
-                                <PlaylistUnderConstruction playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} accessToken={accessToken} isSaving={isSaving} setIsSaving={setIsSaving} setSearchText={setSearchText} setResults={setResults} showSuccessMessage={showSuccessMessage} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setFailMessage={setFailMessage} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setUsersPlaylists={setUsersPlaylists} setShowUsersPlaylists={setShowUsersPlaylists} />
+                                <PlaylistUnderConstruction playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} accessToken={accessToken} isSaving={isSaving} setIsSaving={setIsSaving} setSearchText={setSearchText} setResults={setResults} showSuccessMessage={showSuccessMessage} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setFailMessage={setFailMessage} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setUsersPlaylists={setUsersPlaylists} setShowUsersPlaylists={setShowUsersPlaylists} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} />
                             )}
                         </div>
                     )}
