@@ -8,11 +8,16 @@
     justify-content: center;
     justify-items: center;
     align-items: center;
+
+    overflow-y: hidden;
 }
 
 .accessDeniedError p {
+    max-width: 100%;
+    white-space: normal;
     font-size: 1.5em;
-    margin: 2em 0;
+    margin: 2em;
+    text-align: center;
 }
 
 .accessDeniedError button {
@@ -30,4 +35,10 @@
 
 .accessDeniedError button:hover {
     cursor: pointer;
+}
+
+@media screen and (max-width: 320px) {
+    .accessDeniedError p {
+        margin: 1em;
+    }
 }
