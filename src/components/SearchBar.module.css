@@ -55,16 +55,20 @@
     font-size: 1em;
 
     background-color: #191414;
-    color: white;
-    border: none;
-    box-shadow: 0 0 0.625em #1DB954;
+    color: gray;
+    border: 1px solid #1DB954;
     border-radius: 0.625em;
     padding: 1em;
     max-width: 11em;
 }
 
+.searchField::placeholder {
+    opacity: 1;
+}
+
 .searchField:focus {
     outline: none;
+    color: white;
 }
 
 .toolbarButtonContainer {
@@ -81,12 +85,11 @@
     font-size: 1em;
     background-color: #191414;
     color: white;
-    border: none;
-    box-shadow: 0 0 0.5em #1DB954;
+    border: 1px solid #1DB954;
     border-radius: 0.625em;
     padding: 1em;
 
-    transition: box-shadow 0.2s linear;
+    transition: box-shadow 0.1s linear;
 }
 
 .toolbarButton:active {

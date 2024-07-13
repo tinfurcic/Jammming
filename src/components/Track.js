@@ -22,7 +22,7 @@ function Track ({trackInfo, setPlaylist, playlist, parent, pairs}) {
     }
 
     return (
-            <div className={`${styles.trackContainer} ${parent === "SearchResults" ? styles.add : styles.remove} ${pairs.includes(trackInfo) && parent === "SearchResults" ? styles.grayedOut : ""}`} onClick={parent === "SearchResults" ? () => addToPlaylist(trackInfo) : () => removeFromPlaylist(trackInfo.uri)}>
+            <div className={`${styles.trackContainer} ${pairs.includes(trackInfo) && parent === "SearchResults" ? styles.grayedOut : ""}`}>
                 <div className={styles.trackImage}>
                     <img src = {trackInfo.album.images ? trackInfo.album.images[0].url : noPlaylistImage} alt="Playlist cover" />
                 </div>
@@ -32,6 +32,11 @@ function Track ({trackInfo, setPlaylist, playlist, parent, pairs}) {
                         if (i !== trackInfo.artists.length - 1) return artist.name + ', ';
                         else return artist.name;
                     })} | {trackInfo.album.name}</p>
+                </div>
+                <div className={`${styles.buttonContainer} ${parent === "SearchResults" ? styles.addButton : styles.removeButton}`}>
+                    <button className={styles.button} onClick={parent === "SearchResults" ? () => addToPlaylist(trackInfo) : () => removeFromPlaylist(trackInfo.uri)}>
+                        {parent === "SearchResults" ? "Add track" : "Remove track"}
+                    </button>
                 </div>
             </div>
     );

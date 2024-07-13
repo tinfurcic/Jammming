@@ -3,18 +3,7 @@
     flex-direction: row;
     align-items: center;
     border-bottom: 1px solid gray;
-}
-
-.trackContainer:hover {
-    cursor: pointer;
-}
-
-.trackContainer.add:hover {
-    color: #1DB954;
-}
-
-.trackContainer.remove:hover {
-    color: #E3736F;
+    overflow: hidden;
 }
 
 .trackContainer.grayedOut {
@@ -27,6 +16,7 @@
 }
 
 .trackInfo {
+    flex-grow: 1;
     min-width: 0; /* without this, text-overflow: elipsis; doesn't work */
 }
 
@@ -51,4 +41,62 @@
     flex-shrink: 0;
     /* At some point, shrinking might make sense (especially if the image was larger than 50px), but all images should
     shrink at the same rate. On small resolutions, images should probably vanish. */
+}
+
+.buttonContainer {
+    text-wrap: nowrap;
+    margin-right: 1em;
+    min-width: 6em;
+    height: 2em;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    visibility: collapse;
+}
+
+.button {
+    width: 100%;
+    height: 100%;
+    background-color: #191414;
+    color: white;
+    border: 1px solid white;
+    border-radius: 0.3125em;
+}
+
+.button:hover {
+    color: black;
+    cursor: pointer;
+    border: none;
+}
+
+.button:active {
+    font-size: 0.95em;
+    width: 98%;
+    height: 96%;
+}
+
+.trackContainer:hover > .buttonContainer {
+    visibility: visible;
+}
+
+.trackContainer.grayedOut:hover > .buttonContainer {
+    visibility: collapse;
+}
+
+.addButton {
+    min-width: 5em;
+}
+
+.addButton .button:hover {
+    background-color: #1DB954;
+}
+
+.removeButton {
+    min-width: 7em;
+}
+
+.removeButton .button:hover {
+    background-color: #E3736F;
 }
