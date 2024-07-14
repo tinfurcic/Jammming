@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Playlist from "./Playlist";
 import styles from "./UsersPlaylists.module.css";
 import getCurrentUserData from "../helper functions/getCurrentUserData";
@@ -6,8 +6,11 @@ import getUsersPlaylists from "../helper functions/getUsersPlaylists";
 
 function UsersPlaylists ({accessToken, setAccessToken, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId, usersPlaylists, setUsersPlaylists, showFailMessage, setIsBrowsing, setIsManaging}) {
 
+    const [isLoading, setIsLoading] = useState(true);
+
     useEffect(() => {
         let isMounted = true;
+        setIsLoading(true);
         const loadUsersPlaylists = async () => {
             try {
                 const userData = await getCurrentUserData(accessToken);
@@ -16,6 +19,7 @@ function UsersPlaylists ({accessToken, setAccessToken, setPlaylist, setPlaylistN
                     const fetchedPlaylists = await getUsersPlaylists(userId, accessToken);
                     if (isMounted) {
                         setUsersPlaylists(fetchedPlaylists);
+                        setIsLoading(false);
                     }
                 }
             }
@@ -29,15 +33,17 @@ function UsersPlaylists ({accessToken, setAccessToken, setPlaylist, setPlaylistN
         return () => {
             isMounted = false;
         }
-    }, [accessToken, setAccessToken, setUsersPlaylists]);
+    }, [accessToken, setAccessToken, setUsersPlaylists, setIsLoading]);
 
     return (
         <div className={styles.usersPlaylistsContainer} >
-            {usersPlaylists.length === 0 ? 
-                <div className={styles.message}>You don't have any saved playlists at the moment.</div> :
-                    <div className={styles.tableHeading}>
-                        <h2>My playlists</h2>
-                    </div>
+            {usersPlaylists.length === 0 ? (
+                <div className={styles.message}>{isLoading ? "Loading..." : "You don't have any saved playlists at the moment."}</div>
+                ) : (
+                <div className={styles.tableHeading}>
+                    <h2>My playlists</h2>
+                </div>
+                )
             }
             <ul>
                 {usersPlaylists ?
