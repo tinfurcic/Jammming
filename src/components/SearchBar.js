@@ -99,7 +99,7 @@ function SearchBar ({accessToken, setAccessToken, userData, isSaving, setIsSavin
                         <div className={styles.twoLists}>
                             {showUsersPlaylists ? (
                                 <div className={styles.firstList}>
-                                    <UsersPlaylists accessToken={accessToken} setAccessToken={setAccessToken} userData={userData} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} usersPlaylists={usersPlaylists} setUsersPlaylists={setUsersPlaylists} showFailMessage={showFailMessage} setIsBrowsing={setIsBrowsing} setIsManaging={setIsManaging} />
+                                    <UsersPlaylists accessToken={accessToken} setAccessToken={setAccessToken} userData={userData} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} usersPlaylists={usersPlaylists} setUsersPlaylists={setUsersPlaylists} showFailMessage={showFailMessage} setIsBrowsing={setIsBrowsing} setIsManaging={setIsManaging} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} />
                                 </div>
                             ) : (
                                 <div className={styles.firstList}>
@@ -114,7 +114,7 @@ function SearchBar ({accessToken, setAccessToken, userData, isSaving, setIsSavin
                         <div className={styles.oneList}>
                             {isBrowsing && (
                                 showUsersPlaylists ? (
-                                    <UsersPlaylists accessToken={accessToken} setAccessToken={setAccessToken} userData={userData} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} usersPlaylists={usersPlaylists} setUsersPlaylists={setUsersPlaylists} showFailMessage={showFailMessage} setIsBrowsing={setIsBrowsing} setIsManaging={setIsManaging} />
+                                    <UsersPlaylists accessToken={accessToken} setAccessToken={setAccessToken} userData={userData} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} usersPlaylists={usersPlaylists} setUsersPlaylists={setUsersPlaylists} showFailMessage={showFailMessage} setIsBrowsing={setIsBrowsing} setIsManaging={setIsManaging} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} />
                                 ) : (
                                     <SearchResults setPlaylist={setPlaylist} results={results} showResults={showResults} showFailMessage={showFailMessage} failMessage={failMessage} pairs={pairs} />
                                 )

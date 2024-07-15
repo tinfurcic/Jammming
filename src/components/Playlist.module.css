@@ -25,16 +25,32 @@
     visibility: collapse;
 }
 
+.buttonContainer.small {
+    margin-right: 0.5em;
+}
+
 .buttonContainer.edit {
     min-width: 6em;
+}
+
+.buttonContainer.small.edit {
+    min-width: 3em;
 }
 
 .buttonContainer.delete {
     min-width: 7em;
 }
 
+.buttonContainer.small.delete {
+    min-width: 4em;
+}
+
 .buttonContainer.copy {
     min-width: 6.5em;
+}
+
+.buttonContainer.small.copy {
+    min-width: 3.5em;
 }
 
 .button {

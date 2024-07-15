@@ -5,7 +5,7 @@ import noPlaylistImage from '../images/no-playlist-image.png';
 import decodeHtmlEntities from '../helper functions/decodeHtmlEntities';
 import unfollowPlaylist from '../helper functions/unfollowPlaylist';
 
-function Playlist ({accessToken, userData, playlistInfo, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId, setIsBrowsing, setIsManaging, usersPlaylists, setUsersPlaylists }) {
+function Playlist ({accessToken, userData, playlistInfo, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId, setIsBrowsing, setIsManaging, usersPlaylists, setUsersPlaylists, isScreenSmall, isScreenSmartphony }) {
 
     const isOwned = playlistInfo.owner.id === userData.id;
 
@@ -40,11 +40,19 @@ function Playlist ({accessToken, userData, playlistInfo, setPlaylist, setPlaylis
                 <h3>{playlistInfo.name}</h3>
                 <p>{playlistInfo.description ? decodeHtmlEntities(playlistInfo.description) + " | " : null} {playlistInfo.tracks.total} tracks </p>
             </div>
-            <div className={`${styles.buttonContainer} ${styles.delete}`}>
-                <button className={styles.button} onClick={() => deletePlaylist()} > Delete playlist </button>
+            <div className={`${styles.buttonContainer} ${styles.delete} ${isScreenSmall || isScreenSmartphony ? styles.small : ""}`}>
+                <button className={styles.button} onClick={() => deletePlaylist()} >
+                    {isScreenSmall || isScreenSmartphony ? "Delete" : "Delete playlist"}
+                </button>
             </div>
-            <div className={`${styles.buttonContainer} ${isOwned ? styles.edit : styles.copy}`}>
-                <button className={styles.button} onClick={() => openPlaylist(playlistInfo)} > {isOwned ? "Edit playlist" : "Copy playlist"} </button>
+            <div className={`${styles.buttonContainer} ${isOwned ? styles.edit : styles.copy} ${isScreenSmall || isScreenSmartphony ? styles.small : ""}`}>
+                <button className={styles.button} onClick={() => openPlaylist(playlistInfo)} >
+                    {isOwned ? (
+                        isScreenSmall || isScreenSmartphony ? "Edit" : "Edit playlist"
+                        ) : (
+                            isScreenSmall || isScreenSmartphony ? "Copy" : "Copy playlist"
+                        )}
+                    </button>
             </div>
         </div>
     );
