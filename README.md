@@ -11,11 +11,11 @@ The app is deployed at [tfjammming.netlify.app](https://tfjammming.netlify.app/)
 
 ## Features
 
-- **Responsive design**
+- **Responsive Design**
 - **Automatic User Authentication**
 - **Fast Searching**: Displays results instantly as you type in the search bar.
 - **Smart Searching**: Returns tracks related to the artists, albums, or even lyrics you search for.
-- **Browse Saved Playlists**
-- **Edit Owned Playlists**
+- **Create, Edit and Delete Playlists**
+- **Duplicate Followed Playlist**: Creates a copy of an unowned playlist, which can then be modified.
 - **Feedback Messages**: Provides simple success or failure notifications after saving or editing attempts.
 - **Easy Account Switching**

@@ -24,7 +24,7 @@ function Track ({trackInfo, setPlaylist, playlist, parent, pairs}) {
     return (
             <div className={`${styles.trackContainer} ${pairs.includes(trackInfo) && parent === "SearchResults" ? styles.grayedOut : ""}`}>
                 <div className={styles.trackImage}>
-                    <img src = {trackInfo.album.images ? trackInfo.album.images[0].url : noPlaylistImage} alt="Playlist cover" />
+                    <img src = {trackInfo.album.images[2] ? trackInfo.album.images[2].url : noPlaylistImage} alt="Playlist cover" />
                 </div>
                 <div className={styles.trackInfo}>
                     <h3>{trackInfo.name}</h3>

@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import getCurrentUserData from "../helper functions/getCurrentUserData";
 import styles from "./Profile.module.css";
 import { generateAuthUrl } from "../helper functions/generateAuthUrl";
 
-function Profile({ accessToken, isScreenSmall, isScreenSmartphony, setIsPushedOut }) {
+function Profile({ userData, isScreenSmall, isScreenSmartphony, setIsPushedOut }) {
     const [profileImage, setProfileImage] = useState(null);
     const [displayName, setDisplayName] = useState("");
 
@@ -88,26 +87,16 @@ function Profile({ accessToken, isScreenSmall, isScreenSmartphony, setIsPushedOu
 
     useEffect(() => {
         let isMounted = true;
-        async function getUserData() {
-            try {
-                const userData = await getCurrentUserData(accessToken);
-                if (isMounted) {
-                    if (userData.images && userData.images.length > 0) {
-                        setProfileImage(userData.images[userData.images.length - 1].url);
-                    }
-                    setDisplayName(userData.display_name);
-                }
-            } catch (error) {
-                console.error("Failed to fetch user data", error);
+        if (isMounted) {
+            if (userData && userData.images && userData.images.length > 0) {
+                setProfileImage(userData.images[userData.images.length - 1].url);
+                setDisplayName(userData.display_name);
             }
-        }
-        if (accessToken) {
-            getUserData();
         }
         return () => {
             isMounted = false;
         };
-    }, [accessToken]);
+    }, [userData]);
 
     const toggleExpansion = () => {
         setIsExpanded(!isExpanded);

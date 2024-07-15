@@ -3,16 +3,29 @@ import styles from './Playlist.module.css';
 import getPlaylist from '../helper functions/getPlaylist';
 import noPlaylistImage from '../images/no-playlist-image.png';
 import decodeHtmlEntities from '../helper functions/decodeHtmlEntities';
+import unfollowPlaylist from '../helper functions/unfollowPlaylist';
 
-function Playlist ({accessToken, playlistInfo, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId, setIsBrowsing, setIsManaging}) {
+function Playlist ({accessToken, userData, playlistInfo, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId, setIsBrowsing, setIsManaging, usersPlaylists, setUsersPlaylists, isScreenSmall, isScreenSmartphony, setIsPlaylistLoading }) {
+
+    const isOwned = playlistInfo.owner.id === userData.id;
 
     const openPlaylist = async (playlistInfo) => {
-        setIsEditing(true);
-        let playlist = [];
-        const getPlaylistArray = await getPlaylist(playlistInfo.id, accessToken);
-        for (const element of getPlaylistArray) {
-            playlist.push(element.track);
+        if (isOwned) {
+            setIsEditing(true);
         }
+        let playlist = [];
+        let nextLink = null;
+        do {
+            setPlaylist([]);
+            setIsPlaylistLoading(true);
+            const data = await getPlaylist(playlistInfo.id, accessToken, nextLink);
+            const tracksArray = data.items;
+            for (const element of tracksArray) {
+                playlist.push(element.track);
+            }
+            nextLink = data.next;
+        } while (nextLink);
+        setIsPlaylistLoading(false);
         setPlaylist(playlist);
         setPlaylistName(playlistInfo.name)
         setOpenedPlaylistId(playlistInfo.id);
@@ -20,7 +33,10 @@ function Playlist ({accessToken, playlistInfo, setPlaylist, setPlaylistName, set
         setIsManaging(true);
     }
 
-    // "Delete playlist" button would be nice as well.
+    const deletePlaylist = async () => {
+        unfollowPlaylist(accessToken, playlistInfo.id);
+        setUsersPlaylists(usersPlaylists.filter(playlist => playlist.id !== playlistInfo.id));
+    }
 
     return (
         <div className={styles.playlistContainer}>
@@ -31,8 +47,19 @@ function Playlist ({accessToken, playlistInfo, setPlaylist, setPlaylistName, set
                 <h3>{playlistInfo.name}</h3>
                 <p>{playlistInfo.description ? decodeHtmlEntities(playlistInfo.description) + " | " : null} {playlistInfo.tracks.total} tracks </p>
             </div>
-            <div className={styles.buttonContainer}>
-                <button className={styles.button} onClick={() => openPlaylist(playlistInfo)} > Edit playlist </button>
+            <div className={`${styles.buttonContainer} ${styles.delete} ${isScreenSmall || isScreenSmartphony ? styles.small : ""}`}>
+                <button className={styles.button} onClick={() => deletePlaylist()} >
+                    {isScreenSmall || isScreenSmartphony ? "Delete" : "Delete playlist"}
+                </button>
+            </div>
+            <div className={`${styles.buttonContainer} ${isOwned ? styles.edit : styles.copy} ${isScreenSmall || isScreenSmartphony ? styles.small : ""}`}>
+                <button className={styles.button} onClick={() => openPlaylist(playlistInfo)} >
+                    {isOwned ? (
+                        isScreenSmall || isScreenSmartphony ? "Edit" : "Edit playlist"
+                        ) : (
+                            isScreenSmall || isScreenSmartphony ? "Copy" : "Copy playlist"
+                        )}
+                    </button>
             </div>
         </div>
     );

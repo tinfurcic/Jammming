@@ -6,11 +6,32 @@ import styles from './Save.module.css';
 import editPlaylist from '../helper functions/editPlaylist';
 import changePlaylistDetails from '../helper functions/changePlaylistDetails';
 
-function Save({ accessToken, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving, setShowSuccessMessage, setShowFailMessage, setFailMessage, setSearchText, setResults, isEditing, setIsEditing, openedPlaylistId, setUsersPlaylists, setShowUsersPlaylists, isScreenSmall, isScreenSmartphony, isScreenLarge }) {
+function Save({ accessToken, userData, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving, setShowSuccessMessage, setShowFailMessage, setFailMessage, setShowResults, isEditing, setIsEditing, openedPlaylistId, setShowUsersPlaylists, isScreenSmall, isScreenSmartphony, isScreenLarge, setIsBrowsing, setIsManaging }) {
 
     // Inconvenient problem: after renaming a playlist, it takes a while for the changes to become visible.
         // I could temporarily save new playlist details and display them until API calls fetch updated playlist details.
 
+    const displayError = () => {
+        setShowResults(false);
+        setShowFailMessage(true);
+        setShowUsersPlaylists(false);
+        setIsBrowsing(true);
+        setIsManaging(false);
+    }
+
+    const displaySuccess = () => {
+        setPlaylistName("");
+        setPlaylist([]);
+        setShowSuccessMessage(true);
+        setShowFailMessage(false);
+    }    
+    const soundTheAlarm = (message) => {
+        setIsSaving(false);
+        setFailMessage(message);
+        displayError();
+        console.log("Saving NOT completed. Something went wrong.");
+    }
+        
     const handleSave = async () => {
         if (isSaving) {
             console.log("Saving is already in motion!")
@@ -18,15 +39,28 @@ function Save({ accessToken, playlist, setPlaylist, playlistName, setPlaylistNam
         }
         setIsSaving(true);
         try {
-            const currentUserData = await getCurrentUserData(accessToken);
-            const currentUserId = currentUserData.id;
+            let currentUserId;
+            if (userData) {
+                currentUserId = userData.id; // faster scenario
+            } else {
+                currentUserId = await getCurrentUserData(accessToken); // fallback slower scenario
+            }
             const playlistId = await createPlaylist(accessToken, currentUserId, playlistName);
-            const isCompleted = await addTracksToPlaylist(accessToken, playlist, playlistId);
+            let isCompleted;
+            let tempPlaylist = [...playlist];
+            while (tempPlaylist.length > 100) {
+                isCompleted = await addTracksToPlaylist(accessToken, tempPlaylist.slice(0, 100 - tempPlaylist.length), playlistId);
+                if (!isCompleted) {
+                    soundTheAlarm("[Save] The list is larger than 100 items. Something went wrong in the while loop.");
+                    return;
+                }   // I also need a safety net in case something goes wrong in the middle of the process.
+                    // Also, try to move as much code as you can to addTrackToPlaylist.js 
+                tempPlaylist = tempPlaylist.slice(100);
+            }
+            isCompleted = await addTracksToPlaylist(accessToken, tempPlaylist, playlistId);
+            
             if (isCompleted) {
-                setPlaylistName("");
-                setPlaylist([]);
-                setShowSuccessMessage(true);
-                setShowFailMessage(false);
+                displaySuccess();
                 console.log("Saving completed!")
             } else {
                 if (playlistName === "") {
@@ -35,9 +69,7 @@ function Save({ accessToken, playlist, setPlaylist, playlistName, setPlaylistNam
                 } else {
                     setFailMessage("Oops! An error occurred. Playlist is not saved.");
                 }
-                //setSearchText("");
-                setResults([]);
-                setShowFailMessage(true);
+                displayError();
                 console.log("Saving NOT completed. Something went wrong.")
             }
             setIsSaving(false); 
@@ -54,14 +86,30 @@ function Save({ accessToken, playlist, setPlaylist, playlistName, setPlaylistNam
         setIsSaving(true);
         try {
             const playlistId = openedPlaylistId;
-            const isRenamed = await changePlaylistDetails(accessToken, playlistId, playlistName, "A Jammming playlist"); // this doesn't work.
-            const isEdited = await editPlaylist(accessToken, playlist, playlistId)
+            const isRenamed = await changePlaylistDetails(accessToken, playlistId, playlistName, "A Jammming playlis123t");
+            let isEdited;
+            if (playlist.length <= 100) {
+                isEdited = await editPlaylist(accessToken, playlist, playlistId);
+            } else {
+                isEdited = await editPlaylist(accessToken, [], playlistId);
+                if (!isEdited) {
+                    soundTheAlarm("[Edit] The list is larger than 100 items. Something went wrong with setting it to [].");
+                    return;
+                }
+                let tempPlaylist = [...playlist];
+                while (tempPlaylist.length > 100) {
+                    isEdited = await addTracksToPlaylist(accessToken, tempPlaylist.slice(0, 100 - tempPlaylist.length), playlistId);
+                    if (!isEdited) {
+                        soundTheAlarm("[Edit] The list is larger than 100 items. Something went wrong in the process of adding tracks.");
+                        return;
+                    }
+                    tempPlaylist = tempPlaylist.slice(100);
+                }
+                isEdited = await addTracksToPlaylist(accessToken, tempPlaylist, playlistId);
+            }
             const isCompleted = isEdited && isRenamed;
             if (isCompleted) {
-                setPlaylistName("");
-                setPlaylist([]);
-                setShowSuccessMessage(true);
-                setShowFailMessage(false);
+                displaySuccess();
                 setIsEditing(false);
                 console.log("Changes successfully saved!")
             } else {
@@ -71,11 +119,7 @@ function Save({ accessToken, playlist, setPlaylist, playlistName, setPlaylistNam
                 } else {
                     setFailMessage("Oops! An error occurred. Playlist is not saved.");
                 }
-                //setSearchText("");
-                setResults([]);
-                setUsersPlaylists([]);
-                setShowFailMessage(true);
-                setShowUsersPlaylists(false);
+                displayError();
                 console.log("Changes are NOT saved. Something went wrong.")
             }
             setIsSaving(false); 
@@ -86,14 +130,15 @@ function Save({ accessToken, playlist, setPlaylist, playlistName, setPlaylistNam
 
     return (
         <div className={`${styles.saveButtonWrapper} ${isScreenSmall || isScreenSmartphony || isScreenLarge ? styles.smallerSaveButtonWrapper : ""}`}>
-            {!isEditing ? 
+            {!isEditing ? (
                 <button className={styles.saveButton} onClick={handleSave}>
                     {isSaving ? "Saving..." : (isScreenSmall || isScreenSmartphony || isScreenLarge ? "Save" : "Save to Spotify")}
-                </button> :
+                </button>
+                ) : (
                     <button className={styles.saveButton} onClick={handleEdit} > 
                         {isSaving ? "Saving..." : "Save changes"}
                     </button>
-            }
+                )}
         </div>
     );
 }
