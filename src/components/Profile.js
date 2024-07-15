@@ -88,9 +88,12 @@ function Profile({ userData, isScreenSmall, isScreenSmartphony, setIsPushedOut }
     useEffect(() => {
         let isMounted = true;
         if (isMounted) {
-            if (userData && userData.images && userData.images.length > 0) {
-                setProfileImage(userData.images[userData.images.length - 1].url);
-                setDisplayName(userData.display_name);
+            if (userData) {
+                if (userData.images && userData.images.length > 0) {
+                    setProfileImage(userData.images[userData.images.length - 1].url);
+                } else if (userData.display_name) {
+                    setDisplayName(userData.display_name);
+                }
             }
         }
         return () => {
