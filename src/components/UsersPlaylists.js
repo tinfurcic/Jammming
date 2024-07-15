@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Playlist from "./Playlist";
 import styles from "./UsersPlaylists.module.css";
-import getCurrentUserData from "../helper functions/getCurrentUserData";
 import getUsersPlaylists from "../helper functions/getUsersPlaylists";
 
-function UsersPlaylists ({accessToken, setAccessToken, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId, usersPlaylists, setUsersPlaylists, showFailMessage, setIsBrowsing, setIsManaging}) {
+function UsersPlaylists ({accessToken, setAccessToken, userData, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId, usersPlaylists, setUsersPlaylists, showFailMessage, setIsBrowsing, setIsManaging}) {
 
     const [isLoading, setIsLoading] = useState(true);
 
@@ -13,14 +12,14 @@ function UsersPlaylists ({accessToken, setAccessToken, setPlaylist, setPlaylistN
         setIsLoading(true);
         const loadUsersPlaylists = async () => {
             try {
-                const userData = await getCurrentUserData(accessToken);
+                let userId;
+                if (userData) {
+                    userId = userData.id;
+                }
+                const fetchedPlaylists = await getUsersPlaylists(userId, accessToken);
                 if (isMounted) {
-                    const userId = userData.id;
-                    const fetchedPlaylists = await getUsersPlaylists(userId, accessToken);
-                    if (isMounted) {
-                        setUsersPlaylists(fetchedPlaylists);
-                        setIsLoading(false);
-                    }
+                    setUsersPlaylists(fetchedPlaylists);
+                    setIsLoading(false);
                 }
             }
             catch (error) {
@@ -33,7 +32,7 @@ function UsersPlaylists ({accessToken, setAccessToken, setPlaylist, setPlaylistN
         return () => {
             isMounted = false;
         }
-    }, [accessToken, setAccessToken, setUsersPlaylists, setIsLoading]);
+    }, [accessToken, setAccessToken, setUsersPlaylists, setIsLoading, userData]);
 
     return (
         <div className={styles.usersPlaylistsContainer} >
@@ -49,7 +48,7 @@ function UsersPlaylists ({accessToken, setAccessToken, setPlaylist, setPlaylistN
                 {usersPlaylists ?
                     usersPlaylists.map((playlist) =>
                         <li key={playlist.id}>
-                            <Playlist accessToken={accessToken} playlistInfo={playlist} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} setIsBrowsing={setIsBrowsing} setIsManaging={setIsManaging} />
+                            <Playlist accessToken={accessToken} userData={userData} playlistInfo={playlist} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} setIsBrowsing={setIsBrowsing} setIsManaging={setIsManaging} usersPlaylists={usersPlaylists} setUsersPlaylists={setUsersPlaylists} />
                         </li>) :
                             <p>Loading playlists...</p>
                 }

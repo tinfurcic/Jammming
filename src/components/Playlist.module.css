@@ -25,6 +25,18 @@
     visibility: collapse;
 }
 
+.buttonContainer.edit {
+    min-width: 6em;
+}
+
+.buttonContainer.delete {
+    min-width: 7em;
+}
+
+.buttonContainer.copy {
+    min-width: 6.5em;
+}
+
 .button {
     width: 100%;
     height: 100%;
@@ -35,10 +47,17 @@
 }
 
 .button:hover {
-    background-color: #1DB954;
     color: black;
     cursor: pointer;
     border: none;
+}
+
+.edit .button:hover, .copy .button:hover {
+    background-color: #1DB954;
+}
+
+.delete .button:hover {
+    background-color: #E3736F;
 }
 
 .button:active {

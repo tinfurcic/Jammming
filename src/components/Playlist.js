@@ -3,11 +3,16 @@ import styles from './Playlist.module.css';
 import getPlaylist from '../helper functions/getPlaylist';
 import noPlaylistImage from '../images/no-playlist-image.png';
 import decodeHtmlEntities from '../helper functions/decodeHtmlEntities';
+import unfollowPlaylist from '../helper functions/unfollowPlaylist';
 
-function Playlist ({accessToken, playlistInfo, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId, setIsBrowsing, setIsManaging}) {
+function Playlist ({accessToken, userData, playlistInfo, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId, setIsBrowsing, setIsManaging, usersPlaylists, setUsersPlaylists }) {
+
+    const isOwned = playlistInfo.owner.id === userData.id;
 
     const openPlaylist = async (playlistInfo) => {
-        setIsEditing(true);
+        if (isOwned) {
+            setIsEditing(true);
+        }
         let playlist = [];
         const getPlaylistArray = await getPlaylist(playlistInfo.id, accessToken);
         for (const element of getPlaylistArray) {
@@ -18,9 +23,13 @@ function Playlist ({accessToken, playlistInfo, setPlaylist, setPlaylistName, set
         setOpenedPlaylistId(playlistInfo.id);
         setIsBrowsing(false);
         setIsManaging(true);
+        console.log(playlistInfo);
     }
 
-    // "Delete playlist" button would be nice as well.
+    const deletePlaylist = async () => {
+        unfollowPlaylist(accessToken, playlistInfo.id);
+        setUsersPlaylists(usersPlaylists.filter(playlist => playlist.id !== playlistInfo.id));
+    }
 
     return (
         <div className={styles.playlistContainer}>
@@ -31,8 +40,11 @@ function Playlist ({accessToken, playlistInfo, setPlaylist, setPlaylistName, set
                 <h3>{playlistInfo.name}</h3>
                 <p>{playlistInfo.description ? decodeHtmlEntities(playlistInfo.description) + " | " : null} {playlistInfo.tracks.total} tracks </p>
             </div>
-            <div className={styles.buttonContainer}>
-                <button className={styles.button} onClick={() => openPlaylist(playlistInfo)} > Edit playlist </button>
+            <div className={`${styles.buttonContainer} ${styles.delete}`}>
+                <button className={styles.button} onClick={() => deletePlaylist()} > Delete playlist </button>
+            </div>
+            <div className={`${styles.buttonContainer} ${isOwned ? styles.edit : styles.copy}`}>
+                <button className={styles.button} onClick={() => openPlaylist(playlistInfo)} > {isOwned ? "Edit playlist" : "Copy playlist"} </button>
             </div>
         </div>
     );

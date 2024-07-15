@@ -6,7 +6,7 @@ import styles from './Save.module.css';
 import editPlaylist from '../helper functions/editPlaylist';
 import changePlaylistDetails from '../helper functions/changePlaylistDetails';
 
-function Save({ accessToken, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving, setShowSuccessMessage, setShowFailMessage, setFailMessage, setShowResults, isEditing, setIsEditing, openedPlaylistId, setShowUsersPlaylists, isScreenSmall, isScreenSmartphony, isScreenLarge }) {
+function Save({ accessToken, userData, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving, setShowSuccessMessage, setShowFailMessage, setFailMessage, setShowResults, isEditing, setIsEditing, openedPlaylistId, setShowUsersPlaylists, isScreenSmall, isScreenSmartphony, isScreenLarge }) {
 
     // Inconvenient problem: after renaming a playlist, it takes a while for the changes to become visible.
         // I could temporarily save new playlist details and display them until API calls fetch updated playlist details.
@@ -18,8 +18,12 @@ function Save({ accessToken, playlist, setPlaylist, playlistName, setPlaylistNam
         }
         setIsSaving(true);
         try {
-            const currentUserData = await getCurrentUserData(accessToken);
-            const currentUserId = currentUserData.id;
+            let currentUserId;
+            if (userData) {
+                currentUserId = userData.id; // faster scenario
+            } else {
+                currentUserId = await getCurrentUserData(accessToken); // fallback slower scenario
+            }
             const playlistId = await createPlaylist(accessToken, currentUserId, playlistName);
             const isCompleted = await addTracksToPlaylist(accessToken, playlist, playlistId);
             if (isCompleted) {
@@ -84,14 +88,15 @@ function Save({ accessToken, playlist, setPlaylist, playlistName, setPlaylistNam
 
     return (
         <div className={`${styles.saveButtonWrapper} ${isScreenSmall || isScreenSmartphony || isScreenLarge ? styles.smallerSaveButtonWrapper : ""}`}>
-            {!isEditing ? 
+            {!isEditing ? (
                 <button className={styles.saveButton} onClick={handleSave}>
                     {isSaving ? "Saving..." : (isScreenSmall || isScreenSmartphony || isScreenLarge ? "Save" : "Save to Spotify")}
-                </button> :
+                </button>
+                ) : (
                     <button className={styles.saveButton} onClick={handleEdit} > 
                         {isSaving ? "Saving..." : "Save changes"}
                     </button>
-            }
+                )}
         </div>
     );
 }

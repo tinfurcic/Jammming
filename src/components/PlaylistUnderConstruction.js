@@ -3,17 +3,17 @@ import Track from './Track';
 import styles from './PlaylistUnderConstruction.module.css';
 import Save from './Save';
 
-function PlaylistUnderConstruction ({playlist, setPlaylist, playlistName, setPlaylistName, accessToken, isSaving, setIsSaving, setShowResults, showSuccessMessage, setShowSuccessMessage, setShowFailMessage, setFailMessage, isEditing, setIsEditing, openedPlaylistId, setShowUsersPlaylists, isScreenSmall, isScreenSmartphony, isScreenLarge, pairs }) {
+function PlaylistUnderConstruction ({ userData, playlist, setPlaylist, playlistName, setPlaylistName, accessToken, isSaving, setIsSaving, setShowResults, showSuccessMessage, setShowSuccessMessage, setShowFailMessage, setFailMessage, isEditing, setIsEditing, openedPlaylistId, setShowUsersPlaylists, isScreenSmall, isScreenSmartphony, isScreenLarge, pairs }) {
 
     const successMessage = "Saving completed!";
 
-    useEffect (() => { // remove the message if new tracks are added to the playlist
+    useEffect (() => {
         if (playlist.length !== 0) {
             setShowSuccessMessage(false);
         }
     }, [playlist.length, setShowSuccessMessage]);
 
-    useEffect(() => { // if there are no tracks in the playlist under construction, then we're not really editing anymore.
+    useEffect(() => {
         if (playlist.length === 0) {
             setIsEditing(false);
             setPlaylistName("");
@@ -42,7 +42,7 @@ function PlaylistUnderConstruction ({playlist, setPlaylist, playlistName, setPla
                                 </button>
                             </div>
                             <div className={styles.saveButtonContainer}>
-                                <Save accessToken={accessToken} playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} isSaving={isSaving} setIsSaving={setIsSaving} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setFailMessage={setFailMessage} setShowResults={setShowResults} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setShowUsersPlaylists={setShowUsersPlaylists} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} isScreenLarge={isScreenLarge} />
+                                <Save accessToken={accessToken} userData={userData} playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} isSaving={isSaving} setIsSaving={setIsSaving} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setFailMessage={setFailMessage} setShowResults={setShowResults} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setShowUsersPlaylists={setShowUsersPlaylists} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} isScreenLarge={isScreenLarge} />
                             </div>
                         </div>
                 }
