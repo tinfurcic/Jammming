@@ -5,7 +5,7 @@ import noPlaylistImage from '../images/no-playlist-image.png';
 import decodeHtmlEntities from '../helper functions/decodeHtmlEntities';
 import unfollowPlaylist from '../helper functions/unfollowPlaylist';
 
-function Playlist ({accessToken, userData, playlistInfo, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId, setIsBrowsing, setIsManaging, usersPlaylists, setUsersPlaylists, isScreenSmall, isScreenSmartphony }) {
+function Playlist ({accessToken, userData, playlistInfo, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId, setIsBrowsing, setIsManaging, usersPlaylists, setUsersPlaylists, isScreenSmall, isScreenSmartphony, setIsPlaylistLoading }) {
 
     const isOwned = playlistInfo.owner.id === userData.id;
 
@@ -14,16 +14,23 @@ function Playlist ({accessToken, userData, playlistInfo, setPlaylist, setPlaylis
             setIsEditing(true);
         }
         let playlist = [];
-        const getPlaylistArray = await getPlaylist(playlistInfo.id, accessToken);
-        for (const element of getPlaylistArray) {
-            playlist.push(element.track);
-        }
+        let nextLink = null;
+        do {
+            setPlaylist([]);
+            setIsPlaylistLoading(true);
+            const data = await getPlaylist(playlistInfo.id, accessToken, nextLink);
+            const tracksArray = data.items;
+            for (const element of tracksArray) {
+                playlist.push(element.track);
+            }
+            nextLink = data.next;
+        } while (nextLink);
+        setIsPlaylistLoading(false);
         setPlaylist(playlist);
         setPlaylistName(playlistInfo.name)
         setOpenedPlaylistId(playlistInfo.id);
         setIsBrowsing(false);
         setIsManaging(true);
-        console.log(playlistInfo);
     }
 
     const deletePlaylist = async () => {

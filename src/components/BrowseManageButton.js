@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./BrowseManageButton.module.css";
 import searchTracks from "../helper functions/searchTracks";
 
-function BrowseManageButton ({ accessToken, isBrowsing, setIsBrowsing, isManaging, setIsManaging, setResults, searchText, setSearchText, setShowUsersPlaylists }) {
+function BrowseManageButton ({ accessToken, isBrowsing, setIsBrowsing, isManaging, setIsManaging, setResults, searchText, setSearchText, setShowUsersPlaylists, setShowResults, setShowFailMessage }) {
 
     const [placeholder, setPlaceholder] = useState("Search tracks...");
 
@@ -25,6 +25,8 @@ function BrowseManageButton ({ accessToken, isBrowsing, setIsBrowsing, isManagin
     }
 
     const handleFocus = () => {
+        setShowResults(true);
+        setShowFailMessage(false);
         setPlaceholder('');
         setIsBrowsing(true);
         setIsManaging(false);

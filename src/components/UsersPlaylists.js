@@ -3,7 +3,7 @@ import Playlist from "./Playlist";
 import styles from "./UsersPlaylists.module.css";
 import getUsersPlaylists from "../helper functions/getUsersPlaylists";
 
-function UsersPlaylists ({accessToken, setAccessToken, userData, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId, usersPlaylists, setUsersPlaylists, showFailMessage, setIsBrowsing, setIsManaging, isScreenSmall, isScreenSmartphony}) {
+function UsersPlaylists ({accessToken, setAccessToken, userData, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId, usersPlaylists, setUsersPlaylists, showFailMessage, setIsBrowsing, setIsManaging, isScreenSmall, isScreenSmartphony, setIsPlaylistLoading}) {
 
     const [isLoading, setIsLoading] = useState(true);
 
@@ -48,7 +48,7 @@ function UsersPlaylists ({accessToken, setAccessToken, userData, setPlaylist, se
                 {usersPlaylists ?
                     usersPlaylists.map((playlist) =>
                         <li key={playlist.id}>
-                            <Playlist accessToken={accessToken} userData={userData} playlistInfo={playlist} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} setIsBrowsing={setIsBrowsing} setIsManaging={setIsManaging} usersPlaylists={usersPlaylists} setUsersPlaylists={setUsersPlaylists} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} />
+                            <Playlist accessToken={accessToken} userData={userData} playlistInfo={playlist} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} setIsBrowsing={setIsBrowsing} setIsManaging={setIsManaging} usersPlaylists={usersPlaylists} setUsersPlaylists={setUsersPlaylists} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} setIsPlaylistLoading={setIsPlaylistLoading} />
                         </li>) :
                             <p>Loading playlists...</p>
                 }

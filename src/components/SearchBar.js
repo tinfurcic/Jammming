@@ -17,6 +17,8 @@ function SearchBar ({accessToken, setAccessToken, userData, isSaving, setIsSavin
     const [isEditing, setIsEditing] = useState(false);
     const [openedPlaylistId, setOpenedPlaylistId] = useState('');
     const [usersPlaylists, setUsersPlaylists] = useState([]);
+    const [pairs, setPairs] = useState([]);
+    const [isPlaylistLoading, setIsPlaylistLoading] = useState(false);
 
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const [failMessage, setFailMessage] = useState("placeholder fail message");
@@ -25,8 +27,6 @@ function SearchBar ({accessToken, setAccessToken, userData, isSaving, setIsSavin
     
     const [isBrowsing, setIsBrowsing] = useState(false);
     const [isManaging, setIsManaging] = useState(false);
-
-    const [pairs, setPairs] = useState([]);
 
     const handleChange = (event) => {
         setIsBrowsing(true);
@@ -85,7 +85,7 @@ function SearchBar ({accessToken, setAccessToken, userData, isSaving, setIsSavin
                             </button>
                         </div>}
                     {!isScreenSmall && !isScreenSmartphony && <input className={`${styles.searchField}`} id="searchBar" type="search" onChange={handleChange} value={searchText} placeholder={placeholder} onFocus={handleFocus} onBlur={handleBlur} />}
-                    {!isPushedOut && (isScreenSmall || isScreenSmartphony) && <BrowseManageButton accessToken={accessToken} isBrowsing={isBrowsing} setIsBrowsing={setIsBrowsing} isManaging={isManaging} setIsManaging={setIsManaging} setResults={setResults} searchText={searchText} setSearchText={setSearchText} setShowUsersPlaylists={setShowUsersPlaylists} />}
+                    {!isPushedOut && (isScreenSmall || isScreenSmartphony) && <BrowseManageButton accessToken={accessToken} isBrowsing={isBrowsing} setIsBrowsing={setIsBrowsing} isManaging={isManaging} setIsManaging={setIsManaging} setResults={setResults} searchText={searchText} setSearchText={setSearchText} setShowUsersPlaylists={setShowUsersPlaylists} setShowResults={setShowResults} setShowFailMessage={setShowFailMessage} />}
                     {(isScreenSmall || isScreenSmartphony) && <Profile userData={userData} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} setIsPushedOut={setIsPushedOut} />}
                     {isScreenMedium && 
                         <div className={`${styles.toolbarButtonContainer} ${isManaging || playlist.length === 0 ? styles.hidden : ""}`}>
@@ -99,7 +99,7 @@ function SearchBar ({accessToken, setAccessToken, userData, isSaving, setIsSavin
                         <div className={styles.twoLists}>
                             {showUsersPlaylists ? (
                                 <div className={styles.firstList}>
-                                    <UsersPlaylists accessToken={accessToken} setAccessToken={setAccessToken} userData={userData} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} usersPlaylists={usersPlaylists} setUsersPlaylists={setUsersPlaylists} showFailMessage={showFailMessage} setIsBrowsing={setIsBrowsing} setIsManaging={setIsManaging} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} />
+                                    <UsersPlaylists accessToken={accessToken} setAccessToken={setAccessToken} userData={userData} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} usersPlaylists={usersPlaylists} setUsersPlaylists={setUsersPlaylists} showFailMessage={showFailMessage} setIsBrowsing={setIsBrowsing} setIsManaging={setIsManaging} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} setIsPlaylistLoading={setIsPlaylistLoading} />
                                 </div>
                             ) : (
                                 <div className={styles.firstList}>
@@ -107,20 +107,20 @@ function SearchBar ({accessToken, setAccessToken, userData, isSaving, setIsSavin
                                 </div>
                             )}
                             <div className={styles.secondList}>
-                                <PlaylistUnderConstruction userData={userData} playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} accessToken={accessToken} isSaving={isSaving} setIsSaving={setIsSaving} setShowResults={setShowResults} showSuccessMessage={showSuccessMessage} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setFailMessage={setFailMessage} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setShowUsersPlaylists={setShowUsersPlaylists} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} isScreenLarge={isScreenLarge} pairs={pairs} />                      
+                                <PlaylistUnderConstruction userData={userData} playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} accessToken={accessToken} isSaving={isSaving} setIsSaving={setIsSaving} setShowResults={setShowResults} showSuccessMessage={showSuccessMessage} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setFailMessage={setFailMessage} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setShowUsersPlaylists={setShowUsersPlaylists} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} isScreenLarge={isScreenLarge} pairs={pairs} isPlaylistLoading={isPlaylistLoading} setIsBrowsing={setIsBrowsing} setIsManaging={setIsManaging} />                      
                             </div>
                         </div>
                     ) : (
                         <div className={styles.oneList}>
                             {isBrowsing && (
                                 showUsersPlaylists ? (
-                                    <UsersPlaylists accessToken={accessToken} setAccessToken={setAccessToken} userData={userData} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} usersPlaylists={usersPlaylists} setUsersPlaylists={setUsersPlaylists} showFailMessage={showFailMessage} setIsBrowsing={setIsBrowsing} setIsManaging={setIsManaging} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} />
+                                    <UsersPlaylists accessToken={accessToken} setAccessToken={setAccessToken} userData={userData} setPlaylist={setPlaylist} setPlaylistName={setPlaylistName} setIsEditing={setIsEditing} setOpenedPlaylistId={setOpenedPlaylistId} usersPlaylists={usersPlaylists} setUsersPlaylists={setUsersPlaylists} showFailMessage={showFailMessage} setIsBrowsing={setIsBrowsing} setIsManaging={setIsManaging} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} setIsPlaylistLoading={setIsPlaylistLoading} />
                                 ) : (
                                     <SearchResults setPlaylist={setPlaylist} results={results} showResults={showResults} showFailMessage={showFailMessage} failMessage={failMessage} pairs={pairs} />
                                 )
                             )}
                             {isManaging && (
-                                <PlaylistUnderConstruction userData={userData} playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} accessToken={accessToken} isSaving={isSaving} setIsSaving={setIsSaving} setShowResults={setShowResults} showSuccessMessage={showSuccessMessage} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setFailMessage={setFailMessage} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setShowUsersPlaylists={setShowUsersPlaylists} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} isScreenLarge={isScreenLarge} pairs={pairs} />
+                                <PlaylistUnderConstruction userData={userData} playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} accessToken={accessToken} isSaving={isSaving} setIsSaving={setIsSaving} setShowResults={setShowResults} showSuccessMessage={showSuccessMessage} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setFailMessage={setFailMessage} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setShowUsersPlaylists={setShowUsersPlaylists} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} isScreenLarge={isScreenLarge} pairs={pairs} isPlaylistLoading={isPlaylistLoading} setIsBrowsing={setIsBrowsing} setIsManaging={setIsManaging} />
                             )}
                         </div>
                     )}
