@@ -73,7 +73,8 @@
 }
 
 .delete .button:hover {
-    background-color: #E3736F;
+    background-color: white;
+    color: #191414;
 }
 
 .button:active {

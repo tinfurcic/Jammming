@@ -21,7 +21,12 @@ function Playlist ({accessToken, userData, playlistInfo, setPlaylist, setPlaylis
             const data = await getPlaylist(playlistInfo.id, accessToken, nextLink);
             const tracksArray = data.items;
             for (const element of tracksArray) {
-                playlist.push(element.track);
+                if (element.track.id === null) { // there might be a better way, but it looks like this avoids errors with addTracksToPlaylist
+                    console.log("Skipped track:");
+                    console.log(element.track);
+                } else {
+                    playlist.push(element.track);
+                }
             }
             nextLink = data.next;
         } while (nextLink);
