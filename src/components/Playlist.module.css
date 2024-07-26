@@ -29,14 +29,6 @@
     margin-right: 0.5em;
 }
 
-.buttonContainer.edit {
-    min-width: 6em;
-}
-
-.buttonContainer.small.edit {
-    min-width: 3em;
-}
-
 .buttonContainer.delete {
     min-width: 7em;
 }
@@ -45,11 +37,11 @@
     min-width: 4em;
 }
 
-.buttonContainer.copy {
+.buttonContainer.open {
     min-width: 6.5em;
 }
 
-.buttonContainer.small.copy {
+.buttonContainer.small.open {
     min-width: 3.5em;
 }
 
@@ -68,7 +60,7 @@
     border: none;
 }
 
-.edit .button:hover, .copy .button:hover {
+.open .button:hover {
     background-color: #1DB954;
 }
 
@@ -108,4 +100,55 @@
     flex-shrink: 0;
     /* At some point, shrinking might make sense (especially if the image was larger than 50px), but all images should
     shrink at the same rate. On small resolutions, images should probably vanish. */
+}
+
+.confirmationContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1em;
+    margin-right: 1em;
+    width: 250px;
+}
+
+.confirmationContainer span {
+    text-wrap: nowrap;
+    text-align: center;
+}
+
+.confirmButtonContainer {
+    min-width: 2.5em;
+    height: 2em;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.yes:active, .no:active {
+    font-size: 0.95em;
+    width: 92%;
+    height: 96%;
+}
+
+.yes:hover {
+    background-color: #1DB954;
+    border: none;
+    color: #191414;
+}
+
+.no:hover {
+    background-color: white;
+    color: #191414;
+}
+
+.confirmationContainer.small {
+    gap: 0.5em;
+    margin-right: 0.5em;
+}
+
+span.wrap {
+    min-width: 4em;
+    text-wrap: wrap;
 }
