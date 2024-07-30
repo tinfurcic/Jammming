@@ -90,6 +90,10 @@
     padding: 1em;
 
     transition: box-shadow 0.1s linear;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .toolbarButton:active {

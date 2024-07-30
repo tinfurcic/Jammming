@@ -52,7 +52,7 @@ function App({accessToken, setAccessToken}) {
     return (
         <div className={`${styles.App} ${isSaving ? styles.saving : ''}`}>
             <div className={styles.header}>
-                <Header accessToken={accessToken} userData={userData} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} isPushedOut={isPushedOut} setIsPushedOut={setIsPushedOut} />
+                <Header userData={userData} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} isPushedOut={isPushedOut} setIsPushedOut={setIsPushedOut} />
             </div>
             <div className={styles.searchBar}>
                 <SearchBar accessToken={accessToken} setAccessToken={setAccessToken} userData={userData} isSaving={isSaving} setIsSaving={setIsSaving} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} isScreenMedium={isScreenMedium} isScreenLarge={isScreenLarge} isPushedOut={isPushedOut} setIsPushedOut={setIsPushedOut} />

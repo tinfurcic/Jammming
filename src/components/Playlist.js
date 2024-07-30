@@ -1,26 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styles from './Playlist.module.css';
 import getPlaylist from '../helper functions/getPlaylist';
 import noPlaylistImage from '../images/no-playlist-image.png';
 import decodeHtmlEntities from '../helper functions/decodeHtmlEntities';
 import unfollowPlaylist from '../helper functions/unfollowPlaylist';
+import WarningModal from './WarningModal';
 
-function Playlist ({accessToken, userData, playlistInfo, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId, setIsBrowsing, setIsManaging, usersPlaylists, setUsersPlaylists, isScreenSmall, isScreenSmartphony, setIsPlaylistLoading }) {
+function Playlist ({accessToken, userData, playlistInfo, setPlaylist, setPlaylistName, setIsEditing, setOpenedPlaylistId, setIsBrowsing, setIsManaging, usersPlaylists, setUsersPlaylists, isScreenSmall, isScreenSmartphony, isPlaylistLoading, setIsPlaylistLoading, isModified, setIsModified }) {
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [areYouSure, setAreYouSure] = useState(false);
+    const triggerButtonRef = useRef(null);
+
+    const tryOpening = async () => {
+        if (isModified) {
+        triggerButtonRef.current = document.activeElement;
+        setIsModalOpen(true);
+        } else {
+            if (!isPlaylistLoading) { // I would actually prefer the old request to be canceled, but I can't get that to work.
+                openPlaylist();
+            }
+        }
+    };
 
     const isOwned = playlistInfo.owner.id === userData.id;
 
-    const openPlaylist = async (playlistInfo) => {
-        console.log(isOwned);
+    const openPlaylist = async () => {
+        setIsModified(false);
         let playlist = [];
         let nextLink = null;
         setPlaylist([]);
         setIsPlaylistLoading(true);
+        setIsBrowsing(false);
+        setIsManaging(true);
         do {
             const data = await getPlaylist(playlistInfo.id, accessToken, nextLink);
             const tracksArray = data.items;
             for (const element of tracksArray) {
                 if (element.track.id === null) { // there might be a better way, but it looks like this avoids errors with addTracksToPlaylist
-                    console.log("Skipped track:");
+                    console.log("This track could not be added to the playlist:");
                     console.log(element.track);
                 } else {
                     playlist.push(element.track);
@@ -31,8 +49,6 @@ function Playlist ({accessToken, userData, playlistInfo, setPlaylist, setPlaylis
         setPlaylist(playlist);
         setIsPlaylistLoading(false);
         setOpenedPlaylistId(playlistInfo.id);
-        setIsBrowsing(false);
-        setIsManaging(true);
         if (isOwned) {
             setPlaylistName(playlistInfo.name)
             setIsEditing(true);
@@ -41,8 +57,6 @@ function Playlist ({accessToken, userData, playlistInfo, setPlaylist, setPlaylis
             setIsEditing(false);
         }
     }
-
-    const [areYouSure, setAreYouSure] = useState(false); 
 
     const deletePlaylist = async () => {
         unfollowPlaylist(accessToken, playlistInfo.id);
@@ -54,13 +68,40 @@ function Playlist ({accessToken, userData, playlistInfo, setPlaylist, setPlaylis
         setAreYouSure(false);
     }
 
+    const handleYes = () => {
+        openPlaylist();
+        setIsModalOpen(false);
+        if (triggerButtonRef.current) {
+            triggerButtonRef.current.focus();
+        }
+    };
+
+    const handleNo = () => {
+        setIsModalOpen(false);
+        if (triggerButtonRef.current) {
+            triggerButtonRef.current.focus();
+        }
+    };
+
+    const handleClose = () => {
+        setIsModalOpen(false);
+        if(triggerButtonRef.current) {
+            triggerButtonRef.current.focus();
+        }
+    }
+
     return (
+        <>
+        <WarningModal isOpen={isModalOpen} onClose={handleClose} onYes={handleYes} onNo={handleNo} />
         <div className={styles.playlistContainer}>
             <div className={styles.playlistImage}>
-                <img src = {playlistInfo.images ? playlistInfo.images[0].url : noPlaylistImage} alt="Playlist cover" />
+                <img src = {playlistInfo.images[0] ? playlistInfo.images[0].url : noPlaylistImage} alt="Playlist cover" />
             </div>
             <div className={styles.playlistInfo}>
-                <h3>{playlistInfo.name}</h3>
+                <div className={styles.firstRow} >
+                    <h3>{playlistInfo.name}</h3>
+                    <span className={styles.ownershipTag} >{isOwned ? "Owned" : "Followed"}</span>
+                </div>
                 <p>{playlistInfo.description ? decodeHtmlEntities(playlistInfo.description) + " | " : null} {playlistInfo.tracks.total} tracks </p>
             </div>
             {!areYouSure ? (
@@ -71,7 +112,7 @@ function Playlist ({accessToken, userData, playlistInfo, setPlaylist, setPlaylis
                         </button>
                     </div>
                     <div className={`${styles.buttonContainer} ${styles.open} ${isScreenSmall || isScreenSmartphony ? styles.small : ""}`}>
-                        <button className={styles.button} onClick={() => openPlaylist(playlistInfo)} >
+                        <button className={`${styles.button} ${isPlaylistLoading ? styles.loading : ""}`} onClick={() => tryOpening()} >
                             {isOwned ? (
                                 isScreenSmall || isScreenSmartphony ? "Open" : "Open playlist"
                                 ) : (
@@ -92,6 +133,7 @@ function Playlist ({accessToken, userData, playlistInfo, setPlaylist, setPlaylis
                 </div>
             )}
         </div>
+        </>
     );
 }
 

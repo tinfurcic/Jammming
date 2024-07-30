@@ -5,11 +5,24 @@
     align-content: center;
     border-bottom: 1px solid gray;
     overflow: hidden;
+
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 
 .playlistInfo {
     flex-grow: 1;
     min-width: 0; /* without this, text-overflow: elipsis; doesn't work */
+
+    display: flex;
+    flex-direction: column;
+    padding-left: 5px;
+}
+
+.firstRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.25em;
 }
 
 .buttonContainer {
@@ -75,11 +88,28 @@
     height: 96%;
 }
 
+.button.loading {
+    opacity: 0.25;
+}
+
+.button.loading:hover {
+    cursor: default;
+    background-color: #191414;
+    color: white;
+    border: 1px solid white;
+}
+
+.button.loading:active {
+    font-size: 1em;
+    width: 100%;
+    height: 100%;
+}
+
 .playlistContainer:hover > .buttonContainer {
     visibility: visible;
 }
 
-.playlistInfo h3, p {
+.playlistInfo p, .firstRow h3 {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -88,11 +118,6 @@
 .playlistInfo h3 {
     font-size: 1.125em;
     font-weight: normal;
-    margin: 0.25em;
-}
-
-.playlistInfo p {
-    margin: 0.25em;
 }
 
 .playlistImage {
@@ -151,4 +176,13 @@
 span.wrap {
     min-width: 4em;
     text-wrap: wrap;
+}
+
+.ownershipTag {
+    margin-right: 0.25em;
+    opacity: 0.25;
+}
+
+.playlistContainer:hover .firstRow > .ownershipTag {
+    visibility: collapse;
 }
