@@ -87,7 +87,7 @@ function SearchBar ({accessToken, setAccessToken, userData, isSaving, setIsSavin
                             </button>
                         </div>}
                     {!isScreenSmall && !isScreenSmartphony && <input className={`${styles.searchField}`} id="searchBar" type="search" onChange={handleChange} value={searchText} placeholder={placeholder} onFocus={handleFocus} onBlur={handleBlur} />}
-                    {!isPushedOut && (isScreenSmall || isScreenSmartphony) && <BrowseManageButton accessToken={accessToken} isBrowsing={isBrowsing} setIsBrowsing={setIsBrowsing} isManaging={isManaging} setIsManaging={setIsManaging} setResults={setResults} searchText={searchText} setSearchText={setSearchText} setShowUsersPlaylists={setShowUsersPlaylists} setShowResults={setShowResults} setShowFailMessage={setShowFailMessage} />}
+                    {!isPushedOut && (isScreenSmall || isScreenSmartphony) && <BrowseManageButton accessToken={accessToken} isBrowsing={isBrowsing} setIsBrowsing={setIsBrowsing} isManaging={isManaging} setIsManaging={setIsManaging} setResults={setResults} searchText={searchText} setSearchText={setSearchText} setShowUsersPlaylists={setShowUsersPlaylists} setShowResults={setShowResults} setShowFailMessage={setShowFailMessage} playlist={playlist} />}
                     {(isScreenSmall || isScreenSmartphony) && <Profile userData={userData} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} setIsPushedOut={setIsPushedOut} />}
                     {isScreenMedium && 
                         <div className={`${styles.toolbarButtonContainer} ${isManaging && (!isPlaylistLoading || playlist.length) === 0 ? styles.hidden : ""}`}>
