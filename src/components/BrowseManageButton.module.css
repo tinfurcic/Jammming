@@ -28,7 +28,24 @@
     color: #191414;
 }
 
-.browse:focus::placeholder {
-    color: black;
-    opacity: 0.3;
+.collapse {
+    visibility: collapse;
+}
+
+.expand {
+    border: 1px solid #1DB954;
+    border-radius: 1em;
+}
+
+.expand.active {
+    background-color: #191414;
+    color: gray;
+}
+
+.expand:focus {
+    color: white;
+}
+
+.expand::placeholder {
+    opacity: 1;
 }

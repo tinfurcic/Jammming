@@ -71,14 +71,14 @@
 
 .discardButton:hover {
     cursor: pointer;
-    background-color: #E3736F;
-    color: black;
+    background-color: white;
+    color: #191414;
     border: none;
 }
 
 .discardButton:active {
-    background-color: #E3736F;
-    color: black;
+    background-color: white;
+    color: #191414;
 
     font-size: 0.95em;
     width: 98%;

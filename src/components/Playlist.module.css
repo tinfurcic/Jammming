@@ -5,11 +5,24 @@
     align-content: center;
     border-bottom: 1px solid gray;
     overflow: hidden;
+
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 
 .playlistInfo {
     flex-grow: 1;
     min-width: 0; /* without this, text-overflow: elipsis; doesn't work */
+
+    display: flex;
+    flex-direction: column;
+    padding-left: 5px;
+}
+
+.firstRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.25em;
 }
 
 .buttonContainer {
@@ -29,14 +42,6 @@
     margin-right: 0.5em;
 }
 
-.buttonContainer.edit {
-    min-width: 6em;
-}
-
-.buttonContainer.small.edit {
-    min-width: 3em;
-}
-
 .buttonContainer.delete {
     min-width: 7em;
 }
@@ -45,11 +50,11 @@
     min-width: 4em;
 }
 
-.buttonContainer.copy {
+.buttonContainer.open {
     min-width: 6.5em;
 }
 
-.buttonContainer.small.copy {
+.buttonContainer.small.open {
     min-width: 3.5em;
 }
 
@@ -68,12 +73,13 @@
     border: none;
 }
 
-.edit .button:hover, .copy .button:hover {
+.open .button:hover {
     background-color: #1DB954;
 }
 
 .delete .button:hover {
-    background-color: #E3736F;
+    background-color: white;
+    color: #191414;
 }
 
 .button:active {
@@ -82,11 +88,28 @@
     height: 96%;
 }
 
+.button.loading {
+    opacity: 0.25;
+}
+
+.button.loading:hover {
+    cursor: default;
+    background-color: #191414;
+    color: white;
+    border: 1px solid white;
+}
+
+.button.loading:active {
+    font-size: 1em;
+    width: 100%;
+    height: 100%;
+}
+
 .playlistContainer:hover > .buttonContainer {
     visibility: visible;
 }
 
-.playlistInfo h3, p {
+.playlistInfo p, .firstRow h3 {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -95,11 +118,6 @@
 .playlistInfo h3 {
     font-size: 1.125em;
     font-weight: normal;
-    margin: 0.25em;
-}
-
-.playlistInfo p {
-    margin: 0.25em;
 }
 
 .playlistImage {
@@ -107,4 +125,64 @@
     flex-shrink: 0;
     /* At some point, shrinking might make sense (especially if the image was larger than 50px), but all images should
     shrink at the same rate. On small resolutions, images should probably vanish. */
+}
+
+.confirmationContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1em;
+    margin-right: 1em;
+    width: 250px;
+}
+
+.confirmationContainer span {
+    text-wrap: nowrap;
+    text-align: center;
+}
+
+.confirmButtonContainer {
+    min-width: 2.5em;
+    height: 2em;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.yes:active, .no:active {
+    font-size: 0.95em;
+    width: 92%;
+    height: 96%;
+}
+
+.yes:hover {
+    background-color: #1DB954;
+    border: none;
+    color: #191414;
+}
+
+.no:hover {
+    background-color: white;
+    color: #191414;
+}
+
+.confirmationContainer.small {
+    gap: 0.5em;
+    margin-right: 0.5em;
+}
+
+span.wrap {
+    min-width: 4em;
+    text-wrap: wrap;
+}
+
+.ownershipTag {
+    margin-right: 0.25em;
+    opacity: 0.25;
+}
+
+.playlistContainer:hover .firstRow > .ownershipTag {
+    visibility: collapse;
 }

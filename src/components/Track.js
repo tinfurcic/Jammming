@@ -2,10 +2,13 @@ import React from 'react';
 import styles from './Track.module.css';
 import noPlaylistImage from '../images/no-playlist-image.png';
 
-function Track ({trackInfo, setPlaylist, playlist, parent, pairs}) {
+function Track ({trackInfo, setPlaylist, playlist, parent, pairs, setIsModified, isPlaylistLoading}) {
 
     // Is there a better way to find the answer to "Is this track (which is an object) already on the playlist?"?
     const addToPlaylist = (trackToAdd) => {
+        if (isPlaylistLoading) {
+            return;
+        }
         setPlaylist((prevPlaylist) => {
             if (JSON.stringify(prevPlaylist).includes(JSON.stringify(trackToAdd.uri)) === false) {
                 return [...prevPlaylist, trackToAdd];
@@ -14,11 +17,13 @@ function Track ({trackInfo, setPlaylist, playlist, parent, pairs}) {
                 return prevPlaylist;
             };
         });
+        setIsModified(true);
     }
 
     const removeFromPlaylist = (trackURI) => {
         const newPlaylist = playlist.filter((track) => track.uri !== trackURI);
         setPlaylist(newPlaylist);
+        setIsModified(true);
     }
 
     return (
@@ -34,7 +39,7 @@ function Track ({trackInfo, setPlaylist, playlist, parent, pairs}) {
                     })} | {trackInfo.album.name}</p>
                 </div>
                 <div className={`${styles.buttonContainer} ${parent === "SearchResults" ? styles.addButton : styles.removeButton}`}>
-                    <button className={styles.button} onClick={parent === "SearchResults" ? () => addToPlaylist(trackInfo) : () => removeFromPlaylist(trackInfo.uri)}>
+                    <button className={`${styles.button} ${isPlaylistLoading ? styles.loading : ""}`} onClick={parent === "SearchResults" ? () => addToPlaylist(trackInfo) : () => removeFromPlaylist(trackInfo.uri)}>
                         {parent === "SearchResults" ? "Add track" : "Remove track"}
                     </button>
                 </div>

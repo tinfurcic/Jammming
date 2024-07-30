@@ -3,7 +3,7 @@ import Track from './Track';
 import styles from './PlaylistUnderConstruction.module.css';
 import Save from './Save';
 
-function PlaylistUnderConstruction ({ userData, playlist, setPlaylist, playlistName, setPlaylistName, accessToken, isSaving, setIsSaving, setShowResults, showSuccessMessage, setShowSuccessMessage, setShowFailMessage, setFailMessage, isEditing, setIsEditing, openedPlaylistId, setShowUsersPlaylists, isScreenSmall, isScreenSmartphony, isScreenLarge, pairs, isPlaylistLoading, setIsBrowsing, setIsManaging }) {
+function PlaylistUnderConstruction ({ userData, playlist, setPlaylist, playlistName, setPlaylistName, accessToken, isSaving, setIsSaving, setShowResults, showSuccessMessage, setShowSuccessMessage, setShowFailMessage, setFailMessage, isEditing, setIsEditing, openedPlaylistId, setShowUsersPlaylists, isScreenSmall, isScreenSmartphony, isScreenLarge, pairs, isPlaylistLoading, setIsBrowsing, setIsManaging, setIsModified }) {
 
     useEffect (() => {
         if (playlist.length !== 0) {
@@ -26,6 +26,7 @@ function PlaylistUnderConstruction ({ userData, playlist, setPlaylist, playlistN
         // ask for confirmation
         setPlaylist([]);
         setPlaylistName("");
+        setIsModified(false);
     }
 
     return (
@@ -47,7 +48,7 @@ function PlaylistUnderConstruction ({ userData, playlist, setPlaylist, playlistN
                                 </button>
                             </div>
                             <div className={styles.saveButtonContainer}>
-                                <Save accessToken={accessToken} userData={userData} playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} isSaving={isSaving} setIsSaving={setIsSaving} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setFailMessage={setFailMessage} setShowResults={setShowResults} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setShowUsersPlaylists={setShowUsersPlaylists} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} isScreenLarge={isScreenLarge} setIsBrowsing={setIsBrowsing} setIsManaging={setIsManaging} />
+                                <Save accessToken={accessToken} userData={userData} playlist={playlist} setPlaylist={setPlaylist} playlistName={playlistName} setPlaylistName={setPlaylistName} isSaving={isSaving} setIsSaving={setIsSaving} setShowSuccessMessage={setShowSuccessMessage} setShowFailMessage={setShowFailMessage} setFailMessage={setFailMessage} setShowResults={setShowResults} isEditing={isEditing} setIsEditing={setIsEditing} openedPlaylistId={openedPlaylistId} setShowUsersPlaylists={setShowUsersPlaylists} isScreenSmall={isScreenSmall} isScreenSmartphony={isScreenSmartphony} isScreenLarge={isScreenLarge} setIsBrowsing={setIsBrowsing} setIsManaging={setIsManaging} setIsModified={setIsModified} />
                             </div>
                         </div>
                 ))
@@ -55,7 +56,7 @@ function PlaylistUnderConstruction ({ userData, playlist, setPlaylist, playlistN
                 <ul>
                     {playlist.map((track, index) =>
                         <li key={index} >
-                            <Track trackInfo={track} setPlaylist={setPlaylist} playlist={playlist} parent="PlaylistUnderConstruction" pairs={pairs} />
+                            <Track trackInfo={track} setPlaylist={setPlaylist} playlist={playlist} parent="PlaylistUnderConstruction" pairs={pairs} setIsModified={setIsModified} />
                         </li>)
                     }
                 </ul>
