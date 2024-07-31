@@ -18,4 +18,5 @@ The app is deployed at [tfjammming.netlify.app](https://tfjammming.netlify.app/)
 - **Create, Edit and Delete Playlists**
 - **Duplicate Followed Playlist**: Creates a copy of an unowned playlist, which can then be modified.
 - **Feedback Messages**: Provides simple success or failure notifications after saving or editing attempts.
+- **Warning Dialogues**: Warns the user about losing unsaved data and double-checks in case of deleting data.
 - **Easy Account Switching**

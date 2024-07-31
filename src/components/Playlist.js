@@ -95,7 +95,7 @@ function Playlist ({accessToken, userData, playlistInfo, setPlaylist, setPlaylis
         <WarningModal isOpen={isModalOpen} onClose={handleClose} onYes={handleYes} onNo={handleNo} />
         <div className={styles.playlistContainer}>
             <div className={styles.playlistImage}>
-                <img src = {playlistInfo.images[0] ? playlistInfo.images[0].url : noPlaylistImage} alt="Playlist cover" />
+                <img src = {playlistInfo.images ? playlistInfo.images[0].url : noPlaylistImage} alt="Playlist cover" />
             </div>
             <div className={styles.playlistInfo}>
                 <div className={styles.firstRow} >

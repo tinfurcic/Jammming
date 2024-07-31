@@ -31,11 +31,9 @@
     min-width: 6em;
     height: 2em;
 
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
-
-    visibility: collapse;
 }
 
 .buttonContainer.small {
@@ -106,7 +104,7 @@
 }
 
 .playlistContainer:hover > .buttonContainer {
-    visibility: visible;
+    display: flex;
 }
 
 .playlistInfo p, .firstRow h3 {

@@ -6,8 +6,9 @@ import styles from './Save.module.css';
 import editPlaylist from '../helper functions/editPlaylist';
 import changePlaylistDetails from '../helper functions/changePlaylistDetails';
 import unfollowPlaylist from '../helper functions/unfollowPlaylist';
+import getUsersPlaylists from '../helper functions/getUsersPlaylists';
 
-function Save({ accessToken, userData, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving, setShowSuccessMessage, setShowFailMessage, setFailMessage, setShowResults, isEditing, setIsEditing, openedPlaylistId, setShowUsersPlaylists, isScreenSmall, isScreenSmartphony, isScreenLarge, setIsBrowsing, setIsManaging, setIsModified }) {
+function Save({ accessToken, userData, playlist, setPlaylist, playlistName, setPlaylistName, isSaving, setIsSaving, setShowSuccessMessage, setShowFailMessage, setFailMessage, setShowResults, isEditing, setIsEditing, openedPlaylistId, setShowUsersPlaylists, isScreenSmall, isScreenSmartphony, isScreenLarge, setIsBrowsing, setIsManaging, setIsModified, setUsersPlaylists }) {
 
     // Inconvenient problem: after renaming a playlist, it takes a while for the changes to become visible.
         // I could temporarily save new playlist details and display them until API calls fetch updated playlist details.
@@ -31,6 +32,20 @@ function Save({ accessToken, userData, playlist, setPlaylist, playlistName, setP
         setFailMessage(message);
         displayError();
         console.log("Saving NOT completed. Something went wrong.");
+    }
+
+    const loadUsersPlaylists = async () => {
+        try {
+            let userId;
+            if (userData) {
+                userId = userData.id;
+            }
+            const fetchedPlaylists = await getUsersPlaylists(userId, accessToken);
+            setUsersPlaylists(fetchedPlaylists);
+        }
+        catch (error) {
+            console.error("Failed to fetch user data", error);
+        }
     }
         
     const handleSave = async () => {
@@ -65,6 +80,7 @@ function Save({ accessToken, userData, playlist, setPlaylist, playlistName, setP
                 displaySuccess();
                 console.log("Saving completed!");
                 setIsModified(false);
+                loadUsersPlaylists();
             } else {
                 if (playlistName === "") {
                     setFailMessage("Please name your new playlist.");
@@ -116,6 +132,7 @@ function Save({ accessToken, userData, playlist, setPlaylist, playlistName, setP
                 setIsEditing(false);
                 console.log("Changes successfully saved!");
                 setIsModified(false);
+                loadUsersPlaylists();
             } else {
                 if (playlistName === "") {
                     setFailMessage("The playlist must have a name.");
